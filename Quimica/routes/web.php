@@ -11,6 +11,12 @@
 |
 */
 
+ 
 Route::get('/', function () {
-    return view('welcome');
+	$title ="Quimica A.G.";
+	$icon ="img/favicon.ico";
+	
+    return view('Principal')->with('title',$title)->with('icon',$icon);
 });
+
+
