@@ -19,4 +19,13 @@ Route::get('/', function () {
     return view('Principal')->with('title',$title)->with('icon',$icon);
 });
 
+Route::get('Data-base', function () {
+		$title ="Quimica A.G.";
+		$icon ="img/favicon.ico";
+		return view('Principal')->with('title',$title)->with('icon',$icon);
+});
+		
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
