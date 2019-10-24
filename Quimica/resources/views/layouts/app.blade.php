@@ -18,7 +18,7 @@
       <style type="text/css">
          #Container{
             background-size: 100%;
-            background-image: url( "{{ asset('img/fondo.svg') }}");
+            background-image: url( "{{ asset('img/Fondo.svg') }}");
             
          }
       </style> 
