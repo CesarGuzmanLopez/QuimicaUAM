@@ -14,7 +14,7 @@
  
 Route::get('/','PrincipalController@index');
 
-Route::get('Data-base', 'PrincipalController@BD');
+Route::get('/Data-base', 'PrincipalController@BD');
 	
 
 Auth::routes();
