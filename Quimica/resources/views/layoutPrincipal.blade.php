@@ -11,11 +11,12 @@
       <!-- media -->
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">        
       <script type="text/javascript" src="{{asset('js/app.js') }}"></script>
-      @section('addAssets')
-      @show
+      <link rel="stylesheet" type="text/css" href="{{asset('css/principal.css')}}">
     </head>
     <body>
+    <div id="Container" class="black">
     @section('content')
     @show
+    </div>
     </body>
 </html>
