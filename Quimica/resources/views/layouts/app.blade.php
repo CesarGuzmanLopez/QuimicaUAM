@@ -19,7 +19,6 @@
          #Container{
             background-size: 100%;
             background-image: url( "{{ asset('img/Fondo.svg') }}");
-            
          }
       </style> 
       <!-- @show()-->
@@ -72,7 +71,7 @@
 		</nav>
        </div>
     </header> @show  
-    <main class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto col-12" role="main">
+    <main class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto col-12" b="main">
     @section('content')
   
     @show

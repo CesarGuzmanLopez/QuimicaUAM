@@ -12,19 +12,10 @@
 */
 
  
-Route::get('/', function () {
-	$title ="Quimica A.G.";
-	$icon ="img/favicon.ico";
-	
-    return view('Principal')->with('title',$title)->with('icon',$icon);
-});
+Route::get('/','PrincipalController@index');
 
-Route::get('Data-base', function () {
-		$title ="Quimica A.G.";
-		$icon ="img/favicon.ico";
-		return view('Principal')->with('title',$title)->with('icon',$icon);
-});
-		
+Route::get('Data-base', 'PrincipalController@BD');
+	
 
 Auth::routes();
 
