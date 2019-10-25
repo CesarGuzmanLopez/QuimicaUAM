@@ -27,14 +27,14 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto ">  
   <article role="main" id="Presentation" class="inner cover container">
     <div class="row ">
-	     <div class="col-md-8 ">        
+	     <div class="col-md-8">        
     	    <h1 class="cover-heading"> Annia Galano's Group</h1>    
 		    <hr>
                <?php CreaTargeta("Data Base",asset('img/logoBD.svg'),"Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Data-base'));?>  
             <hr>
-            <p class="lead">
+            <div class="lead">
 		      <h3>Annia Galano</h3><a href="https://www.agalano.com/" class="btn btn-lg btn-secondary">agalano.com</a>
-		    </p>
+		    </div>
 	    </div>
   
          

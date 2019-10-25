@@ -25,9 +25,29 @@ footer{
 	border: none;
 }
 #BaseDatos{
-	background: rgba(48, 50, 12, .6);
-	
 	border: gray 2px solid;
 	min-height: 100px;
+	padding: 30px;
+	margin-bottom: 30px;
+}
+.Molecule{
+	background: rgba(255, 255, 255, 1);
+
+}
+.image_molecule{
+	background: rgba(55, 155,100, .1);
 	padding: 10px;
+	min-height: 160px;
+	min-width: 160px;
+	 text-align: justify;
+  text-justify: inter-word;
+}
+.Tabla_Datos_Moleculas{
+	padding: 10px;
+}
+.card-img-molecula{
+	min-height: 200px;
+	min-width: 200px;
+	background-color: rgb(192, 192, 192);
+	
 }

@@ -13,12 +13,14 @@
       <!-- media -->
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">        
       <script type="text/javascript" src="{{asset('js/app.js') }}"></script>
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?<?=rand()?>">        
       <!--@section('fondocss')-->
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <style type="text/css">
          #Container{
-            background-size: 100%;
             background-image: url( "{{ asset('img/Fondo.svg') }}");
+            
+             background-repeat: repeat;
          }
       </style> 
       <!-- @show()-->

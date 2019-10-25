@@ -11,5 +11,11 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+window.Vue = require('vue');
 
-require('./components/Example');
+Vue.component('example-component', require('./components/Example.js'));
+
+const app = new Vue({
+    el: '#app'
+});
+

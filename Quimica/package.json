@@ -26,8 +26,12 @@
         "vue-loader": "^15.7.1"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.11.2",
         "bootstrap": "^4.3.1",
+        "bootstrap-sass": "^3.4.1",
         "bootstrap-vue": "^2.0.4",
+        "glyphicons": "^0.2.0",
+        "material-icons": "^0.3.1",
         "vue": "^2.6.10"
     }
 }
