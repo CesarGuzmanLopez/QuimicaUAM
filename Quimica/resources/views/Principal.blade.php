@@ -24,10 +24,10 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 
 ?>
 @section('content')
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">  
-  <article role="main" id="Presentation" class="inner cover bg-black">
-    <div class="row justify-content-md-center">
-	     <div class="col-6">        
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto ">  
+  <article role="main" id="Presentation" class="inner cover container">
+    <div class="row ">
+	     <div class="col-md-8 ">        
     	    <h1 class="cover-heading"> Annia Galano's Group</h1>    
 		    <hr>
                <?php CreaTargeta("Data Base",asset('img/logoBD.svg'),"Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Data-base'));?>  
@@ -38,17 +38,11 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 	    </div>
   
          
-        <div class="col-3">
+        <div class="col col-md-auto">
          <h1 class="cover-heading">Research interest</h1>
          <p class="lead">Computational Chemistry</p>
-         
          <p class="lead">Oxidative Stress and antioxidants</p>
-         
-         <p class="lead">Atmosferic chemistry</p>
-         
-         <p class="lead"> </p>
-         
-         <p class="lead"> </p>          
+         <p class="lead">Atmosferic chemistry</p>          
         </div>
     </div>
   </article>
