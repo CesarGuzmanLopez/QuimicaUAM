@@ -27,21 +27,21 @@
     <div id="Container" >
 	 @section('header')  
    	  <header >
-          <div class="border-bottom shadow-sm">
+          <div class="border-bottom shadow-sm  ">
 		  <nav class="navbar navbar-expand-md navbar-dark bg-secondary navbar-fixed-top   ">
 		  
-          <a class="navbar-brand col-3" href="{{url('/')}}">Computational chemistry and cheminformatic</a>
-		<div class="col-5" ></div>  
+          <a class="navbar-brand  col-8 " href="{{url('/')}}">Computational chemistry and cheminformatic</a>
+		
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span> Menu
 		  </button>
 		  <div class="collapse navbar-collapse mr-auto col-4" id="navbarsExampleDefault">    
              <ul class="navbar-nav ">
 		        <li class="nav-item active">
-		             <a class="nav-link " href="#">Apps Desktop</a>
+		             <a class="nav-link " href="#">Desktop apps</a>
 		        </li>
 		        <li class="nav-item  active">
-		          <a class="nav-link" href="#">Data base</a>
+		          <a class="nav-link" href="{{ url('Data-base') }}">Data base</a>
 		        </li>
 		        <!-- @guest-->
 		        <li class="nav-item active">
@@ -54,9 +54,14 @@
 		        <!--@endif-->
 		        <!--@else-->
 			    <li class="nav-item dropdown">
-		           <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User: {{ Auth::user()->name }}</a>
+		           <a class="nav-link dropdown-toggle" href="{{route('home')}}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User: {{ Auth::user()->name }}</a>
 		           <div class="dropdown-menu" aria-labelledby="dropdown01">
-		             <a class="dropdown-item" href="{{ route('logout') }}"      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+		                
+                      <a class="dropdown-item" href="{{ route('home') }}" >
+                       Home
+                      
+                      </a>
+                   |  <a class="dropdown-item" href="{{ route('logout') }}"      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 		                 {{ __('Logout') }}
 		                
 		              </a>

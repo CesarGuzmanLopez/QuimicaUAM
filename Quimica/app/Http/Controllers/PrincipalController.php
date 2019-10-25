@@ -26,7 +26,7 @@ class PrincipalController extends Controller
     }
     public function BD()
     {	
-    	return view('Principal')->with('title',"Base de datos");
+    	return view('Data_Base')->with('title',"Data Base");
     }
     public function userapi(Request $request) {
     	

@@ -21,6 +21,13 @@ footer{
 	border-radius: 10px;
 
 }
- .cardPrincipal{
+.cardPrincipal{
 	border: none;
+}
+#BaseDatos{
+	background: rgba(48, 50, 12, .6);
+	
+	border: gray 2px solid;
+	min-height: 100px;
+	padding: 10px;
 }
