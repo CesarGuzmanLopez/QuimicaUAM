@@ -12,7 +12,7 @@
       <meta charset="utf-8">
       <!-- media -->
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">        
-      <script type="text/javascript" src="{{asset('js/app.js') }}"></script>
+
       <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?<?=rand()?>">        
       <!--@section('fondocss')-->
       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -26,7 +26,9 @@
       <!-- @show()-->
     </head>
     <body>
-    <div id="Container" >
+   <div id="Container" >
+    <div id="app">
+
 	 @section('header')  
    	  <header >
           <div class="border-bottom shadow-sm  ">
@@ -63,7 +65,7 @@
                        Home
                       
                       </a>
-                   |  <a class="dropdown-item" href="{{ route('logout') }}"      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                     <a class="dropdown-item" href="{{ route('logout') }}"      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 		                 {{ __('Logout') }}
 		                
 		              </a>
@@ -91,5 +93,9 @@
    </footer>
    @show
     </div>
+   </div>
+      <script type="text/javascript" src="{{asset('js/app.js') }}"></script>
+      <script type="text/javascript" src="{{asset('js/principal.js') }}"></script>
+    
   </body>
 </html>

@@ -14,7 +14,6 @@
         "axios": "^0.19",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
-        "jquery": "^1.12.4",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.13",
         "popper.js": "^1.12",
@@ -32,6 +31,8 @@
         "bootstrap-vue": "^2.0.4",
         "glyphicons": "^0.2.0",
         "material-icons": "^0.3.1",
-        "vue": "^2.6.10"
+        "npm-watch": "^0.6.0",
+        "vue": "^2.6.10",
+        "vue-template-compiler": "^2.6.10"
     }
 }

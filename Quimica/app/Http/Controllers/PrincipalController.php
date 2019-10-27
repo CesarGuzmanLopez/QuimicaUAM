@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\q_db_molecules;
 
 class PrincipalController extends Controller
 {
@@ -26,7 +27,8 @@ class PrincipalController extends Controller
     }
     public function BD()
     {	
-    	return view('Data_Base')->with('title',"Data Base");
+    	$molelcules = q_db_molecules::all();
+    	return view('Data_Base')->with('title',"Data Base")->with('molecules',$molelcules);
     }
     public function userapi(Request $request) {
     	
