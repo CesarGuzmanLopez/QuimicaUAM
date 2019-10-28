@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\q_db_molecules;
+use App\q_db_k_overalls;
 
 class molecules extends Controller
 {
@@ -26,7 +27,7 @@ class molecules extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
     }
 
     /**
@@ -37,7 +38,7 @@ class molecules extends Controller
      */
     public function show($id)
     {
-    	return q_db_molecules::get();
+      return q_db_k_overalls::where("ID_Molecule",$id)->get();
     }
 
     /**

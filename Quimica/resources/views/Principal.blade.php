@@ -37,12 +37,11 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 		    </div>
 	    </div>
   
-         
         <div class="col col-md-auto">
          <h1 class="cover-heading">Research interest</h1>
          <p class="lead">Computational Chemistry</p>
          <p class="lead">Oxidative Stress and antioxidants</p>
-         <p class="lead">Atmosferic chemistry</p>          
+         <p class="lead">Ath  mosferic chemistry</p>          
         </div>
     </div>
   </article>

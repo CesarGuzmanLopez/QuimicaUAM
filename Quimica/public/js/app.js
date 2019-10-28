@@ -2012,7 +2012,7 @@ __webpack_require__.r(__webpack_exports__);
       data_mole: {
         id: '-1',
         Image: 'img/matrazRoto.png',
-        Coments: '',
+        Description: '',
         SMILE: '',
         Name: ''
       }
@@ -2057,8 +2057,13 @@ __webpack_require__.r(__webpack_exports__);
       this.currentPage = 1;
     },
     imgAndData: function imgAndData(item, index, event) {
+      var _this2 = this;
+
       this.data_mole.Image = "files/data-base-img/" + item.ID + "/" + item.Imagen;
       this.data_mole.Name = item.Name;
+      axios.get('getMolecules/' + item.ID).then(function (response) {
+        _this2.data_mole.Description = response.data;
+      });
     }
   }
 });
@@ -34350,7 +34355,7 @@ var render = function() {
                 },
                 [
                   _c("b-card-text", [
-                    _vm._v("\n   " + _vm._s(_vm.data_mole.Image) + "\n  ")
+                    _vm._v("\n   " + _vm._s(_vm.data_mole.Description) + "\n  ")
                   ])
                 ],
                 1

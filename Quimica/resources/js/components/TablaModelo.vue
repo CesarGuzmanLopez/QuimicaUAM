@@ -108,7 +108,7 @@
     fluid
    >
     <b-card-text>
-     {{data_mole.Image}}
+     {{data_mole.Description}}
     </b-card-text>
 
     </b-card>
@@ -160,7 +160,7 @@
 		data_mole:{
 			id:'-1',
 			Image: 'img/matrazRoto.png',
-			Coments:'',
+			Description:'',
 			SMILE: '',
 			Name: ''
 			
@@ -209,7 +209,10 @@
       imgAndData(item, index, event){  
     	  this.data_mole.Image=  "files/data-base-img/"+item.ID+ "/"+item.Imagen;
     	  this.data_mole.Name=item.Name;
-  		
+    	  axios.get('getMolecules/'+item.ID).then(response =>{
+    	  	this.data_mole.Description= response.data;	
+    	  });
+    	  
       }
       
     }

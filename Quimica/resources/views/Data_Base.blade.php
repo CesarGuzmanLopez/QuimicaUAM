@@ -7,6 +7,7 @@
       <div class="table responsive  Molecule ">
         <!--Table-->
 		<div class="row justify-content-center justify-content-md-start">
+               <h1 >Molecular Properties Database</h1>
                <tabla></tabla>
        </div> 
        <!-- div row --> 
