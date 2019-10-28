@@ -14,7 +14,5 @@
       <!-- fin table de moleculas --> 
     </div>
    </div>
-    <?= App\q_db_molecules::get()?>
-        
 @endsection
 
