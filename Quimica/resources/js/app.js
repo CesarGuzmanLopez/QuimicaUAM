@@ -15,6 +15,12 @@ import BootstrapVue from 'bootstrap-vue'
 
 window.Vue = require('vue');
 Vue.use(BootstrapVue)
+window.axios = require('axios');
+
+//... configure axios...
+
+Vue.prototype.$http = window.axios;
+
 Vue.component('examplecomponent',  require('./components/example.vue').default);
 Vue.component('tabla',  require('./components/TablaModelo.vue').default);
 

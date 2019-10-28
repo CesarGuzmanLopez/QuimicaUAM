@@ -35,7 +35,7 @@
           class="mb-0">
           <b-form-checkbox-group v-model="filterOn" class="mt-1">
             <b-form-checkbox value="name">Name</b-form-checkbox>
-            <b-form-checkbox value="smile">Smile</b-form-checkbox>
+            <b-form-checkbox value="SMILE">SMILE</b-form-checkbox>
             <b-form-checkbox value="Data">Data</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
@@ -72,7 +72,7 @@
     >
      
       <template v-slot:cell(name)="row">
-        {{ row.value.first }} {{ row.value.last }}
+        {{ row.value }}
       </template>
       
       <template v-slot:cell(actions)="row">
@@ -110,41 +110,19 @@
     </b-modal>
   </b-container>
 </template>
-
-
-
-
-
 <script>
   export default {
     data() {
       return {
         items: [
-          { isActive: true, smile: 40, name: { first: 'Dickerson', last: 'Macdonald' } },
-          { isActive: false, smile: 21, name: { first: 'Larsen', last: 'Shaw' } },
-          {
-            isActive: false,
-            smile: 9,
-            name: { first: 'Mini', last: 'Navarro' },
-            _rowVariant: 'success'
-          },
-          { isActive: false, smile: 89, name: { first: 'Geneva', last: 'Wilson' } },
-          { isActive: true, smile: 38, name: { first: 'Jami', last: 'Carney' } },
-          { isActive: false, smile: 27, name: { first: 'Essie', last: 'Dunlap' } },
-          { isActive: true, smile: 40, name: { first: 'Thor', last: 'Macdonald' } },
-          { isActive: true, smile: 87,name: { first: 'Larsen', last: 'Shaw' },
-            _cellVariants: { smile: 'danger', isActive: 'warning' }
-          },
-          { isActive: false, smile: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-          { isActive: false, smile: 22, name: { first: 'Genevieve', last: 'Wilson' } },
-          { isActive: true, smile: 38, name: { first: 'John', last: 'Carney' } },
-          { isActive: false, smile: 29, name: { first: 'Dick', last: 'Dunlap' } }
+          { Active: true, SMILE: 40, name:  'Dickerson'},
+          
         ],
         fields: [
-          { key: 'name', label: 'Molecule name', sortable: true, sortDirection: 'desc' },
-          { key: 'smile', label: 'smile', sortable: false, class: 'text-center', lg:6 },
+          { key: 'Name', label: 'Molecule name', sortable: true, sortDirection: 'desc' },
+          { key: 'SMILE', label: 'SMILE', sortable: false, class: 'text-center', lg:6 },
           /*{
-            key: 'isActive',
+            key: 'Active',
             label: 'is Active',
             formatter: (value, key, item) => {
               return value ? 'Yes' : 'No'
@@ -168,7 +146,13 @@
           id: 'info-modal',
           title: '',
           content: ''
-        }
+        },
+      	data_Mole:{
+      		id:'',
+      		Image: '',
+      		Coments:'',
+      		SMILE: ''
+      	} 
       }
     },
     computed: {
@@ -183,14 +167,20 @@
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.items.length
+      	this.totalRows = this.items.length
+      	axios.get('getMolecules').then(response =>{
+    	this.items = response.data;
+    	this.totalRows = this.items.length
+      });
+      
     },
     methods: {
       info(item, index, button) {
         this.infoModal.title = `Row index: ${index}`
         this.infoModal.content = JSON.stringify(item, null, 2)
         this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-      },
+     	
+      }, 
       resetInfoModal() {
         this.infoModal.title = ''
         this.infoModal.content = ''
@@ -200,6 +190,7 @@
         this.totalRows = filteredItems.length
         this.currentPage = 1
       }
+      
     }
   }
 </script>

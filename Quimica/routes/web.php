@@ -16,6 +16,7 @@ Route::get('/','PrincipalController@index');
 
 Route::get('/Data-base', 'PrincipalController@BD');
 	
+Route::apiResource('/getMolecules','molecules');
 
 Auth::routes();
 

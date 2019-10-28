@@ -19,7 +19,6 @@
       <style type="text/css">
          #Container{
             background-image: url( "{{ asset('img/Fondo.svg') }}");
-            
              background-repeat: repeat;
          }
       </style> 
@@ -31,55 +30,46 @@
 
 	 @section('header')  
    	  <header >
-          <div class="border-bottom shadow-sm  ">
-		  <nav class="navbar navbar-expand-md navbar-dark bg-secondary navbar-fixed-top   ">
-		  
-          <a class="navbar-brand  col-8 " href="{{url('/')}}">Computational chemistry and cheminformatic</a>
-		
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span> Menu
-		  </button>
-		  <div class="collapse navbar-collapse mr-auto col-4" id="navbarsExampleDefault">    
-             <ul class="navbar-nav ">
-		        <li class="nav-item active">
-		             <a class="nav-link " href="#">Desktop apps</a>
-		        </li>
-		        <li class="nav-item  active">
-		          <a class="nav-link" href="{{ url('Data-base') }}">Data base</a>
-		        </li>
-		        <!-- @guest-->
-		        <li class="nav-item active">
-		            <a class="nav-link active" href="{{ route('login') }}">{{ __('Login') }}</a>
-		        </li>
-		        <!--@if (Route::has('register'))-->
-		        <li class="nav-item active">
-		            <a class="nav-link " href="{{ route('register') }}">{{ __('Register') }}</a>
-		        </li>
-		        <!--@endif-->
-		        <!--@else-->
-			    <li class="nav-item dropdown">
-		           <a class="nav-link dropdown-toggle" href="{{route('home')}}" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User: {{ Auth::user()->name }}</a>
-		           <div class="dropdown-menu" aria-labelledby="dropdown01">
-		                
-                      <a class="dropdown-item" href="{{ route('home') }}" >
-                       Home
-                      
-                      </a>
-                     <a class="dropdown-item" href="{{ route('logout') }}"      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-		                 {{ __('Logout') }}
-		                
-		              </a>
-		               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"class="nav-link">
-		                 @csrf
-		              </form>
-		           </div>    
-		        </li>          
-		        <!--@endguest-->
-		      </ul>
-		  </div>
-		</nav>
-       </div>
-    </header> @show  
+	  
+     <b-navbar toggleable="lg" type="dark" variant="dark">
+	    <b-navbar-brand href="{{ url('/') }}">Computational chemistry and cheminformatic</b-navbar-brand>
+	
+	    <b-navbar-toggle target="nav-collapse">Menu</b-navbar-toggle>
+	
+	    <b-collapse id="nav-collapse" is-nav>
+	      <b-navbar-nav>
+	        <b-nav-item href="{{ url('Data-base') }}">Base Data</b-nav-item>
+	        <b-nav-item href="#" disabled>Desktop apps</b-nav-item>
+	      </b-navbar-nav>
+	
+	      <!-- Right aligned nav items -->
+	      <b-navbar-nav class="ml-auto">
+	
+	        <b-nav-item-dropdown right>
+	          <!-- Using 'button-content' slot -->
+	          <template v-slot:button-content>
+	            <em>User</em>
+	          </template>
+             
+              <!-- @guest-->
+              <b-dropdown-item href="{{ route('login') }}">{{ __('Login') }}</b-dropdown-item>
+              <!--@if (Route::has('register'))-->
+     
+              <b-dropdown-item href="{{ route('register') }}">{{ __('Register') }}</b-dropdown-item>
+             
+              <!--@endif-->
+              <!--@else-->
+	          <b-dropdown-item href="{{ route('home') }}" > Home</b-dropdown-item>
+	          <b-dropdown-item href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</b-dropdown-item>
+	       <!--@endguest-->
+           
+           </b-nav-item-dropdown>
+	      
+         </b-navbar-nav>
+	    </b-collapse>
+	  </b-navbar>
+     </header>
+     @show  
     <main class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto col-12" b="main">
     @section('content')
   
