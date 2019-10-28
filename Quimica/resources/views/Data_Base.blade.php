@@ -14,5 +14,6 @@
       <!-- fin table de moleculas --> 
     </div>
    </div>
+   
 @endsection
 
