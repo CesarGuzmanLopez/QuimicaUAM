@@ -1950,13 +1950,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       items: [{
         Active: true,
-        SMILE: 40,
-        name: 'Dickerson'
+        SMILE: "...",
+        Name: 'Cargando espere porfavor'
       }],
       fields: [{
         key: 'Name',
@@ -1967,6 +1977,7 @@ __webpack_require__.r(__webpack_exports__);
         key: 'SMILE',
         label: 'SMILE',
         sortable: false,
+        click: 'imgAndData',
         "class": 'text-center',
         lg: 6
       },
@@ -1998,11 +2009,12 @@ __webpack_require__.r(__webpack_exports__);
         title: '',
         content: ''
       },
-      data_Mole: {
-        id: '',
-        Image: '',
+      data_mole: {
+        id: '-1',
+        Image: 'img/matrazRoto.png',
         Coments: '',
-        SMILE: ''
+        SMILE: '',
+        Name: ''
       }
     };
   },
@@ -2043,6 +2055,10 @@ __webpack_require__.r(__webpack_exports__);
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
+    },
+    imgAndData: function imgAndData(item, index, event) {
+      this.data_mole.Image = "files/data-base-img/" + item.ID + "/" + item.Imagen;
+      this.data_mole.Name = item.Name;
     }
   }
 });
@@ -34213,6 +34229,8 @@ var render = function() {
             [
               _c("b-table", {
                 attrs: {
+                  striped: "",
+                  hover: "",
                   "show-empty": "",
                   small: "",
                   stacked: "md",
@@ -34239,7 +34257,8 @@ var render = function() {
                   "update:sort-desc": function($event) {
                     _vm.sortDesc = $event
                   },
-                  filtered: _vm.onFiltered
+                  filtered: _vm.onFiltered,
+                  "row-clicked": _vm.imgAndData
                 },
                 scopedSlots: _vm._u([
                   {
@@ -34311,18 +34330,34 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("b-col", { attrs: { lg: "4" } }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("img", {
-                staticClass: "card-img img-fluid mb-1 card-img-molecula",
-                attrs: { src: " ", alt: "Card image cap" }
-              }),
-              _vm._v(" "),
-              _c("h4", { staticClass: "card-title" }),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" })
-            ])
-          ])
+          _c(
+            "b-col",
+            { attrs: { lg: "4" } },
+            [
+              _c(
+                "b-card",
+                {
+                  staticClass: "p-4 ",
+                  attrs: {
+                    title: _vm.data_mole.Name,
+                    "img-src": _vm.data_mole.Image,
+                    "img-alt": "Image",
+                    "img-top": "",
+                    tag: "article",
+                    "img-height": "260px",
+                    fluid: ""
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v("\n   " + _vm._s(_vm.data_mole.Image) + "\n  ")
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),

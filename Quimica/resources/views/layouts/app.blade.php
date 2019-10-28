@@ -84,8 +84,7 @@
    @show
     </div>
    </div>
-      <script type="text/javascript" src="{{asset('js/app.js') }}"></script>
-      <script type="text/javascript" src="{{asset('js/principal.js') }}"></script>
-    
+      <script type="text/javascript" src="{{asset('js/app.js') }}?<?=rand()?>"></script>
+      <script type="text/javascript" src="{{asset('js/principal.js') }}?<?=rand()?>"></script>
   </body>
 </html>

@@ -56,6 +56,8 @@
     <b-row>
     <b-col>
     <b-table
+      striped hover
+      
       show-empty
       small
       stacked="md"
@@ -69,9 +71,10 @@
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       @filtered="onFiltered"
+      @row-clicked="imgAndData" 
     >
      
-      <template v-slot:cell(name)="row">
+      <template v-slot:cell(name)="row"  >
         {{ row.value }}
       </template>
       
@@ -94,14 +97,21 @@
       
     </b-table>
     </b-col>
-    <b-col lg="4">
-         <div class="card-body">
-         <img class="card-img img-fluid mb-1 card-img-molecula" src=" " alt="Card image cap">
-         <h4 class="card-title"></h4>
-         <p class="card-text">
-            
-         </p>
-      </div>
+    <b-col lg="4"> <b-card
+    :title="data_mole.Name"
+    :img-src="data_mole.Image"
+    img-alt="Image"
+    img-top
+    tag="article"
+    class="p-4 "
+    img-height="260px"
+    fluid
+   >
+    <b-card-text>
+     {{data_mole.Image}}
+    </b-card-text>
+
+    </b-card>
     </b-col>
     </b-row>
     <!-- Info modal -->
@@ -115,12 +125,12 @@
     data() {
       return {
         items: [
-          { Active: true, SMILE: 40, name:  'Dickerson'},
+          { Active: true, SMILE: "...", Name:  'Cargando espere porfavor'},
           
         ],
         fields: [
           { key: 'Name', label: 'Molecule name', sortable: true, sortDirection: 'desc' },
-          { key: 'SMILE', label: 'SMILE', sortable: false, class: 'text-center', lg:6 },
+          { key: 'SMILE', label: 'SMILE', sortable: false,click:'imgAndData',  class: 'text-center', lg:6 },
           /*{
             key: 'Active',
             label: 'is Active',
@@ -147,14 +157,19 @@
           title: '',
           content: ''
         },
-      	data_Mole:{
-      		id:'',
-      		Image: '',
-      		Coments:'',
-      		SMILE: ''
-      	} 
+		data_mole:{
+			id:'-1',
+			Image: 'img/matrazRoto.png',
+			Coments:'',
+			SMILE: '',
+			Name: ''
+			
+		},
       }
-    },
+     
+      
+    } ,
+
     computed: {
       sortOptions() {
         // Create an options list from our fields
@@ -174,6 +189,7 @@
       });
       
     },
+    
     methods: {
       info(item, index, button) {
         this.infoModal.title = `Row index: ${index}`
@@ -189,6 +205,11 @@
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length
         this.currentPage = 1
+      },
+      imgAndData(item, index, event){  
+    	  this.data_mole.Image=  "files/data-base-img/"+item.ID+ "/"+item.Imagen;
+    	  this.data_mole.Name=item.Name;
+  		
       }
       
     }
