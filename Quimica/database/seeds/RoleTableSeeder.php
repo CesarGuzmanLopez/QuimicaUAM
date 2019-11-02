@@ -27,6 +27,5 @@ class RoleTableSeeder extends Seeder
     	$role->name = 'other';
     	$role->description = 'other';
     	$role->save();
-    	
     }
 }
