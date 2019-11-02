@@ -60,7 +60,7 @@
               <!--@endif-->
               <!--@else-->
 	          <b-dropdown-item href="{{ route('home') }}" > Home</b-dropdown-item>
-	          <b-dropdown-item href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</b-dropdown-item>
+	          <b-dropdown-item href="{{ route('logout') }}">Sign Out</b-dropdown-item>
 	       <!--@endguest-->
            
            </b-nav-item-dropdown>
