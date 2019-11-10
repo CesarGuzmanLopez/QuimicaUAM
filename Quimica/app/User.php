@@ -69,4 +69,13 @@ class User extends Authenticatable
     	}
     	return false;
     }
+    public function getRollStr(){
+    	$nameRole=["Root","Administrator","user","invited"];
+    	$role =["super-admin","admin","user","other"];
+    	for($i =0; $i<sizeof($role); $i++){
+    		if($this->hasAnyRole($role[$i]))
+    			return $nameRole[$i];
+    	}
+    	return "other";
+    }
 }

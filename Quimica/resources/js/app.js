@@ -1,41 +1,79 @@
 /**
  * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
  */
 
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 
+import 'jquery-ui/ui/widgets/datepicker.js';
+
+require('./bootstrap');
+import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 
 
-window.Vue = require('vue');
 Vue.use(BootstrapVue)
-window.axios = require('axios');
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
 
-//... configure axios...
+Vue.component('tabla', require('./components/TablaModelo.vue').default);
+Vue.component('moleculesabc',require('./components/BD_pk_Koverall/MoleculesABC.vue').default);
 
-Vue.prototype.$http = window.axios;
-
-Vue.component('examplecomponent',  require('./components/example.vue').default);
-Vue.component('tabla',  require('./components/TablaModelo.vue').default);
-
-
-
-
-
-const app = new Vue({
+var app = new Vue({
     el: '#app',
-    data: {
-    	mensaje: 'otro',
-    	titulo:'valores defecto',	
-    	otro:  'asdf',
-    	quien: '324',
-    	este:   1324,
-    }
 });
+
+
+
+$(function ($) {
+    $(".sidebar-dropdown > a").click(function() {
+  $(".sidebar-submenu").slideUp(200);
+  if (
+    $(this)
+      .parent()
+      .hasClass("active")
+  ) {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .parent()
+      .removeClass("active");
+  } else {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this)
+      .next(".sidebar-submenu")
+      .slideDown(200);
+    $(this)
+      .parent()
+      .addClass("active");
+  }
+});
+    var x =$(window).scrollTop();
+	if(x<$("header").height())
+	$(".sidebar-wrapper").css("top",$("header").height()-x);
+	else
+	$(".sidebar-wrapper").css("top",0);
+
+$("#close-sidebar").click(function() {
+  $(".page-wrapper").removeClass("toggled");
+});
+$("#show-sidebar").click(function() {
+  $(".page-wrapper").addClass("toggled");
+});
+$(window).scroll(function(){
+	var x =$(window).scrollTop();
+	if(x<$("header").height())
+	$(".sidebar-wrapper").css("top",$("header").height()-x);
+	else
+	$(".sidebar-wrapper").css("top",0);
+	
+});
+});
+
 

@@ -195,7 +195,7 @@
         this.infoModal.title = `Row index: ${index}`
         this.infoModal.content = JSON.stringify(item, null, 2)
         this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-     	
+        this.imgAndData(item, index, button);
       }, 
       resetInfoModal() {
         this.infoModal.title = ''
@@ -211,8 +211,7 @@
     	  this.data_mole.Name=item.Name;
     	  axios.get('getMolecules/'+item.ID).then(response =>{
     	  	this.data_mole.Description= response.data;	
-    	  });
-    	  
+    	  });  
       }
       
     }

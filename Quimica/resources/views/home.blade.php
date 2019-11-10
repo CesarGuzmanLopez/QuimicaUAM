@@ -1,23 +1,153 @@
+<?php use Illuminate\Support\Facades\DB;?>
+
 @extends('layouts.app')
-
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+@if(Auth::user()->hasRole('admin'))
 
-                    You are logged in!
-                </div>
-            </div>
+@endif
+
+
+<div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fa fa-bars"></i>
+  </a>
+  <div class="">
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <span class="col-11 text-info">Control Panel </span>
+        <div id="close-sidebar">
+          <i class="fa fa-times float-right"></i>
         </div>
+      </div>
+      <div class="sidebar-header">
+        <a href="{{url('home')}}">
+        <div class="user-pic">
+           <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+            alt="User picture">
+        </div>
+        <div class="user-info">
+          {{auth()->user()->name}}
+          <span class="user-role">{{auth()->user()->getRollStr()}}</span>
+
+        </div>
+        </a>
+      </div>
+      <!-- sidebar-header  -->
+   
+      <!-- sidebar-search  -->
+      <div class="sidebar-menu">
+        <ul>
+          <li class="header-menu">
+            <span>General</span>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-cogs"></i>
+              <span>Dashboard</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">Profile <i class="fa fa-user-cicle"></i>
+                   </a>
+                  <a href="#">contributions</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <!-- @if(auth()->user()->hasAnyRole(["super-admin","admin"]))-->
+
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-database"></i>
+              <span>Data base</span>
+              <span class="badge badge-pill badge-danger">modify</span>
+            </a>
+            <!-- submenu -->
+	        <?php  
+	         $databases= DB::table('data_bases_q_s')->get();    
+	      	?>
+            <div class="sidebar-submenu">
+               <ul>
+	        <!--@foreach ($databases as $DB)-->
+	              <li>
+                     <a href="{{url('/ModifyBD/'.$DB->Name.'')}}"> {{$DB->Name}}
+                     </a>
+                  </li>
+	         <!--@endforeach-->
+                </ul>
+            </div>
+
+          </li>
+           <!--@endif-->
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-file-code-o"></i>
+              <span>Components</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">Programs</a>
+                </li>
+                <li>
+                  <a href="#">Articles</a>
+                </li>
+                <li>
+                  <a href="#">Tables</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar">
+            <a href="#">
+              <i class="fa fa-chart-line"></i>
+              <span>Charts</span>
+            </a>
+          </li>
+
+          <li class="header-menu">
+            <span>Data base</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-book"></i>
+              <span>Modifications</span>
+              <span class="badge badge-pill badge-primary">Beta</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-calendar"></i>
+              <span>programs up</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-folder"></i>
+              <span>Descriptions</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- sidebar-menu  -->
     </div>
+
+  </nav>
+  </div>
+  <!-- sidebar-wrapper  -->
+  <main class="page-content">
+    <div class="container-fluid">
+       @section('userCont')      
+       
+      @show
+    </div>
+  </main>
+  <!-- page-content" -->
 </div>
+    
 @endsection
+
+

@@ -11,9 +11,9 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="Classification" content="Quimica "><meta name="msapplication-TileColor" content=" #009900" />
       <meta charset="utf-8">
       <!-- media -->
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>">        
 
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?<?=rand()?>">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?">  
       <!--@section('fondocss')-->
       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <style type="text/css">
@@ -70,11 +70,10 @@
 	  </b-navbar>
      </header>
      @show  
-    <main class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto col-12" b="main">
-    @section('content')
+   @section('content')
   
     @show
- 
+
    @section('footer')
    <footer class="  fixed-bottom navbar-light bg-faded">
     <div class=" text-center py-3">© 2018 Copyright:

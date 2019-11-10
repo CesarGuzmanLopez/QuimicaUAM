@@ -31,7 +31,6 @@ class PrincipalController extends Controller
     	return view('Data_Base')->with('title',"Data Base")->with('molecules',$molelcules);
     }
     public function userapi(Request $request) {
-    	
     		return $request->user();
     }
 }
