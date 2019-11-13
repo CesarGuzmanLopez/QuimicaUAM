@@ -34,5 +34,11 @@ Route::get('/ModifyBD/DB-pk-Koverall/Radicals','DB_pk_koverall_Controller@Radica
 Route::get('/ModifyBD/DB-pk-Koverall/References','DB_pk_koverall_Controller@References')->name('References');
 Route::get('/ModifyBD/DB-pk-Koverall/PK_s','DB_pk_koverall_Controller@PK_s')->name('PK_s');
 Route::get('/ModifyBD/DB-pk-Koverall/K_overall','DB_pk_koverall_Controller@K_overall')->name('K_overall');
+
 Route::apiResource('/MoleculeTable','MoleculeTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/SolventsTable','SolventsTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/RadicalsTable','RadicalsTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/ReferencesTable','ReferencesTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/PK_sTable','PK_sTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/K_overalsTable','K_overalsTable')->middleware(['auth','role:admin,super-admin']);
 

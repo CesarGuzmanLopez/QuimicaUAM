@@ -15,11 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $Tipo
  * @property string $Descripcion
  * @property int $ID_Alta
- * @property QDbMolecule $qDbMolecule
+ * @property string $updated_at
+ * @property string $created_at
  * @property QDbRadical $qDbRadical
  * @property QDbSolvent $qDbSolvent
  * @property User $user
  * @property QDbReference $qDbReference
+ * @property QDbMolecule $qDbMolecule
  */
 class q_db_k_overalls extends Model
 {
@@ -30,25 +32,19 @@ class q_db_k_overalls extends Model
      */
     protected $primaryKey = 'ID_K_OVERALL';
 
+    public $incrementing = true;
+    
     /**
      * @var array
      */
-    protected $fillable = ['radical', 'id_reference', 'ID_Molecule', 'Solvent', 'Valor', 'pH', 'Tipo', 'Descripcion', 'ID_Alta'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function qDbMolecule()
-    {
-        return $this->belongsTo('App\QDbMolecule', 'ID_Molecule', 'ID');
-    }
+    protected $fillable = ['radical', 'id_reference', 'ID_Molecule', 'Solvent', 'Valor', 'pH', 'Tipo', 'Descripcion', 'ID_Alta', 'updated_at', 'created_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function qDbRadical()
     {
-        return $this->belongsTo('App\QDbRadical', 'radical', 'ID_Radical');
+        return $this->belongsTo('App\q_db_Radicals', 'radical', 'ID_Radical');
     }
 
     /**
@@ -56,7 +52,7 @@ class q_db_k_overalls extends Model
      */
     public function qDbSolvent()
     {
-        return $this->belongsTo('App\QDbSolvent', 'Solvent', 'ID_Solvent');
+        return $this->belongsTo('App\q_db_Solvents', 'Solvent', 'ID_Solvent');
     }
 
     /**
@@ -73,5 +69,13 @@ class q_db_k_overalls extends Model
     public function qDbReference()
     {
         return $this->belongsTo('App\QDbReference', 'id_reference', 'id_reference');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function qDbMolecule()
+    {
+        return $this->belongsTo('App\q_db_Molecules', 'ID_Molecule', 'ID');
     }
 }

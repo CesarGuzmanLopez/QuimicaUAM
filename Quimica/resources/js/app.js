@@ -12,9 +12,11 @@ import 'jquery-ui/ui/widgets/datepicker.js';
 require('./bootstrap');
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
-
+import * as uiv from 'uiv'
 
 Vue.use(BootstrapVue)
+Vue.use(uiv )
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,7 +27,12 @@ Vue.use(BootstrapVue)
 
 Vue.component('tabla', require('./components/TablaModelo.vue').default);
 Vue.component('moleculesabc',require('./components/BD_pk_Koverall/MoleculesABC.vue').default);
+Vue.component('solventsabc',require('./components/BD_pk_Koverall/SolventsABC.vue').default);
 
+Vue.component('k_overallabc',require('./components/BD_pk_Koverall/K_OverallABC.vue').default);
+Vue.component('pk_sabc',require('./components/BD_pk_Koverall/pk_sABC.vue').default);
+Vue.component('radicalsabc',require('./components/BD_pk_Koverall/radicalsABC.vue').default);
+Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC.vue').default);
 var app = new Vue({
     el: '#app',
 });

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id_reference
- * @property int $id
  * @property string $Reference
- * @property string $k_exp_ref
+ * @property string $Coments
+ * @property string $updated_at
+ * @property string $created_at
  * @property QDbKOverall[] $qDbKOveralls
  * @property QDbPk[] $qDbPks
  */
-class q_db_reference extends Model
+class q_db_references extends Model
 {
     /**
      * The primary key for the model.
@@ -24,7 +25,7 @@ class q_db_reference extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'Reference', 'k_exp_ref'];
+    protected $fillable = ['Reference', 'Coments', 'updated_at', 'created_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

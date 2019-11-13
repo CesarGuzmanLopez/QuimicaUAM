@@ -20,7 +20,8 @@ class q_db_radicals extends Model
      * @var string
      */
     protected $primaryKey = 'ID_Radical';
-
+    public $incrementing = true;
+    
     /**
      * @var array
      */

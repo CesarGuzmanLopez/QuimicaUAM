@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="bg-white p-2">
-    <h1>Tables Molecules.</h1>
+    <h1>pKa's table</h1>
     <!-- User Interface controls -->
       <b-col lg="12" class="my-1">
         <b-form-group
@@ -68,11 +68,8 @@
     
       </template>
       <template v-slot:cell(ris_image)="row">
-          <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="fa fa-image mr-1 " >
-          image
-        </b-button>
         <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
-          {{ row.detailsShowing ? 'Hide' : 'Show' }} RIS
+          {{ row.detailsShowing ? 'Hide' : 'Show' }} Reference
         </b-button>
       
       </template>
@@ -240,7 +237,7 @@
   export default {
     data() {	
       return {
-    	isBusy:true,
+    	  isBusy:true,
     	formNewnMole: {
     		ID:'',
     		Name: '',
@@ -264,9 +261,14 @@
         fields: [
           {key:'ID',label:'id', variant: 'success'},
           { key: 'Name', label: 'Molecule name', sortable: true },
-          { key: 'SMILE', label: 'SMILE', sortable: false,click:'imgAndData',  class: 'text-center', lg:6 },
+          { key: 'Radical', label: 'Radical', sortable: true },
+          { key: 'Solvent', label: 'Solvent', sortable: true },
+          { key: 'Value', label: 'Value'},
+          { key: 'pH', label:'pH'},
+          { key: 'Type', label:'Type'},
           { key: 'Description', label: 'Description'  },
-          { key:'ris_image', label: 'Image Ris'},
+         
+          { key:'ris_image', label: 'Reference'},
           { key: 'actions', label: 'Actions' },
         ],
         totalRows: 1,

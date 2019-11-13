@@ -25,7 +25,7 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the molecules for the database of k_overalls and pk's
+               Table containing all the Solvents for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="secondary" href="{{url('ModifyBD/DB-pk-Koverall/Solvents')}}">Modify</b-button>
         </b-card>
@@ -39,7 +39,7 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the molecules for the database of k_overalls and pk's
+               Table containing all the Radicals for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="secondary" href="{{url('ModifyBD/DB-pk-Koverall/Radicals')}}">Modify</b-button>
         </b-card>        
@@ -56,7 +56,7 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the molecules for the database of k_overalls and pk's
+               Table containing all the References literal for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="primary" href="{{url('ModifyBD/DB-pk-Koverall/References')}}">Modify</b-button>
         </b-card>
@@ -70,7 +70,7 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the molecules for the database of k_overalls and pk's
+               Table containing all the PK's for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="primary" href="{{url('ModifyBD/DB-pk-Koverall/PK_s')}}">Modify</b-button>
         </b-card>
@@ -86,12 +86,11 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the molecules for the database of k_overalls and pk's
+               Table containing all the K overals for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="primary" href="{{url('ModifyBD/DB-pk-Koverall/K_overall')}}">Modify</b-button>
         </b-card>        
       </div>
    </div>
 </b-container>
-
 @endsection

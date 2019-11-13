@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $Name_Solvent
  * @property string $Description
  * @property int $ID_Alta
+ * @property string $updated_at
+ * @property string $created_at
  * @property User $user
  * @property QDbKOverall[] $qDbKOveralls
  */
-class q_db_solvent extends Model
+class q_db_solvents extends Model
 {
     /**
      * The primary key for the model.
@@ -22,9 +24,16 @@ class q_db_solvent extends Model
     protected $primaryKey = 'ID_Solvent';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+    
+    /**
      * @var array
      */
-    protected $fillable = ['Name_Solvent', 'Description', 'ID_Alta'];
+    protected $fillable = ['Name_Solvent', 'Description', 'ID_Alta', 'updated_at', 'created_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

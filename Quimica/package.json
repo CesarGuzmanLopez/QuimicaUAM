@@ -33,8 +33,10 @@
         "glyphicons": "^0.2.0",
         "material-icons": "^0.3.1",
         "npm-watch": "^0.6.0",
+        "uiv": "^0.34.1",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10",
+        "vuetify": "^2.1.9",
         "watch": "^1.0.2"
     }
 }

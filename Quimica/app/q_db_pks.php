@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $Value
  * @property int $NumPK
  * @property int $ID_Alta
- * @property QDbMolecule $qDbMolecule
  * @property User $user
  * @property QDbReference $qDbReference
+ * @property QDbMolecule $qDbMolecule
  */
 class q_db_pks extends Model
 {
@@ -26,18 +26,12 @@ class q_db_pks extends Model
      */
     protected $primaryKey = 'id_pks';
 
+    public $incrementing = true;
+    
     /**
      * @var array
      */
     protected $fillable = ['id_reference', 'ID', 'Site', 'Tipo_Exp_teo', 'Value', 'NumPK', 'ID_Alta'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function qDbMolecule()
-    {
-        return $this->belongsTo('App\QDbMolecule', 'ID', 'ID');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -53,5 +47,13 @@ class q_db_pks extends Model
     public function qDbReference()
     {
         return $this->belongsTo('App\QDbReference', 'id_reference', 'id_reference');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function qDbMolecule()
+    {
+        return $this->belongsTo('App\QDbMolecule', 'ID', 'ID');
     }
 }

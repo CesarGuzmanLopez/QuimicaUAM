@@ -91,7 +91,7 @@ class MoleculeTable extends Controller
      */
     public function show($id)
     {
-        //
+      
     }
 
     /**
