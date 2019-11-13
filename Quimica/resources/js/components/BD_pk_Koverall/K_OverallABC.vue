@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="bg-white p-2">
-    <h1>pKa's table</h1>
+    <h1>K<sub>overall</sub> table</h1>
     <!-- User Interface controls -->
       <b-col lg="12" class="my-1">
         <b-form-group
@@ -241,7 +241,7 @@
        },
         totalRows: 1,
         currentPage: 1,
-        perPage: 5,
+        perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
         sortDesc: false,
