@@ -2108,7 +2108,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
+      perPage: 15,
       pageOptions: [5, 10, 15],
       sortBy: '',
       sortDesc: false,
@@ -76314,7 +76314,7 @@ var render = function() {
     "b-container",
     { staticClass: "bg-white p-2", attrs: { fluid: "" } },
     [
-      _c("h1", [_vm._v("pKa's table")]),
+      _c("h1", [_vm._v("K"), _c("sub", [_vm._v("overall")]), _vm._v(" table")]),
       _vm._v(" "),
       _c(
         "b-col",

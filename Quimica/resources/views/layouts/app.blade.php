@@ -84,7 +84,6 @@
     </div>
    </div>
    <?php  ?>
-      <script type="text/javascript" src="{{asset('js/app.js') }}?<?=date("my")?>"></script>
-      <script type="text/javascript" src="{{asset('js/principal.js') }}?<?=date("my")?>"></script>
-  </body>
+      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.0."date("my")?>"></script>
+   </body>
 </html>
