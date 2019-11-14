@@ -464,7 +464,7 @@
        headers: { 'Content-Type': 'multipart/form-data'}}
        ).then(response =>{ 
             console.log(response.data);    
-            this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
+            this.addMoleMensaje=  ' _ ' +" add successful";
          }
        ).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";}); 
          
@@ -476,8 +476,7 @@
       this.totalRows = this.items.length;
        });
        
-       this.clearaddmol();
-      
+       
        axios.get('../../K_overalsTable').then(response =>{
          this.items = response.data;
          this.totalRows = this.items.length;
@@ -538,59 +537,74 @@
        },
        showmodal(index){
        
-    	  console.log(this.$refs['updateK_Overall']);
-    	  this.formodifi.ID_K_OVERALL=index.ID_K_OVERALL;
-      	
+     	  this.formodifi.ID_K_OVERALL=index.ID_K_OVERALL;
+      	  console.log(index);
           this.formodifi.Radical=index.ID_Radical;
           this.formodifi.Solvent=index.Solvent;
           this.formodifi.pH=index.pH;
           this.formodifi.Valor=index.Valor;
           this.formodifi.Descripcion=index.Descripcion;
-          this.formodifi.Reference=index.Reference;
-          this.formodifi.Reference=index.Tipo; 
+          this.formodifi.Reference=index.id_reference;
+          this.formodifi.Tipo=index.Tipo; 
+          this.formodifi.Molecule=index.ID_Molecule; 
+          
           this.$refs['updateK_Overall'].show();
        },
        updateK_Overalllcule(){
-         var key, count = 0;
-            if(this.formodifi.Name==="" || this.formodifi.SMILE==="" ) {
-               alert("Name or Smile cannot be empty");
-            this.addMoleMensaje= (this.formodifi.Name)+"Error ";
-            return 0;
-         }
-         for(key in this.items ) {
-          if((this.items[key].Name.toUpperCase() ===this.formodifi.Name.toUpperCase() || 
-            this.items[key].SMILE.toUpperCase()=== this.formodifi.SMILE.toUpperCase()) && this.formodifi.ID_K_OVERALL != this.items[key].ID_K_OVERALL ){
-            alert("this Molecule or Smile Exists");
-            this.addMoleMensaje= (this.formodifi.Name)+"Error ";
-            return 0;
-          }
-         }
-           /* Initialize the form data */
-           var formData = new FormData(); 
-             
-           /*  Add the form data we need to submit */
-           if(this.formodifi.Image !="")
-               formData.append('Image', this.formodifi.Image); 
-           formData.append('Name', this.formodifi.Name);
-           formData.append('SMILE', this.formodifi.SMILE);
-           formData.append('Description', this.formodifi.Description);
-           formData.append('RIS', this.formodifi.RIS);
-           formData.append('_method','PUT');
-           
-           /* Make the request to the POST ../../K_overalsTable URL */
-           axios.post( '../../K_overalsTable/'+this.formodifi.ID_K_OVERALL,formData,{
+    	
+    	   if(this.formodifi.Valor==="" ||  this.formodifi.Valor ===null
+    			   ||this.formodifi.Molecule==="" ||  this.formodifi.Molecule ===null ||  this.formodifi.Molecule ===-1  ) {
+     		  	alert("Value and Molecule  cannot be empty");
+   	  	 	this.AddRadicalMensaje= "Error ";
+   	  		return 0;
+   	  	}
+     	   
+    	   var formData = new FormData(); 
+            
+
+    	    formData.append('Id_Molecule', this.formodifi.Molecule);
+            formData.append('Radical',this.formodifi.Radical);
+            formData.append('Solvent', this.formodifi.Solvent);
+            formData.append('pH',this.formodifi.pH);
+            formData.append('Tipo', this.formodifi.Tipo);
+            formData.append('Descripcion', this.formodifi.Descripcion);
+            formData.append('Reference', this.formodifi.Reference);
+            formData.append('Valor', this.formodifi.Valor);
+            formData.append('_method','PUT');
+    	   axios.post( '../../K_overalsTable/'+this.formodifi.ID_K_OVERALL,formData,{
            headers: { 'Content-Type': 'multipart/form-data'}}
            ).then(response =>{ 
                console.log(response.data);    
-               this.addMoleMensaje=  ' _ '+ this.formodifi.Name +" modify successful";
+               this.addMoleMensaje=  " _ modify successful";
             }
-           ).catch(function(){ this.addMoleMensaje= (this.formodifi.Name)+"Error ";});
-            this.clearaddmol();
-            axios.get('../../K_overalsTable').then(response =>{
+           ).catch(function(){
+         	   });
+             axios.get('../../K_overalsTable').then(response =>{
             this.items = response.data;
             this.totalRows = this.items.length;
            });
            this.$refs['updateK_Overall'].hide();
+       
+       
+       
+       
+           
+           axios.get('../../K_overalsTable').then(response =>{
+               this.items = response.data;
+               this.totalRows = this.items.length;
+                this.isBusy= false;
+             });
+             this.$refs['addKoverall'].hide();
+             this.totalRows = this.items.length
+             axios.get('../../K_overalsTable').then(response =>{
+               this.items = response.data;
+               this.totalRows = this.items.length;
+                this.isBusy= false;
+             });
+           
+           
+           
+           
        },
        getMolecules(){
 		axios.get('../../MoleculeTable').then(response =>{
