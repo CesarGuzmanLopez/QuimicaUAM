@@ -22,7 +22,7 @@
               <b-button :disabled="!filter" @click="filter = ''"> Clear </b-button>
             </b-input-group-append>
            <div>
-         <b-button  @click="modaladdpk" class="fa fa-save bg-success mx-4"> Add molecule</b-button>
+         <b-button  @click="modaladdKoverall" class="fa fa-save bg-success mx-4"> Add K<sub>overall</sub></b-button>
          </div>
            </b-input-group>
           
@@ -116,72 +116,156 @@
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
      <b-img :src='data_mole.Image'/>
     </b-modal> 
+      
+    <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="lg"    hide-footer>
+        <div><label>Molecule:</label> <b-form-select v-model="DataPKaNew.Molecule" :options="Molecules"></b-form-select></div>
+        
+      <b-table
+      show-empty
+      responsive="sm"
+      striped 
+      small
+      :items="itemsAdd"
+      :fields="fieldsAdd"
     
-    <b-modal ref="AddPK" id="AddPK" title="AddPK"   hide-footer>
- 
+      >
+     
+      <template v-slot:cell(Radical)="row"> 
+         <b-form-select v-model="row.value" @input="ingresa(row)" :options="Radicals" ></b-form-select> 
+         
+        
+      </template>
+      <template v-slot:cell(Solvent)="row">
+         <b-form-select v-model="row.value" @input="ingresa(row)" :options="Solvents"></b-form-select>
+       </template>
+       
+      <template v-slot:cell(pH)="row">
+            <input type="text" size="3"  @input="ingresa(row) "v-model="row.value" />
+       </template> 
+      <template v-slot:cell(Tipo)="row">
+                <b-form-select v-model="row.value" size="10" @input="ingresa(row)"  :options="typeoption "></b-form-select>
+       </template>
+      <template v-slot:cell(Valor)="row" >
+         <input type="text"  v-model="row.value"   size="7" @input="ingresa(row)"/>
+      </template>
+      <template v-slot:cell(Descripcion)="row">
+                  <input type="text"  v-model="row.value" size="10"  @input="ingresa(row)"/> 
+      </template>
+       <template v-slot:cell(Reference)="row">
+              <b-form-select v-model="row.value" @input="ingresa(row)"  :options="References"></b-form-select>
+       </template>      
+    </b-table>
+    <b-button  @click="additem" class="fa fa-plus-circle bg-success mx-4"></b-button>
+    <b-button  @click="popitem" class="fa fa-minus bg-danger mx-4"></b-button>
+
+    <b-button  @click="cloneitem" class="fa fa-clone bg-success mx-4"></b-button>
+   <div> <b-button  @click="addSaveitem" class="fa fa-save bg-info mx-4 float-right"> Save</b-button></div>
    </b-modal>
    
    
    
-    <b-modal ref="updatemole" id="updatemole" title="Update molecule"   hide-footer>
+    <b-modal ref="updateK_Overall" id="updateK_Overall" title="Update Koverall"   hide-footer>
       <b-container fluid>
        <form enctype="multipart/form-data">
          
          <b-row>
             <div class="border border-info col-12 mt-4 p-4">ID_K_OVERALL: {{formodifi.ID_K_OVERALL}}</div> 
-             <p><label  for="formodifi.Mol_name" class="p-2">Molecule Name</label></p>
-             <b-input
-               id="formodifi.Name"
-               v-model="formodifi.Name"
-               class="mb-2 mr-sm-2 mb-sm-0"
-               placeholder="Molecule Name"
-               name="Mol_name"
-             ></b-input>
-             <label  for="formodifi.SMILE">Smile</label>
-             <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
-               <b-input id="formodifi.SMILE" v-model="formodifi.SMILE" placeholder="Smile"></b-input>
-             </b-input-group>
-         
-                 <b-col sm="2"class="mt-4">
-               <label for="formodifi.Description">Description</label>
-             </b-col>
-             <b-col sm="10"  class="mt-4">
+
+                        
+             <p><label  for="formodifi.Molecule" class="p-2">Molecule Name</label></p>
+        
+  
+
+             <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Molecule" 
+              v-model="formodifi.Molecule" 
+              :options="Molecules"
+              name="Molecule"
+              >  </b-form-select>
+             <div class="row p-4">
+             <p><label  for="formodifi.pH" >pH</label></p>
+
+             <input type="text" id="formodifi.pH" 
+              v-model="formodifi.pH" 
+               size="10" />
+
+             <p><label  for="formodifi.Valor" >Valor</label></p>
+          
+             <input type="text" ref="ValorModifi" 
+              v-model="formodifi.Valor " 
+               size="10" />
+              </div>
+             
+             <div class="mb-2 row       ">
+                
+            <label  for="formodifi.Radical" class="p-2">Radical</label>
+        
+              
+             <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Radical" 
+              v-model="formodifi.Radical" 
+              :options="Radicals"
+              name="Radical"
+              >  </b-form-select>
+
+            
+        
+             <label  for="formodifi.Solvent" class="p-2">Solvent</label>
+        
+              
+             <b-form-select                
+              mr-sm-2 mb-sm-0
+              id="formodifi.Solvent" 
+              v-model="formodifi.Solvent" 
+              :options="Solvents"
+              name="Solvent"
+              
+              >  </b-form-select>
+            </div>
+             <p><label  for="formodifi.Mol_name" class="p-2">Reference</label></p>
+        
+              
+             <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Reference" 
+              v-model="formodifi.Reference" 
+              :options="References"
+              name="Reference"
+              >  </b-form-select>
+
+
+
+            <label for="formodifi.Descripcion">Description</label>
+        
+             
              <b-form-textarea
-                 id="formodifi.Description"
-                 v-model="formodifi.Description"
+                 id="formodifi.Descripcion"
+                 v-model="formodifi.Descripcion"
                  size="sm"
                  placeholder="Small Description"
              ></b-form-textarea>
-             </b-col>
-               <div class="border border-info col-12 mt-4">
-               <b-col sm="2"class="mt-4">
-                  <h4><label for="formodifi.RIS" >RIS:</label></h4>
-             </b-col>
-              <b-col sm="12" class="my-4" >
-              <b-form-file class="m-3" @change="loadTextFromFile" id="formodifi.RISFile" plain></b-form-file>
-                <b-form-textarea
-                v-model="formodifi.RIS"
-                 id="formodifi.RIS"
-                 name="RIS"
-                 placeholder="RIS"
-               ></b-form-textarea>
-             </b-col>
-             </div>
-         </b-row>
-         <b-row>
-             <div class="border border-info col-12 mt-4">
-                 <label for="formodifi.imagemol" class="p-1"
-                 >Molecule image</label>
-                 : {{formodifi.Image}}
-                 <input class="p-3" type="file" ref="formodifi_imagemol" v-on:change="handleFileUploadup()" id="formodifi_imagemol" name="imagemol"  accept="image/*">
-             </div>
+    
+             <label for="formodifi.Tipo">Tipo</label>
+              <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Tipo" 
+              v-model="formodifi.Tipo" 
+              :options="typeoption"
+              name="formodifi.Tipo"
+              >  </b-form-select>
+
+        
+       
+
          </b-row>
        </form>
        
       </b-container>
      <div class="row">
-        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateMolelcule()" >actualize molecule</b-button>
-        <b-button  block @click="$bvModal.hide('updatemole')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
+        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateK_Overalllcule()" >actualize molecule</b-button>
+        <b-button  block @click="$bvModal.hide('updateK_Overall')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
      </div>
    </b-modal>
    
@@ -205,16 +289,19 @@
          Image: '',
       },
       formodifi: {
-         ID_K_OVERALL:'',
-         Name: '',
-         SMILE: '',
-         Description:'',
-         RIS:'',
-         Image: '',
+    	  Molecule: 1,
+    	  Radical: -1,
+    	  Solvent: -1,
+    	  pH:null,
+    	  Tipo:'Theo. with f_M',
+    	  Valor:null,
+    	  Descripcion:null,
+    	  Reference:-1, 
       },
         items: [
           { Active: true, SMILE: "...", Name:  'Cargando espere porfavor'},
         ],
+
         addMoleMensaje:'',
         fields: [
           { key:'ID_K_OVERALL',label:'id', variant: 'success', dblclick:"unmsj(row,$event)"},
@@ -227,18 +314,41 @@
           { key:'Descripcion', label: 'Description'  },
           { key:'ris_image', label: 'Reference'},
           { key:'actions', label: 'Actions' },
-        ],        
-       NewPK: {
-   			id_Molecule:0,
-        	id_Radical:0 ,
-        	id_Solvent:0,
-        	Value:0,
-        	pH: 7 ,
-        	Type: "Theoretical",
-        	Description:"" ,
-        	Id_Reference: "",
-        	
-       },
+        ],
+        itemsAdd: [
+        	{Radical: -1,Solvent: -1, pH:null,Tipo:'Theo. with f_M',Valor:null, Descripcion:null,Reference:-1 },
+        ],
+        typeoption:[
+        	{value: 'Theo. with f_M', text: 'Theo. with f_M'},
+        	{value: 'Experimental', text: 'Experimental'},
+        	{value: 'Theo. without f_M', text: 'Theo. without f_M'},
+       ], 
+        fieldsAdd: [
+            { key:'Radical', label: 'Radical'  },
+            { key:'Solvent', label: 'Solvent'},
+            { key:'pH', label:'pH'  },
+            { key:'Tipo', label:'Type'},
+            { key:'Valor', label: 'Value', variant: 'info'},
+            { key:'Descripcion', label: 'Description'  },
+            { key:'Reference', label: 'Reference'  },
+           ]
+        ,
+        
+        DataPKaNew:{
+        	Molecule:-1,
+        	Radical: -1,
+        	Solvent:-1,
+        	pH:null,
+        	Value:null,
+        	Description:null,
+        	Type:-1,
+        	Reference:-1,
+        },
+        Molecules:	[{value: -1, text: 'Please select an option'},],
+        Radicals:	[{value: -1, text: 'Please select an option'},],
+        Solvents:	[{value: -1, text: 'Please select an option'},],
+        References:	[{value: -1, text: 'Please select an option'},],
+        
         totalRows: 1,
         currentPage: 1,
         perPage: 15,
@@ -289,15 +399,15 @@
 	   this.getSolvents();
 	   this.getRadicals();
 
-      // Set the initial number of items
-         this.totalRows = this.items.length
-         axios.get('../../K_overalsTable').then(response =>{
-      this.items = response.data;
-      this.totalRows = this.items.length;
-     console.log(this.items);
-      this.isBusy= false;
-      });
-      
+       // Set the initial number of items
+       this.totalRows = this.items.length
+       axios.get('../../K_overalsTable').then(response =>{
+         this.items = response.data;
+         this.totalRows = this.items.length;
+          this.isBusy= false;
+       });
+
+       
     },
     methods: {
       info(item, index, button) {
@@ -320,13 +430,7 @@
       this.data_mole.Name=item.Name;
        
       },
-      clearaddmol(){
-      this.formNewnMole.Name='';
-      this.formNewnMole.SMILE= '';
-      this.formNewnMole.Description='';
-      this.formNewnMole.RIS='';
-      this.formNewnMole.Image= '';
-      },
+ 
       
       addMolelcule(){
       var key, count = 0;
@@ -364,6 +468,9 @@
          }
        ).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";}); 
          
+       
+       
+       
        axios.get('../../K_overalsTable').then(response =>{
       this.items = response.data;
       this.totalRows = this.items.length;
@@ -376,7 +483,10 @@
          this.totalRows = this.items.length;
       });
        this.$refs['addmole'].hide();
+      
       },
+      
+      
       handleFileUpload(){
         this.formNewnMole.Image = this.$refs.formNewnMole_imagemol.files[0];
 
@@ -423,28 +533,30 @@
              .catch(err => {
                // An error occurred
              });
-              this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
-              
+             this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
            
        },
        showmodal(index){
-      this.formodifi.ID_K_OVERALL=index.ID_K_OVERALL;
-       this.formodifi.Image="";
-       this.formodifi.Name=index.Name;
-       this.formodifi.SMILE=index.SMILE;
-       this.formodifi.Description=index.Description;
-       this.formodifi.RIS=index.RIS;
-      this.$refs['updatemole'].show();
+       
+    	  console.log(this.$refs['updateK_Overall']);
+    	  this.formodifi.ID_K_OVERALL=index.ID_K_OVERALL;
+      	
+          this.formodifi.Radical=index.ID_Radical;
+          this.formodifi.Solvent=index.Solvent;
+          this.formodifi.pH=index.pH;
+          this.formodifi.Valor=index.Valor;
+          this.formodifi.Descripcion=index.Descripcion;
+          this.formodifi.Reference=index.Reference;
+          this.formodifi.Reference=index.Tipo; 
+          this.$refs['updateK_Overall'].show();
        },
-       updateMolelcule(){
+       updateK_Overalllcule(){
          var key, count = 0;
             if(this.formodifi.Name==="" || this.formodifi.SMILE==="" ) {
                alert("Name or Smile cannot be empty");
             this.addMoleMensaje= (this.formodifi.Name)+"Error ";
             return 0;
          }
-            
-
          for(key in this.items ) {
           if((this.items[key].Name.toUpperCase() ===this.formodifi.Name.toUpperCase() || 
             this.items[key].SMILE.toUpperCase()=== this.formodifi.SMILE.toUpperCase()) && this.formodifi.ID_K_OVERALL != this.items[key].ID_K_OVERALL ){
@@ -464,7 +576,6 @@
            formData.append('Description', this.formodifi.Description);
            formData.append('RIS', this.formodifi.RIS);
            formData.append('_method','PUT');
-           console.log(this.formodifi.Name +" + "+this.formodifi.SMILE)
            
            /* Make the request to the POST ../../K_overalsTable URL */
            axios.post( '../../K_overalsTable/'+this.formodifi.ID_K_OVERALL,formData,{
@@ -473,56 +584,127 @@
                console.log(response.data);    
                this.addMoleMensaje=  ' _ '+ this.formodifi.Name +" modify successful";
             }
-           ).catch(function(){ this.addMoleMensaje= (this.formodifi.Name)+"Error ";}); 
-           
-           this.clearaddmol();
-          
-           axios.get('../../K_overalsTable').then(response =>{
+           ).catch(function(){ this.addMoleMensaje= (this.formodifi.Name)+"Error ";});
+            this.clearaddmol();
+            axios.get('../../K_overalsTable').then(response =>{
             this.items = response.data;
             this.totalRows = this.items.length;
-    
-             });
-           this.$refs['updatemole'].hide();
+           });
+           this.$refs['updateK_Overall'].hide();
        },
-       
        getMolecules(){
-    	   axios.get('../../MoleculeTable').then(response =>{
-    		   this.itemsMolecules=response.data;
- 
-		   });
+		axios.get('../../MoleculeTable').then(response =>{
+ 		   this.itemsMolecules=response.data;
+  	       var key,value,text;
+  		   for(key in this.itemsMolecules){
+  	    		value=this.itemsMolecules[key].ID;
+  	    		text="<h1>"+this.itemsMolecules[key].ID+"</h1> "+this.itemsMolecules[key].Name;
+  	    		this.Molecules.push({value,text});
+  	       }
+		});
        },
-
        getReferences(){
     		axios.get('../../ReferencesTable').then(response =>{
-
-    			this.itemsferences=response.data;
- 
+    			this.itemsferences=response.data; 
+    	  	       var key,value,text;
+    	  		   for(key in this.itemsferences){
+    	  	    		value= this.itemsferences[key].id_reference;
+    	  	    		text=this.itemsferences[key].id_reference+" "+this.itemsferences[key].Reference.substr(0,20);
+    	  	    		this.References.push({value,text});
+    	  	       }
  		   });
-       },
- 	      
+       }, 
        getSolvents(){
-     		axios.get('../../SolventsTable').then(response =>{
-
-     			this.itemsSolvents= response.data;
- 
+     		axios.get('../../SolventsTable').then(response =>{ 
+     		   this.itemsSolvents= response.data; 
+ 	  	       var key,value,text;
+	  		   for(key in this.itemsSolvents){
+	  	    		value =this.itemsSolvents[key].ID_Solvent;
+	  	    		text  =this.itemsSolvents[key].Name_Solvent;
+	  	    		this.Solvents.push({value,text});
+	  	       }
  		   });
        },
        getRadicals(){
   		axios.get('../../RadicalsTable').then(response =>{
  		this.itemsRadicals = response.data;
- 
+	       var key,value,text;
+  		   for(key in this.itemsRadicals){
+  	    		value=this.itemsRadicals[key].ID_Radical;
+  	    		text=this.itemsRadicals[key].Name_Radical;
+  	    		this.Radicals.push({value,text});
+  	       }
   		});
+       }, 
+       modaladdKoverall(){
+          	this.$refs['addKoverall'].show();
        },
-       modaladdpk(){
-    	   this.$refs['AddPK'].show();
-    	   
-			console.log("Radicals\n"+  JSON.stringify(this.itemsRadicals));  
-			console.log("Molecules\n"+ JSON.stringify(this.itemsMolecules));  
-			console.log("Referemces\n"+JSON.stringify(this.itemsferences));  
-			console.log("Radicals\n"+  JSON.stringify(this.itemsSolvents));
-       }
-       ,
-  }
+       additem(){
+    	   this.itemsAdd.push({Radical: -1,Solvent: -1, pH:null,Tipo:'Theo. with f_M',Valor:null, Descripcion:null,Reference:-1 },);
+       },
+       cloneitem(){ 
+	   	var tem =this.itemsAdd[this.itemsAdd.length-1];
+  	   	this.itemsAdd.push(JSON.parse(JSON.stringify(tem)));  
+        },
+       ingresa(row){
+    	   var g;
+    	   g=row.value;
+     	   this.itemsAdd[row.index][row.field.key]=g;
+   
+       },
+       popitem(){
+    	   this.itemsAdd.pop();
+       },
+       addSaveitem(){
+ 	       var key, count = 0;
+  	       if(this.DataPKaNew.Molecule===null || this.DataPKaNew.Molecule=== -1 ) {
+ 	          alert("Select a molecule");
+ 	          this.addMoleMensaje = (this.formNewnMole.Name)+"Error ";
+ 	          return 0;
+ 	       }
+    	  var idmolecule=this.DataPKaNew.Molecule;
+    	  this.DataPKaNew.Molecule=-1;
+ 	      var formData = new FormData(); 
+
+          var item =null
+ 		  while(this.itemsAdd.length>0){
+			 item = this.itemsAdd.pop();
+			 if(item.Valor===null ) continue;
+	 	     formData = new FormData(); 
+
+    	     formData.append('Id_Molecule', idmolecule);
+             formData.append('Radical', item.Radical);
+             formData.append('Solvent', item.Solvent);
+             formData.append('pH',item.pH);
+             formData.append('Tipo', item.Tipo);
+             formData.append('Descripcion', item.Descripcion);
+             formData.append('Reference', item.Reference);
+             formData.append('Valor', item.Valor);
+			 
+             axios.post( '../../K_overalsTable',formData,{
+
+            	headers: { 'Content-Type': 'multipart/form-data'}}
+             ).then(response =>{ 
+                  console.log(response.data);    
+                  this.addMoleMensaje= ' _ '+ this.formNewnMole.Name +" add successful";
+               }
+             ).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";});
+             
+		  }
+           axios.get('../../K_overalsTable').then(response =>{
+             this.items = response.data;
+             this.totalRows = this.items.length;
+              this.isBusy= false;
+           });
+           this.$refs['addKoverall'].hide();
+           this.totalRows = this.items.length
+           axios.get('../../K_overalsTable').then(response =>{
+             this.items = response.data;
+             this.totalRows = this.items.length;
+              this.isBusy= false;
+           });
+       },
+    }
   }
   
 </script>

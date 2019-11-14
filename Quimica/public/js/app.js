@@ -2030,6 +2030,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2043,12 +2127,14 @@ __webpack_require__.r(__webpack_exports__);
         Image: ''
       },
       formodifi: {
-        ID_K_OVERALL: '',
-        Name: '',
-        SMILE: '',
-        Description: '',
-        RIS: '',
-        Image: ''
+        Molecule: 1,
+        Radical: -1,
+        Solvent: -1,
+        pH: null,
+        Tipo: 'Theo. with f_M',
+        Valor: null,
+        Descripcion: null,
+        Reference: -1
       },
       items: [{
         Active: true,
@@ -2096,16 +2182,74 @@ __webpack_require__.r(__webpack_exports__);
         key: 'actions',
         label: 'Actions'
       }],
-      NewPK: {
-        id_Molecule: 0,
-        id_Radical: 0,
-        id_Solvent: 0,
-        Value: 0,
-        pH: 7,
-        Type: "Theoretical",
-        Description: "",
-        Id_Reference: ""
+      itemsAdd: [{
+        Radical: -1,
+        Solvent: -1,
+        pH: null,
+        Tipo: 'Theo. with f_M',
+        Valor: null,
+        Descripcion: null,
+        Reference: -1
+      }],
+      typeoption: [{
+        value: 'Theo. with f_M',
+        text: 'Theo. with f_M'
+      }, {
+        value: 'Experimental',
+        text: 'Experimental'
+      }, {
+        value: 'Theo. without f_M',
+        text: 'Theo. without f_M'
+      }],
+      fieldsAdd: [{
+        key: 'Radical',
+        label: 'Radical'
+      }, {
+        key: 'Solvent',
+        label: 'Solvent'
+      }, {
+        key: 'pH',
+        label: 'pH'
+      }, {
+        key: 'Tipo',
+        label: 'Type'
+      }, {
+        key: 'Valor',
+        label: 'Value',
+        variant: 'info'
+      }, {
+        key: 'Descripcion',
+        label: 'Description'
+      }, {
+        key: 'Reference',
+        label: 'Reference'
+      }],
+      DataPKaNew: {
+        Molecule: -1,
+        Radical: -1,
+        Solvent: -1,
+        pH: null,
+        Value: null,
+        Description: null,
+        Type: -1,
+        Reference: -1
       },
+      Molecules: [{
+        value: -1,
+        text: 'Please select an option'
+      }],
+      Radicals: [{
+        value: -1,
+        text: 'Please select an option'
+      }],
+      Solvents: [{
+        value: -1,
+        text: 'Please select an option'
+      }],
+      References: [{
+        value: -1,
+        text: 'Please select an option'
+      }],
       totalRows: 1,
       currentPage: 1,
       perPage: 15,
@@ -2159,7 +2303,6 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('../../K_overalsTable').then(function (response) {
       _this.items = response.data;
       _this.totalRows = _this.items.length;
-      console.log(_this.items);
       _this.isBusy = false;
     });
   },
@@ -2182,13 +2325,6 @@ __webpack_require__.r(__webpack_exports__);
     imgAndData: function imgAndData(item, index, event) {
       this.data_mole.Image = "../../files/data-base-img/" + item.ID_K_OVERALL + "/" + item.Imagen;
       this.data_mole.Name = item.Name;
-    },
-    clearaddmol: function clearaddmol() {
-      this.formNewnMole.Name = '';
-      this.formNewnMole.SMILE = '';
-      this.formNewnMole.Description = '';
-      this.formNewnMole.RIS = '';
-      this.formNewnMole.Image = '';
     },
     addMolelcule: function addMolelcule() {
       var _this2 = this;
@@ -2291,15 +2427,18 @@ __webpack_require__.r(__webpack_exports__);
       this.addMoleMensaje = ' _ ' + this.formNewnMole.Name + " add successful";
     },
     showmodal: function showmodal(index) {
+      console.log(this.$refs['updateK_Overall']);
       this.formodifi.ID_K_OVERALL = index.ID_K_OVERALL;
-      this.formodifi.Image = "";
-      this.formodifi.Name = index.Name;
-      this.formodifi.SMILE = index.SMILE;
-      this.formodifi.Description = index.Description;
-      this.formodifi.RIS = index.RIS;
-      this.$refs['updatemole'].show();
+      this.formodifi.Radical = index.ID_Radical;
+      this.formodifi.Solvent = index.Solvent;
+      this.formodifi.pH = index.pH;
+      this.formodifi.Valor = index.Valor;
+      this.formodifi.Descripcion = index.Descripcion;
+      this.formodifi.Reference = index.Reference;
+      this.formodifi.Reference = index.Tipo;
+      this.$refs['updateK_Overall'].show();
     },
-    updateMolelcule: function updateMolelcule() {
+    updateK_Overalllcule: function updateK_Overalllcule() {
       var _this5 = this;
 
       var key,
@@ -2330,7 +2469,6 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('Description', this.formodifi.Description);
       formData.append('RIS', this.formodifi.RIS);
       formData.append('_method', 'PUT');
-      console.log(this.formodifi.Name + " + " + this.formodifi.SMILE);
       /* Make the request to the POST ../../K_overalsTable URL */
 
       axios.post('../../K_overalsTable/' + this.formodifi.ID_K_OVERALL, formData, {
@@ -2348,13 +2486,24 @@ __webpack_require__.r(__webpack_exports__);
         _this5.items = response.data;
         _this5.totalRows = _this5.items.length;
       });
-      this.$refs['updatemole'].hide();
+      this.$refs['updateK_Overall'].hide();
     },
     getMolecules: function getMolecules() {
       var _this6 = this;
 
       axios.get('../../MoleculeTable').then(function (response) {
         _this6.itemsMolecules = response.data;
+        var key, value, text;
+
+        for (key in _this6.itemsMolecules) {
+          value = _this6.itemsMolecules[key].ID;
+          text = "<h1>" + _this6.itemsMolecules[key].ID + "</h1> " + _this6.itemsMolecules[key].Name;
+
+          _this6.Molecules.push({
+            value: value,
+            text: text
+          });
+        }
       });
     },
     getReferences: function getReferences() {
@@ -2362,6 +2511,17 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('../../ReferencesTable').then(function (response) {
         _this7.itemsferences = response.data;
+        var key, value, text;
+
+        for (key in _this7.itemsferences) {
+          value = _this7.itemsferences[key].id_reference;
+          text = _this7.itemsferences[key].id_reference + " " + _this7.itemsferences[key].Reference.substr(0, 20);
+
+          _this7.References.push({
+            value: value,
+            text: text
+          });
+        }
       });
     },
     getSolvents: function getSolvents() {
@@ -2369,6 +2529,17 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('../../SolventsTable').then(function (response) {
         _this8.itemsSolvents = response.data;
+        var key, value, text;
+
+        for (key in _this8.itemsSolvents) {
+          value = _this8.itemsSolvents[key].ID_Solvent;
+          text = _this8.itemsSolvents[key].Name_Solvent;
+
+          _this8.Solvents.push({
+            value: value,
+            text: text
+          });
+        }
       });
     },
     getRadicals: function getRadicals() {
@@ -2376,14 +2547,98 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('../../RadicalsTable').then(function (response) {
         _this9.itemsRadicals = response.data;
+        var key, value, text;
+
+        for (key in _this9.itemsRadicals) {
+          value = _this9.itemsRadicals[key].ID_Radical;
+          text = _this9.itemsRadicals[key].Name_Radical;
+
+          _this9.Radicals.push({
+            value: value,
+            text: text
+          });
+        }
       });
     },
-    modaladdpk: function modaladdpk() {
-      this.$refs['AddPK'].show();
-      console.log("Radicals\n" + JSON.stringify(this.itemsRadicals));
-      console.log("Molecules\n" + JSON.stringify(this.itemsMolecules));
-      console.log("Referemces\n" + JSON.stringify(this.itemsferences));
-      console.log("Radicals\n" + JSON.stringify(this.itemsSolvents));
+    modaladdKoverall: function modaladdKoverall() {
+      this.$refs['addKoverall'].show();
+    },
+    additem: function additem() {
+      this.itemsAdd.push({
+        Radical: -1,
+        Solvent: -1,
+        pH: null,
+        Tipo: 'Theo. with f_M',
+        Valor: null,
+        Descripcion: null,
+        Reference: -1
+      });
+    },
+    cloneitem: function cloneitem() {
+      var tem = this.itemsAdd[this.itemsAdd.length - 1];
+      this.itemsAdd.push(JSON.parse(JSON.stringify(tem)));
+    },
+    ingresa: function ingresa(row) {
+      var g;
+      g = row.value;
+      this.itemsAdd[row.index][row.field.key] = g;
+    },
+    popitem: function popitem() {
+      this.itemsAdd.pop();
+    },
+    addSaveitem: function addSaveitem() {
+      var _this10 = this;
+
+      var key,
+          count = 0;
+
+      if (this.DataPKaNew.Molecule === null || this.DataPKaNew.Molecule === -1) {
+        alert("Select a molecule");
+        this.addMoleMensaje = this.formNewnMole.Name + "Error ";
+        return 0;
+      }
+
+      var idmolecule = this.DataPKaNew.Molecule;
+      this.DataPKaNew.Molecule = -1;
+      var formData = new FormData();
+      var item = null;
+
+      while (this.itemsAdd.length > 0) {
+        item = this.itemsAdd.pop();
+        if (item.Valor === null) continue;
+        formData = new FormData();
+        formData.append('Id_Molecule', idmolecule);
+        formData.append('Radical', item.Radical);
+        formData.append('Solvent', item.Solvent);
+        formData.append('pH', item.pH);
+        formData.append('Tipo', item.Tipo);
+        formData.append('Descripcion', item.Descripcion);
+        formData.append('Reference', item.Reference);
+        formData.append('Valor', item.Valor);
+        axios.post('../../K_overalsTable', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (response) {
+          console.log(response.data);
+          _this10.addMoleMensaje = ' _ ' + _this10.formNewnMole.Name + " add successful";
+        })["catch"](function () {
+          this.addMoleMensaje = this.formNewnMole.Name + "Error ";
+        });
+      }
+
+      axios.get('../../K_overalsTable').then(function (response) {
+        _this10.items = response.data;
+        _this10.totalRows = _this10.items.length;
+        _this10.isBusy = false;
+      });
+      this.$refs['addKoverall'].hide();
+      this.totalRows = this.items.length;
+      axios.get('../../K_overalsTable').then(function (response) {
+        _this10.items = response.data;
+        _this10.totalRows = _this10.items.length;
+        _this10.isBusy = false;
+      });
     }
   }
 });
@@ -76378,9 +76633,9 @@ var render = function() {
                         "b-button",
                         {
                           staticClass: "fa fa-save bg-success mx-4",
-                          on: { click: _vm.modaladdpk }
+                          on: { click: _vm.modaladdKoverall }
                         },
-                        [_vm._v(" Add molecule")]
+                        [_vm._v(" Add K"), _c("sub", [_vm._v("overall")])]
                       )
                     ],
                     1
@@ -76629,18 +76884,274 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("b-modal", {
-        ref: "AddPK",
-        attrs: { id: "AddPK", title: "AddPK", "hide-footer": "" }
-      }),
+      _c(
+        "b-modal",
+        {
+          ref: "addKoverall",
+          attrs: {
+            id: "addKoverall",
+            title: "addKoverall",
+            size: "lg",
+            "hide-footer": ""
+          }
+        },
+        [
+          _c(
+            "div",
+            [
+              _c("label", [_vm._v("Molecule:")]),
+              _vm._v(" "),
+              _c("b-form-select", {
+                attrs: { options: _vm.Molecules },
+                model: {
+                  value: _vm.DataPKaNew.Molecule,
+                  callback: function($$v) {
+                    _vm.$set(_vm.DataPKaNew, "Molecule", $$v)
+                  },
+                  expression: "DataPKaNew.Molecule"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("b-table", {
+            attrs: {
+              "show-empty": "",
+              responsive: "sm",
+              striped: "",
+              small: "",
+              items: _vm.itemsAdd,
+              fields: _vm.fieldsAdd
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "cell(Radical)",
+                fn: function(row) {
+                  return [
+                    _c("b-form-select", {
+                      attrs: { options: _vm.Radicals },
+                      on: {
+                        input: function($event) {
+                          return _vm.ingresa(row)
+                        }
+                      },
+                      model: {
+                        value: row.value,
+                        callback: function($$v) {
+                          _vm.$set(row, "value", $$v)
+                        },
+                        expression: "row.value"
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(Solvent)",
+                fn: function(row) {
+                  return [
+                    _c("b-form-select", {
+                      attrs: { options: _vm.Solvents },
+                      on: {
+                        input: function($event) {
+                          return _vm.ingresa(row)
+                        }
+                      },
+                      model: {
+                        value: row.value,
+                        callback: function($$v) {
+                          _vm.$set(row, "value", $$v)
+                        },
+                        expression: "row.value"
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(pH)",
+                fn: function(row) {
+                  return [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: row.value,
+                          expression: "row.value"
+                        }
+                      ],
+                      attrs: { type: "text", size: "3" },
+                      domProps: { value: row.value },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(row, "value", $event.target.value)
+                          },
+                          function($event) {
+                            return _vm.ingresa(row)
+                          }
+                        ]
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(Tipo)",
+                fn: function(row) {
+                  return [
+                    _c("b-form-select", {
+                      attrs: { size: "10", options: _vm.typeoption },
+                      on: {
+                        input: function($event) {
+                          return _vm.ingresa(row)
+                        }
+                      },
+                      model: {
+                        value: row.value,
+                        callback: function($$v) {
+                          _vm.$set(row, "value", $$v)
+                        },
+                        expression: "row.value"
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(Valor)",
+                fn: function(row) {
+                  return [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: row.value,
+                          expression: "row.value"
+                        }
+                      ],
+                      attrs: { type: "text", size: "7" },
+                      domProps: { value: row.value },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(row, "value", $event.target.value)
+                          },
+                          function($event) {
+                            return _vm.ingresa(row)
+                          }
+                        ]
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(Descripcion)",
+                fn: function(row) {
+                  return [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: row.value,
+                          expression: "row.value"
+                        }
+                      ],
+                      attrs: { type: "text", size: "10" },
+                      domProps: { value: row.value },
+                      on: {
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(row, "value", $event.target.value)
+                          },
+                          function($event) {
+                            return _vm.ingresa(row)
+                          }
+                        ]
+                      }
+                    })
+                  ]
+                }
+              },
+              {
+                key: "cell(Reference)",
+                fn: function(row) {
+                  return [
+                    _c("b-form-select", {
+                      attrs: { options: _vm.References },
+                      on: {
+                        input: function($event) {
+                          return _vm.ingresa(row)
+                        }
+                      },
+                      model: {
+                        value: row.value,
+                        callback: function($$v) {
+                          _vm.$set(row, "value", $$v)
+                        },
+                        expression: "row.value"
+                      }
+                    })
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("b-button", {
+            staticClass: "fa fa-plus-circle bg-success mx-4",
+            on: { click: _vm.additem }
+          }),
+          _vm._v(" "),
+          _c("b-button", {
+            staticClass: "fa fa-minus bg-danger mx-4",
+            on: { click: _vm.popitem }
+          }),
+          _vm._v(" "),
+          _c("b-button", {
+            staticClass: "fa fa-clone bg-success mx-4",
+            on: { click: _vm.cloneitem }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "b-button",
+                {
+                  staticClass: "fa fa-save bg-info mx-4 float-right",
+                  on: { click: _vm.addSaveitem }
+                },
+                [_vm._v(" Save")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "b-modal",
         {
-          ref: "updatemole",
+          ref: "updateK_Overall",
           attrs: {
-            id: "updatemole",
-            title: "Update molecule",
+            id: "updateK_Overall",
+            title: "Update Koverall",
             "hide-footer": ""
           }
         },
@@ -76668,163 +77179,215 @@ var render = function() {
                         "label",
                         {
                           staticClass: "p-2",
-                          attrs: { for: "formodifi.Mol_name" }
+                          attrs: { for: "formodifi.Molecule" }
                         },
                         [_vm._v("Molecule Name")]
                       )
                     ]),
                     _vm._v(" "),
-                    _c("b-input", {
+                    _c("b-form-select", {
                       staticClass: "mb-2 mr-sm-2 mb-sm-0",
                       attrs: {
-                        id: "formodifi.Name",
-                        placeholder: "Molecule Name",
-                        name: "Mol_name"
+                        id: "formodifi.Molecule",
+                        options: _vm.Molecules,
+                        name: "Molecule"
                       },
                       model: {
-                        value: _vm.formodifi.Name,
+                        value: _vm.formodifi.Molecule,
                         callback: function($$v) {
-                          _vm.$set(_vm.formodifi, "Name", $$v)
+                          _vm.$set(_vm.formodifi, "Molecule", $$v)
                         },
-                        expression: "formodifi.Name"
+                        expression: "formodifi.Molecule"
                       }
                     }),
                     _vm._v(" "),
-                    _c("label", { attrs: { for: "formodifi.SMILE" } }, [
-                      _vm._v("Smile")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "b-input-group",
-                      { staticClass: "mb-2 mr-sm-2 mb-sm-0" },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            id: "formodifi.SMILE",
-                            placeholder: "Smile"
-                          },
-                          model: {
-                            value: _vm.formodifi.SMILE,
-                            callback: function($$v) {
-                              _vm.$set(_vm.formodifi, "SMILE", $$v)
-                            },
-                            expression: "formodifi.SMILE"
+                    _c("div", { staticClass: "row p-4" }, [
+                      _c("p", [
+                        _c("label", { attrs: { for: "formodifi.pH" } }, [
+                          _vm._v("pH")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.formodifi.pH,
+                            expression: "formodifi.pH"
                           }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("b-col", { staticClass: "mt-4", attrs: { sm: "2" } }, [
-                      _c("label", { attrs: { for: "formodifi.Description" } }, [
-                        _vm._v("Description")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "b-col",
-                      { staticClass: "mt-4", attrs: { sm: "10" } },
-                      [
-                        _c("b-form-textarea", {
-                          attrs: {
-                            id: "formodifi.Description",
-                            size: "sm",
-                            placeholder: "Small Description"
-                          },
-                          model: {
-                            value: _vm.formodifi.Description,
-                            callback: function($$v) {
-                              _vm.$set(_vm.formodifi, "Description", $$v)
-                            },
-                            expression: "formodifi.Description"
+                        ],
+                        attrs: { type: "text", id: "formodifi.pH", size: "10" },
+                        domProps: { value: _vm.formodifi.pH },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.formodifi, "pH", $event.target.value)
                           }
-                        })
-                      ],
-                      1
-                    ),
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("label", { attrs: { for: "formodifi.Valor" } }, [
+                          _vm._v("Valor")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.formodifi.Valor,
+                            expression: "formodifi.Valor "
+                          }
+                        ],
+                        ref: "ValorModifi",
+                        attrs: { type: "text", size: "10" },
+                        domProps: { value: _vm.formodifi.Valor },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.formodifi,
+                              "Valor",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "border border-info col-12 mt-4" },
+                      { staticClass: "mb-2 row       " },
                       [
                         _c(
-                          "b-col",
-                          { staticClass: "mt-4", attrs: { sm: "2" } },
-                          [
-                            _c("h4", [
-                              _c("label", { attrs: { for: "formodifi.RIS" } }, [
-                                _vm._v("RIS:")
-                              ])
-                            ])
-                          ]
+                          "label",
+                          {
+                            staticClass: "p-2",
+                            attrs: { for: "formodifi.Radical" }
+                          },
+                          [_vm._v("Radical")]
                         ),
                         _vm._v(" "),
+                        _c("b-form-select", {
+                          staticClass: "mb-2 mr-sm-2 mb-sm-0",
+                          attrs: {
+                            id: "formodifi.Radical",
+                            options: _vm.Radicals,
+                            name: "Radical"
+                          },
+                          model: {
+                            value: _vm.formodifi.Radical,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formodifi, "Radical", $$v)
+                            },
+                            expression: "formodifi.Radical"
+                          }
+                        }),
+                        _vm._v(" "),
                         _c(
-                          "b-col",
-                          { staticClass: "my-4", attrs: { sm: "12" } },
-                          [
-                            _c("b-form-file", {
-                              staticClass: "m-3",
-                              attrs: { id: "formodifi.RISFile", plain: "" },
-                              on: { change: _vm.loadTextFromFile }
-                            }),
-                            _vm._v(" "),
-                            _c("b-form-textarea", {
-                              attrs: {
-                                id: "formodifi.RIS",
-                                name: "RIS",
-                                placeholder: "RIS"
-                              },
-                              model: {
-                                value: _vm.formodifi.RIS,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.formodifi, "RIS", $$v)
-                                },
-                                expression: "formodifi.RIS"
-                              }
-                            })
-                          ],
-                          1
-                        )
+                          "label",
+                          {
+                            staticClass: "p-2",
+                            attrs: { for: "formodifi.Solvent" }
+                          },
+                          [_vm._v("Solvent")]
+                        ),
+                        _vm._v(" "),
+                        _c("b-form-select", {
+                          attrs: {
+                            "mr-sm-2": "",
+                            "mb-sm-0": "",
+                            id: "formodifi.Solvent",
+                            options: _vm.Solvents,
+                            name: "Solvent"
+                          },
+                          model: {
+                            value: _vm.formodifi.Solvent,
+                            callback: function($$v) {
+                              _vm.$set(_vm.formodifi, "Solvent", $$v)
+                            },
+                            expression: "formodifi.Solvent"
+                          }
+                        })
                       ],
                       1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("b-row", [
-                  _c("div", { staticClass: "border border-info col-12 mt-4" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "p-1",
-                        attrs: { for: "formodifi.imagemol" }
-                      },
-                      [_vm._v("Molecule image")]
                     ),
-                    _vm._v(
-                      "\n                 : " +
-                        _vm._s(_vm.formodifi.Image) +
-                        "\n                 "
-                    ),
-                    _c("input", {
-                      ref: "formodifi_imagemol",
-                      staticClass: "p-3",
+                    _vm._v(" "),
+                    _c("p", [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "p-2",
+                          attrs: { for: "formodifi.Mol_name" }
+                        },
+                        [_vm._v("Reference")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("b-form-select", {
+                      staticClass: "mb-2 mr-sm-2 mb-sm-0",
                       attrs: {
-                        type: "file",
-                        id: "formodifi_imagemol",
-                        name: "imagemol",
-                        accept: "image/*"
+                        id: "formodifi.Reference",
+                        options: _vm.References,
+                        name: "Reference"
                       },
-                      on: {
-                        change: function($event) {
-                          return _vm.handleFileUploadup()
-                        }
+                      model: {
+                        value: _vm.formodifi.Reference,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formodifi, "Reference", $$v)
+                        },
+                        expression: "formodifi.Reference"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "formodifi.Descripcion" } }, [
+                      _vm._v("Description")
+                    ]),
+                    _vm._v(" "),
+                    _c("b-form-textarea", {
+                      attrs: {
+                        id: "formodifi.Descripcion",
+                        size: "sm",
+                        placeholder: "Small Description"
+                      },
+                      model: {
+                        value: _vm.formodifi.Descripcion,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formodifi, "Descripcion", $$v)
+                        },
+                        expression: "formodifi.Descripcion"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { attrs: { for: "formodifi.Tipo" } }, [
+                      _vm._v("Tipo")
+                    ]),
+                    _vm._v(" "),
+                    _c("b-form-select", {
+                      staticClass: "mb-2 mr-sm-2 mb-sm-0",
+                      attrs: {
+                        id: "formodifi.Tipo",
+                        options: _vm.typeoption,
+                        name: "formodifi.Tipo"
+                      },
+                      model: {
+                        value: _vm.formodifi.Tipo,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formodifi, "Tipo", $$v)
+                        },
+                        expression: "formodifi.Tipo"
                       }
                     })
-                  ])
-                ])
+                  ],
+                  1
+                )
               ],
               1
             )
@@ -76842,7 +77405,7 @@ var render = function() {
                   attrs: { block: "" },
                   on: {
                     click: function($event) {
-                      return _vm.updateMolelcule()
+                      return _vm.updateK_Overalllcule()
                     }
                   }
                 },
@@ -76856,7 +77419,7 @@ var render = function() {
                   attrs: { block: "" },
                   on: {
                     click: function($event) {
-                      return _vm.$bvModal.hide("updatemole")
+                      return _vm.$bvModal.hide("updateK_Overall")
                     }
                   }
                 },
