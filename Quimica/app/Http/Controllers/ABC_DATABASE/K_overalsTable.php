@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ABC_DATABASE;
 
 use Illuminate\Http\Request;
 use App\q_db_k_overalls;
 use App\User;
+use App\Http\Controllers\Controller;
 
 class K_overalsTable extends Controller
 {

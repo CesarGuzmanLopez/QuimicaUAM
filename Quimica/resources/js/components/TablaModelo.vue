@@ -1,66 +1,31 @@
 <template>
-  <b-container fluid>
-    <!-- User Interface controls -->
-    <b-row>
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Filter"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for="filterInput"
-          class="mb-0"
-        >
-          <b-input-group size="sm">
-            <b-form-input
-              v-model="filter"
-              type="search"
-              id="filterInput"
-              placeholder="Type to Search"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-
-      <b-col lg="6" class="my-1">
-        <b-form-group
-          label="Filter On"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          description="Leave all unchecked to filter on all data"
-          class="mb-0">
-          <b-form-checkbox-group v-model="filterOn" class="mt-1">
-            <b-form-checkbox value="name">Name</b-form-checkbox>
-            <b-form-checkbox value="SMILE">SMILE</b-form-checkbox>
-            <b-form-checkbox value="Data">Data</b-form-checkbox>
-          </b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
-      <b-col sm="7" md="6" class="my-1" >
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="fill"
-          size="sm"
-          class="my-0"
-        ></b-pagination>
-      </b-col>
-    </b-row>
-
-    <!-- Main table element -->
-    <b-row>
-    <b-col>
-    <b-table
-      striped hover
+   <b-container fluid class="bg-white">
+   <div class="row">   
+   <div class="col-12 col-md-4 tama">
+      <b-img alt="" class="p-4" fluid-grow :src="selected.img"/>
       
+   </div>
+   <div class="col-12 col-md-8 px-4 my-4" >
+    <div class="row m-4">
+  
+     <b-form-input
+        class="col-8"
+        v-model="filter"
+        type="search"
+        id="filterInput"
+        placeholder="Type to Search"
+      ></b-form-input>
+    
+        <b-button class="col-2 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+    </div>
+     <b-table
+      id="moleculesTableShowDB"
       show-empty
       small
       stacked="md"
+      responsive="sm"
+      striped 
+       hover small
       :items="items"
       :fields="fields"
       :current-page="currentPage"
@@ -71,149 +36,142 @@
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       @filtered="onFiltered"
-      @row-clicked="imgAndData" 
+      :busy="isBusy"
+      fixed
+      noCollapse 
+      outlined 
     >
-     
-      <template v-slot:cell(name)="row"  >
-        {{ row.value }}
+    
+      <template v-slot:table-busy>
+        <div class="text-center text-dark my-2">
+          <b-spinner small label="align-middle" variant="dark"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+    
+      <template v-slot:cell(Name)="row" >
+       <div @click="imgsele(row)"> {{ row.value }} </div>
+      </template>
+      <template v-slot:cell(SMILE)="row" >
+       <div @click="imgsele(row)"> {{ row.value }} </div>
+      </template>
+      <template v-slot:cell(pKa_K_Overall)="row">
+        <div @click="imgsele(row)">
+        <b-button size="sm"  class="fa   bg-warning  mr-1"  @click="Delete_id(row.item)"> <span class="text-info"> pKa's </span></b-button>
+        <b-button size="sm"  class="fa   bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> K<sub>overalls</sub></span> </b-button>
+    </div>
+      </template>
+      <template v-slot:cell(Valor)="row"> 
+         <div @click="imgsele(row)"> {{row.Value}}</div>
       </template>
       
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-          Download Data
+      
+      <template v-slot:cell(ris_image)="row">
+         <div @click="imgsele(row)">
+        <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
+          {{ row.detailsShowing ? 'Hide' : 'Show' }} RIS
         </b-button>
-        <b-button size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-        </b-button>
+         </div>
       </template>
-
+      
       <template v-slot:row-details="row">
-        <b-card>
-          <ul>
-            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-          </ul>
+       <div @click="imgsele(row)">
+        <b-card >
+         <div v-if="row.item.Reference != null && row.item.Reference != 'null'">
+             <b-form-textarea
+               rows="6"
+               max-rows="10"
+               :value='row.item.Reference'
+             ></b-form-textarea>
+         </div>
+         <div v-else-if="row.item.RIS != null">
+             <b-form-textarea
+               rows="6"
+               max-rows="10"
+               :value='row.item.RIS'
+             ></b-form-textarea>
+         </div>    
+         
         </b-card>
+        </div>
       </template>
-      
     </b-table>
+    <b-col sm="7" md="12" class="my-1">
+      <b-pagination
+       v-model="currentPage"
+       :total-rows="totalRows"
+       :per-page="perPage"
+       align="fill"
+       size="sm"
+       class="my-0"
+      ></b-pagination>
+      <br/> 
     </b-col>
-    <b-col lg="4"> <b-card
-    :title="data_mole.Name"
-    :img-src="data_mole.Image"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="p-4 "
-    img-height="260px"
-    fluid
-   >
-    <b-card-text>
-     {{data_mole.Description}}
-    </b-card-text>
-
-    </b-card>
-    </b-col>
-    </b-row>
-    <!-- Info modal -->
-    <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-      <pre>{{ infoModal.content }}</pre>
-    </b-modal>
-  </b-container>
+    </div>
+    
+    </div>
+       
+   </b-container>  
 </template>
 <script>
   export default {
-    data() {
+    data() {   
       return {
-        items: [
-          { Active: true, SMILE: "...", Name:  'Cargando espere porfavor'},
-          
-        ],
-        fields: [
-          { key: 'Name', label: 'Molecule name', sortable: true, sortDirection: 'desc' },
-          { key: 'SMILE', label: 'SMILE', sortable: false,click:'imgAndData',  class: 'text-center', lg:6 },
-          /*{
-            key: 'Active',
-            label: 'is Active',
-            formatter: (value, key, item) => {
-              return value ? 'Yes' : 'No'
-            },
-            sortable: true,
-            sortByFormatted: true,
-            filterByFormatted: true
-          },*/
-          { key: 'actions', label: 'Actions' }
-        ],
-        totalRows: 1,
-        currentPage: 1,
-        perPage: 5,
-        pageOptions: [5, 10, 15],
-        sortBy: '',
-        sortDesc: false,
-        sortDirection: 'asc',
-        filter: null,
-        filterOn: [],
-        infoModal: {
-          id: 'info-modal',
-          title: '',
-          content: ''
-        },
-		data_mole:{
-			id:'-1',
-			Image: 'img/matrazRoto.png',
-			Description:'',
-			SMILE: '',
-			Name: ''
-			
-		},
-      }
-     
-      
-    } ,
-
+    	  selected:{img:"img/matrazRoto.png",name:""},
+    	  isBusy: true,
+    	  items:[],
+    	  totalRows:0,
+    	  totalRows: 1,
+          currentPage: 1,
+          perPage: 8,
+          pageOptions: [5, 10, 15],
+          sortBy: '',
+          sortDesc: false,
+          sortDirection: 'asc',
+          filter: null,
+          filterOn: [],
+          fields: [
+            { key:'ID',label:'id', variant: 'success',thStyle: { backgroundColor: '#3eef33' ,width: "30px"}},
+            { key:'Name', label: 'Molecule', sortable: true, size:'25' },
+            { key:'SMILE', label: 'Smile', sortable: true },
+            { key:'ris_image', label: 'RIS'},
+            { key:'pKa_K_Overall', label: 'info' },
+          ],
+      }  
+    },
     computed: {
-      sortOptions() {
-        // Create an options list from our fields
-        return this.fields
-          .filter(f => f.sortable)
-          .map(f => {
-            return { text: f.label, value: f.key }
-          })
-      }
+    	sortOptions() { 
+    		return this.fields.filter(f => f.sortable).map(
+    		f => {return { text: f.label, value: f.key }})
+    	}
     },
     mounted() {
-      // Set the initial number of items
-      	this.totalRows = this.items.length
-      	axios.get('getMolecules').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length
-      });
-      
+        // Set the initial number of items
+        this.totalRows = this.items.length
+        axios.get('getMolecules').then(response =>{
+           this.items = response.data;
+           this.isBusy= false;
+            this.totalRows = this.items.length; 
+        }); 
     },
-    
-    methods: {
-      info(item, index, button) {
-        this.infoModal.title = `Row index: ${index}`
-        this.infoModal.content = JSON.stringify(item, null, 2)
-        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-        this.imgAndData(item, index, button);
-      }, 
-      resetInfoModal() {
-        this.infoModal.title = ''
-        this.infoModal.content = ''
-      },
-      onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      },
-      imgAndData(item, index, event){  
-    	  this.data_mole.Image=  "files/data-base-img/"+item.ID+ "/"+item.Imagen;
-    	  this.data_mole.Name=item.Name;
-    	  axios.get('getMolecules/'+item.ID).then(response =>{
-    	  	this.data_mole.Description= response.data;	
-    	  });  
-      }
-      
+    methods: { 
+        onFiltered(filteredItems) {
+          this.totalRows = filteredItems.length
+          this.currentPage = 1
+        },
+        imgsele(index){
+         	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
+        }, 
     }
-  }
-</script>
+ }
+ </script>
+ <style>
+ 
+ .tama{
+    min-height: 100px;
+ }
+ .Wcol{
+  max-width: 3px;
+ }
+ 
+ </style>

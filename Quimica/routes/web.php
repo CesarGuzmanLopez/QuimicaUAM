@@ -16,7 +16,7 @@ Route::get('/','PrincipalController@index');
 
 Route::get('/Data-base', 'PrincipalController@BD');
 	
-Route::apiResource('/getMolecules','molecules');
+Route::apiResource('/getMolecules','View_DATABASE\MoleculesController');
 
 Auth::routes(['verify' => true]);
 
@@ -35,10 +35,10 @@ Route::get('/ModifyBD/DB-pk-Koverall/References','DB_pk_koverall_Controller@Refe
 Route::get('/ModifyBD/DB-pk-Koverall/PK_s','DB_pk_koverall_Controller@PK_s')->name('PK_s');
 Route::get('/ModifyBD/DB-pk-Koverall/K_overall','DB_pk_koverall_Controller@K_overall')->name('K_overall');
 
-Route::apiResource('/MoleculeTable','MoleculeTable')->middleware(['auth','role:admin,super-admin']);
-Route::apiResource('/SolventsTable','SolventsTable')->middleware(['auth','role:admin,super-admin']);
-Route::apiResource('/RadicalsTable','RadicalsTable')->middleware(['auth','role:admin,super-admin']);
-Route::apiResource('/ReferencesTable','ReferencesTable')->middleware(['auth','role:admin,super-admin']);
-Route::apiResource('/PK_sTable','PK_sTable')->middleware(['auth','role:admin,super-admin']);
-Route::apiResource('/K_overalsTable','K_overalsTable')->middleware(['auth','role:admin,super-admin']);
 
+Route::apiResource('/MoleculeTable','ABC_DATABASE\MoleculeTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/SolventsTable','ABC_DATABASE\SolventsTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/RadicalsTable','ABC_DATABASE\RadicalsTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/ReferencesTable','ABC_DATABASE\ReferencesTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/PK_sTable','ABC_DATABASE\PK_sTable')->middleware(['auth','role:admin,super-admin']);
+Route::apiResource('/K_overalsTable','ABC_DATABASE\K_overalsTable')->middleware(['auth','role:admin,super-admin']);

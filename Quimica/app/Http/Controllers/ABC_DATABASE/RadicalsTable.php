@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ABC_DATABASE;
 
 use Illuminate\Http\Request;
-use App\q_db_solvents;
+use App\q_db_radicals;
+use App\Http\Controllers\Controller;
 
-class SolventsTable extends Controller
+class RadicalsTable extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class SolventsTable extends Controller
      */
     public function index()
     {
-    	return q_db_solvents::get();
+       return q_db_radicals::get();
     }
 
     /**
@@ -24,7 +25,7 @@ class SolventsTable extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,13 +36,13 @@ class SolventsTable extends Controller
      */
     public function store(Request $request)
     {
-    	if( !$request->has('Name_Solvent')  ){
+    	if( !$request->has('Name_Radical')  ){
     		return ("empty Name");
-    	}	   
-    	$solvent = new q_db_solvents;
-    	$solvent->Description =$request->Description;
-    	$solvent->Name_Solvent= $request->Name_Solvent;
-    	$solvent->save();
+    	}
+    	$radical = new q_db_radicals;
+    	$radical->Description =$request->Description;
+    	$radical->Name_radical= $request->Name_Radical;
+    	$radical->save();
     }
 
     /**
@@ -75,13 +76,14 @@ class SolventsTable extends Controller
      */
     public function update(Request $request, $id)
     {
-    	$solvent = q_db_solvents::find($id);
-    	if( !$request->has('Name_Solvent')  ){
+    	$radical = q_db_radicals::find($id);
+    	if( !$request->has('Name_Radical')  ){
     		return ("empty Name");
     	}
-    	$solvent->Description =$request->Description;
-    	$solvent->Name_Solvent= $request->Name_Solvent;
-    	$solvent->save();
+    	$radical->Description =$request->Description;
+    	$radical->Name_radical= $request->Name_Radical;
+    	$radical->save();
+    
     }
 
     /**
@@ -92,7 +94,7 @@ class SolventsTable extends Controller
      */
     public function destroy($id)
     {
-    	$solvent = q_db_solvents::find($id);
-    	$solvent->delete();
+    	$radical = q_db_radicals::find($id);
+    	$radical->delete();
     }
 }
