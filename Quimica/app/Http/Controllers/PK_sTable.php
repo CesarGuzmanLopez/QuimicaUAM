@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\q_db_pks;
 
 class PK_sTable extends Controller
 {
@@ -13,9 +14,13 @@ class PK_sTable extends Controller
      */
     public function index()
     {
-        //
+    	$pKa = new   q_db_pks ;
+    	Return $pKa
+    	->leftjoin('q_db_molecules','q_db_pks.ID', '=',  'q_db_molecules.ID')
+    	->leftjoin('q_db_references' ,'q_db_pks.id_reference','=','q_db_references.id_reference')
+    	->select('q_db_pks.*','q_db_molecules.Name as Name','q_db_molecules.RIS as RIS'  ,'q_db_molecules.Imagen as Imagen','q_db_references.*')->get();
+    
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -33,8 +38,23 @@ class PK_sTable extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {	
+    	$pKa = new q_db_pks;
+    	$pKa->ID_Alta=auth()->id();
+    	$pKa->ID =0+ $request->Id_Molecule;
+    	if($request->has('Site') && $request->Site!="" &&$request->Site!="null" )
+    		$pKa->Site=$request->Site;
+    	
+    	if($request->has('Description') && $request->Description!="" &&$request->Description!="null" )
+    		$pKa->Description=$request->Description;
+    	if($request->has('id_reference') && $request->id_reference!="" &&$request->id_reference!="null" )
+    		$pKa->id_reference =$request->Reference;
+    	if($request->has('Value') && $request->Value!="" &&$request->Value!="null" )
+    		$pKa->Value= 0+$request->Value;
+	    if($request->has('Type') && $request->Type!="" &&$request->Type!="null" )	
+    		$pKa->Tipo_Exp_teo= $request->Type;
+		
+    	$pKa->save();	
     }
 
     /**
@@ -68,7 +88,23 @@ class PK_sTable extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	$pKa = q_db_pks::find($id);
+    	
+    	
+    	$pKa->ID_Alta=auth()->id();
+    	$pKa->ID =0+ $request->Id_Molecule;
+    	if($request->has('Site') && $request->Site!="" &&$request->Site!="null" )
+    		$pKa->Site=$request->Site;
+     	$pKa->Description=$request->Description;
+ 		if($request->has('id_reference') && $request->id_reference!="" &&$request->id_reference!="null" )
+    		$pKa->id_reference =$request->Reference;
+		if($request->has('Value') && $request->Value!="" &&$request->Value!="null" )
+    		$pKa->Value= 0+$request->Value;
+    	if($request->has('Type') && $request->Type!="" &&$request->Type!="null" )
+    		$pKa->Tipo_Exp_teo= $request->Type;
+    						
+    	$pKa->save();
+    	
     }
 
     /**
@@ -79,6 +115,7 @@ class PK_sTable extends Controller
      */
     public function destroy($id)
     {
-        //
+    	$pKa = q_db_pks::find($id);
+    	$pKa->delete();
     }
 }

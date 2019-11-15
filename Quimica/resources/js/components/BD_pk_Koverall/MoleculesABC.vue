@@ -379,17 +379,17 @@
        ).then(response =>{ 
     	   	console.log(response.data);	 
     	   	this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
-    	   }
+    	       axios.get('../../MoleculeTable').then(response =>{
+    	       	this.items = response.data;
+    	       	this.totalRows = this.items.length;
+    	          });
+       }
        ).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";}); 
        	
-       axios.get('../../MoleculeTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-       });
+
        
        this.clearaddmol();
-      
-       axios.get('../../MoleculeTable').then(response =>{
+        axios.get('../../MoleculeTable').then(response =>{
        	this.items = response.data;
        	this.totalRows = this.items.length;
 	   });
@@ -491,7 +491,12 @@
            ).then(response =>{ 
         	   	console.log(response.data);	 
         	   	this.addMoleMensaje=  ' _ '+ this.formodifi.Name +" modify successful";
-        	   }
+        	     axios.get('../../MoleculeTable').then(response =>{
+        	           	this.items = response.data;
+        	           	this.totalRows = this.items.length;
+        	    
+        	             });   
+           }
            ).catch(function(){ this.addMoleMensaje= (this.formodifi.Name)+"Error ";}); 
            
            this.clearaddmol();

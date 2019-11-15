@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $Site
  * @property string $Tipo_Exp_teo
  * @property float $Value
- * @property int $NumPK
  * @property int $ID_Alta
+ * @property string $Description
  * @property User $user
  * @property QDbReference $qDbReference
  * @property QDbMolecule $qDbMolecule
@@ -26,12 +26,10 @@ class q_db_pks extends Model
      */
     protected $primaryKey = 'id_pks';
 
-    public $incrementing = true;
-    
     /**
      * @var array
      */
-    protected $fillable = ['id_reference', 'ID', 'Site', 'Tipo_Exp_teo', 'Value', 'NumPK', 'ID_Alta'];
+    protected $fillable = ['id_reference', 'ID', 'Site', 'Tipo_Exp_teo', 'Value', 'ID_Alta', 'Description'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

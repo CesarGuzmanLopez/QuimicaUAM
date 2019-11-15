@@ -294,14 +294,15 @@
        ).then(response =>{ 
     	   	console.log(response.data);	 
     	   	this.AddRadicalMensaje=  ' _ '+ this.formNewnRadical.Name_Radical +" add successful";
-    	   }
+    	     axios.get('../../RadicalsTable').then(response =>{
+    	     	this.items = response.data;
+    	     	this.totalRows = this.items.length;
+    	        });
+    	        
+       }
        ).catch(function(){ this.AddRadicalMensaje= (this.formNewnRadical.Name_Radical)+"Error ";}); 
        	
-       axios.get('../../RadicalsTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-       });
-       
+  
        this.clearaddmol();
       
        axios.get('../../RadicalsTable').then(response =>{
@@ -392,15 +393,16 @@
            ).then(response =>{ 
         	   	console.log(response.data);	 
         	   	this.AddRadicalMensaje=  ' _ '+ this.formodifi.Name_Radical +" modify successful";
-        	   }
+        	       axios.get('../../RadicalsTable').then(response =>{
+        	           	this.items = response.data;
+        	           	this.totalRows = this.items.length; 
+        	           });
+           }
            ).catch(function(){ this.AddRadicalMensaje= (this.formodifi.Name_Radical)+"Error ";}); 
            
            this.clearaddmol();
           
-           axios.get('../../RadicalsTable').then(response =>{
-           	this.items = response.data;
-           	this.totalRows = this.items.length; 
-           });
+    
            this.$refs['updateRadical'].hide();
            axios.get('../../RadicalsTable').then(response =>{
               	this.items = response.data;

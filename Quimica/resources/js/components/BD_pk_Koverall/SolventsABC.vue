@@ -293,14 +293,15 @@
        ).then(response =>{ 
     	   	console.log(response.data);	 
     	   	this.AddSolventMensaje=  ' _ '+ this.formNewnSolvet.Name_Solvent +" add successful";
-    	   }
+    	       axios.get('../../SolventsTable').then(response =>{
+    	       	this.items = response.data;
+    	       	this.totalRows = this.items.length;
+    	          });
+    	          
+       }
        ).catch(function(){ this.AddSolventMensaje= (this.formNewnSolvet.Name_Solvent)+"Error ";}); 
        	
-       axios.get('../../SolventsTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-       });
-       
+
        this.clearaddmol();
       
        axios.get('../../SolventsTable').then(response =>{
@@ -391,15 +392,16 @@
            ).then(response =>{ 
         	   	console.log(response.data);	 
         	   	this.AddSolventMensaje=  ' _ '+ this.formodifi.Name_Solvent +" modify successful";
-        	   }
+        	       
+                axios.get('../../SolventsTable').then(response =>{
+                	this.items = response.data;
+                	this.totalRows = this.items.length; 
+                });
+           }
            ).catch(function(){ this.AddSolventMensaje= (this.formodifi.Name_Solvent)+"Error ";}); 
            
            this.clearaddmol();
-          
-           axios.get('../../SolventsTable').then(response =>{
-           	this.items = response.data;
-           	this.totalRows = this.items.length; 
-           });
+   
            this.$refs['updateSolvent'].hide();
            axios.get('../../SolventsTable').then(response =>{
               	this.items = response.data;

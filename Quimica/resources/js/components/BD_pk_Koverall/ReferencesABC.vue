@@ -274,13 +274,14 @@
        ).then(response =>{ 
     	   	console.log(response.data);	 
     	   	this.AddReferenceMensaje=  ' _ '+ this.formNewReference.Coments +" add successful";
-    	   }
+    	    axios.get('../../ReferencesTable').then(response =>{
+    	    	this.items = response.data;
+    	    	this.totalRows = this.items.length;
+    	       });
+       }
        ).catch(function(){ this.AddReferenceMensaje= (this.formNewReference.Coments)+"Error ";}); 
        	
-       axios.get('../../ReferencesTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-       });
+   
        
        this.clearaddmol();
       
@@ -354,15 +355,16 @@
            ).then(response =>{ 
         	   	console.log(response.data);	 
         	   	this.AddReferenceMensaje=  ' _ '+ this.formodifi.Coments +" modify successful";
-        	   }
+                
+                axios.get('../../ReferencesTable').then(response =>{
+                	this.items = response.data;
+                	this.totalRows = this.items.length; 
+                });
+           }
            ).catch(function(){ this.AddReferenceMensaje= (this.formodifi.Coments)+"Error ";}); 
            
            this.clearaddmol();
-          
-           axios.get('../../ReferencesTable').then(response =>{
-           	this.items = response.data;
-           	this.totalRows = this.items.length; 
-           });
+  
            this.$refs['updateReference'].hide();
            axios.get('../../ReferencesTable').then(response =>{
               	this.items = response.data;

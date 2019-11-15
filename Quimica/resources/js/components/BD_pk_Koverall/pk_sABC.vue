@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="bg-white p-2">
-    <h1>pKa's table</h1>
+    <h1>pKa  table</h1>
     <!-- User Interface controls -->
       <b-col lg="12" class="my-1">
         <b-form-group
@@ -22,7 +22,7 @@
               <b-button :disabled="!filter" @click="filter = ''"> Clear </b-button>
             </b-input-group-append>
            <div>
-         <b-button v-b-modal.addmole class="fa fa-save bg-success mx-4"> Add molecule</b-button>
+         <b-button  @click="modaladdKoverall" class="fa fa-save bg-success mx-4"> Add pKa </b-button>
          </div>
            </b-input-group>
           
@@ -50,14 +50,24 @@
       :sort-desc.sync="sortDesc"
       :sort-direction="sortDirection"
       @filtered="onFiltered"
-        :busy="isBusy"
+      :busy="isBusy"
     >
       <template v-slot:table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle"></b-spinner>
+        <div class="text-center text-dark my-2">
+          <b-spinner small label="align-middle" variant="dark"></b-spinner>
           <strong>Loading...</strong>
         </div>
       </template>
+        <template v-slot:cell(Tipo_Exp_teo)="row">
+        <div v-if="row.value == 'T' ">
+            Theoretical
+             
+         </div>
+         <div v-else-if="row.value == 'E' ">
+              Experimental
+         </div>
+        </template>
+        
       <template v-slot:cell(Name)="row">
         {{ row.value }} 
       </template>
@@ -67,25 +77,38 @@
         <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Actualize </span> </b-button>
     
       </template>
+      <template v-slot:cell(Value)="row"> 
+         {{row.item.Value.toPrecision(2)}}
+      </template>
+      
+      
       <template v-slot:cell(ris_image)="row">
+         <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="fa fa-image mr-1 " >
+          image
+        </b-button>
         <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
           {{ row.detailsShowing ? 'Hide' : 'Show' }} Reference
         </b-button>
-      
       </template>
       
       <template v-slot:row-details="row">
         <b-card >
-          <b-form-textarea
-            rows="6"
-            max-rows="10"
-            :value='row.item.RIS'
-          >
-         {{ row.item.RIS }}
-          </b-form-textarea>
+         <div v-if="row.item.Reference != null && row.item.Reference != 'null'">
+             <b-form-textarea
+               rows="6"
+               max-rows="10"
+               :value='row.item.Reference'
+             ></b-form-textarea>
+         </div>
+         <div v-else-if="row.item.RIS != null">
+             <b-form-textarea
+               rows="6"
+               max-rows="10"
+               :value='row.item.RIS'
+             ></b-form-textarea>
+         </div>    
         </b-card>
       </template>
-    
     </b-table>
       <b-col sm="7" md="12" class="my-1">
         <b-pagination
@@ -99,131 +122,136 @@
         <br/> 
       </b-col> 
       <div class="p4 d-flex align-items-end">
-          <h1 class="fa fa-exclamation-circle text-success mt-auto p-2  mr-4 ">{{ addMoleMensaje}}</h1>
+        <h1 class="fa fa-exclamation-circle text-success mt-auto p-2  mr-4 ">{{ addMoleMensaje}}</h1>
       </div>
+   
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
      <b-img :src='data_mole.Image'/>
     </b-modal> 
+      
+    <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="lg"    hide-footer>
+        <div><label>Molecule:</label> <b-form-select v-model="DataPKaNew.Molecule" :options="Molecules" ></b-form-select></div>
+              {{DataPKaNew.Molecule}}
+         <div v-if="DataPKaNew.Molecule != null && DataPKaNew.Molecule != 'null' && DataPKaNew.Molecule != -1">
+            <b-img :src="imgs[DataPKaNew.Molecule]"/>
+         </div>
+         <div v-else-if="DataPKaNew.Molecule == null || DataPKaNew.Molecule ==-1">
+         </div> 
+      <b-table
+      show-empty
+      responsive="sm"
+      striped 
+      small
+      :items="itemsAdd"
+      :fields="fieldsAdd"
     
-    <b-modal ref="addmole" id="addmole" title="Add molecule"   hide-footer>
-      <b-container fluid>
-       <form enctype="multipart/form-data">
-         <b-row>
-            <label  for="formNewnMole.Mol_name" >Molecule Name</label>
-             <b-input
-               id="formNewnMole.Name"
-               v-model="formNewnMole.Name"
-               class="mb-2 mr-sm-2 mb-sm-0"
-               placeholder="Molecule Name"
-               name="Mol_name"
-             ></b-input>
-             <label  for="formNewnMole.SMILE">Smile</label>
-             <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
-               <b-input id="formNewnMole.SMILE" v-model="formNewnMole.SMILE" placeholder="Smile"></b-input>
-             </b-input-group>
-         
-                 <b-col sm="2"class="mt-4">
-               <label for="formNewnMole.Description">Description</label>
-             </b-col>
-             <b-col sm="10"  class="mt-4">
-             <b-form-textarea
-                 id="formNewnMole.Description"
-                 v-model="formNewnMole.Description"
-                 size="sm"
-                 placeholder="Small Description"
-             ></b-form-textarea>
-             </b-col>
-               <div class="border border-info col-12 mt-4">
-               <b-col sm="2"class="mt-4">
-                  <h4><label for="formNewnMole.RIS" >RIS:</label></h4>
-             </b-col>
-              <b-col sm="12" class="my-4" >
-              <b-form-file class="m-3" @change="loadTextFromFile" id="formNewnMole.RISFile" plain></b-form-file>
-                <b-form-textarea
-                v-model="formNewnMole.RIS"
-                 id="formNewnMole.RIS"
-                 name="RIS"
-                 placeholder="RIS"
-               ></b-form-textarea>
-             </b-col>
-             </div>
-         </b-row>
-         <b-row>
-             <div class="border border-info col-12 mt-4">
-                 <label for="formNewnMole.imagemol" class="p-1"
-                 >Molecule image</label>
-                 <input class="p-3" type="file" ref="formNewnMole_imagemol" v-on:change="handleFileUpload()" id="formNewnMole_imagemol" name="imagemol"  accept="image/*">
-             </div>
-         </b-row>  
-       </form>
+      >
+     
+      <template v-slot:cell(Radical)="row"> 
+         <b-form-select v-model="row.value" @input="ingresa(row)" :options="Radicals" ></b-form-select> 
+      </template>
+      
        
-      </b-container>
-     <div class="row">
-        <b-button  block  class="fa fa-save m-3  p-2 col-3 bg-success mx-4" @click = "addMolelcule()" >Add molecule</b-button>
-        <b-button  block @click="$bvModal.hide('addmole')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
-     </div>
+      <template v-slot:cell(Site)="row">
+            <input type="text" size="5"  @input="ingresa(row) "v-model="row.value" />
+      </template> 
+      <template v-slot:cell(Tipo_Exp_teo)="row">
+         <b-form-select v-model="row.value" 
+                        size="10" 
+                        @input="ingresa(row)"  
+                        :options="typeoption ">
+                        </b-form-select>
+      </template>
+      <template v-slot:cell(Value)="row" >
+         <input type="text"  v-model="row.value"   size="7" @input="ingresa(row)"/>
+      </template>
+      <template v-slot:cell(Description)="row">
+                  <input type="text"  v-model="row.value" size="10"  @input="ingresa(row)"/> 
+      </template>
+       <template v-slot:cell(Reference)="row">
+              <b-form-select v-model="row.value" @input="ingresa(row)"  :options="References"></b-form-select>
+       </template>      
+    </b-table>
+    <b-button  @click="additem" class="fa fa-plus-circle bg-success mx-4"></b-button>
+    <b-button  @click="popitem" class="fa fa-minus bg-danger mx-4"></b-button>
+
+    <b-button  @click="cloneitem" class="fa fa-clone bg-success mx-4"></b-button>
+   <div> <b-button  @click="addSaveitem" class="fa fa-save bg-info mx-4 float-right"> Save</b-button></div>
    </b-modal>
    
    
    
-    <b-modal ref="updatemole" id="updatemole" title="Update molecule"   hide-footer>
+    <b-modal ref="updateK_Overall" id="updateK_Overall" title="Update Koverall"   hide-footer>
       <b-container fluid>
        <form enctype="multipart/form-data">
-         <b-row>
-            <div class="border border-info col-12 mt-4 p-4">ID: {{formodifi.ID}}</div> 
-             <p><label  for="formodifi.Mol_name" class="p-2">Molecule Name</label></p>
-             <b-input
-               id="formodifi.Name"
-               v-model="formodifi.Name"
-               class="mb-2 mr-sm-2 mb-sm-0"
-               placeholder="Molecule Name"
-               name="Mol_name"
-             ></b-input>
-             <label  for="formodifi.SMILE">Smile</label>
-             <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
-               <b-input id="formodifi.SMILE" v-model="formodifi.SMILE" placeholder="Smile"></b-input>
-             </b-input-group>
          
-                 <b-col sm="2"class="mt-4">
-               <label for="formodifi.Description">Description</label>
-             </b-col>
-             <b-col sm="10"  class="mt-4">
+         <b-row>
+            <div class="border border-info col-12 mt-4 p-4">id_pks: {{formodifi.id_pks}}</div> 
+
+                        
+             <p><label  for="formodifi.Molecule" class="p-2">Molecule Name</label></p>
+        
+   
+         
+
+             <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Molecule" 
+              v-model="formodifi.Molecule" 
+              :options="Molecules"
+              name="Molecule"
+              >  </b-form-select>
+             <div class="row p-4">
+             <p><label  for="formodifi.Site" >Site</label></p>
+
+             <input type="text" id="formodifi.Site" 
+              v-model="formodifi.Site" 
+               size="10" />
+
+             <p><label  for="formodifi.Value" >Value</label></p>
+          
+             <input type="text" ref="ValueModifi" 
+              v-model="formodifi.Value " 
+               size="10" />
+              </div>
+             
+      
+            <b-row>
+            <label for="formodifi.Tipo_Exp_teo">Type</label>
+              <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Tipo_Exp_teo" 
+              v-model="formodifi.Tipo_Exp_teo" 
+              :options="typeoption"
+              name="formodifi.Tipo_Exp_teo"
+              >  </b-form-select>
+
+
+             <p><label  for="formodifi.Mol_name" class="p-2">Reference</label></p>
+        
+              
+             <b-form-select                
+              class="mb-2 mr-sm-2 mb-sm-0"
+              id="formodifi.Reference" 
+              v-model="formodifi.Reference" 
+              :options="References"
+              name="Reference"
+              >  </b-form-select>
+            <label for="formodifi.Description">Description</label>
              <b-form-textarea
                  id="formodifi.Description"
                  v-model="formodifi.Description"
                  size="sm"
                  placeholder="Small Description"
              ></b-form-textarea>
-             </b-col>
-               <div class="border border-info col-12 mt-4">
-               <b-col sm="2"class="mt-4">
-                  <h4><label for="formodifi.RIS" >RIS:</label></h4>
-             </b-col>
-              <b-col sm="12" class="my-4" >
-              <b-form-file class="m-3" @change="loadTextFromFile" id="formodifi.RISFile" plain></b-form-file>
-                <b-form-textarea
-                v-model="formodifi.RIS"
-                 id="formodifi.RIS"
-                 name="RIS"
-                 placeholder="RIS"
-               ></b-form-textarea>
-             </b-col>
-             </div>
          </b-row>
-         <b-row>
-             <div class="border border-info col-12 mt-4">
-                 <label for="formodifi.imagemol" class="p-1"
-                 >Molecule image</label>
-                 : {{formodifi.Image}}
-                 <input class="p-3" type="file" ref="formodifi_imagemol" v-on:change="handleFileUploadup()" id="formodifi_imagemol" name="imagemol"  accept="image/*">
-             </div>
-         </b-row>  
+         </b-row>
        </form>
        
       </b-container>
      <div class="row">
-        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateMolelcule()" >actualize molecule</b-button>
-        <b-button  block @click="$bvModal.hide('updatemole')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
+        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateK_Overalllcule()" >actualize molecule</b-button>
+        <b-button  block @click="$bvModal.hide('updateK_Overall')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
      </div>
    </b-modal>
    
@@ -235,45 +263,78 @@
 <script>
 
   export default {
-    data() {	
+   data() {   
       return {
-    	  isBusy:true,
-    	formNewnMole: {
-    		ID:'',
-    		Name: '',
-    		SMILE: '',
-    		Description:'',
-    		RIS:'',
-    		Image: '',
-    	},
-    	formodifi: {
-    		ID:'',
-    		Name: '',
-    		SMILE: '',
-    		Description:'',
-    		RIS:'',
-    		Image: '',
-    	},
+      isBusy:true,
+      formNewnMole: {
+         id_pks:'',
+         Name: '',
+         SMILE: '',
+         Description:'',
+         RIS:'',
+         Image: '',
+         Tipo_Exp_teo :null,
+      },
+      formodifi: {
+        Molecule: 1,
+        Radical: -1,
+        Solvent: -1,
+        Site:null,
+         Value:null,
+        Description:null,
+        Reference:-1, 
+        Tipo_Exp_teo:null,
+      },
         items: [
           { Active: true, SMILE: "...", Name:  'Cargando espere porfavor'},
         ],
+        typeoption:[
+        	{value: 'T', text: 'Theoretical'},
+        	{value: 'E', text: 'Experimental'},
+        ],
         addMoleMensaje:'',
         fields: [
-          {key:'ID',label:'id', variant: 'success'},
-          { key: 'Name', label: 'Molecule name', sortable: true },
-          { key: 'Radical', label: 'Radical', sortable: true },
-          { key: 'Solvent', label: 'Solvent', sortable: true },
-          { key: 'Value', label: 'Value'},
-          { key: 'pH', label:'pH'},
-          { key: 'Type', label:'Type'},
-          { key: 'Description', label: 'Description'  },
-         
+          { key:'id_pks',label:'id', variant: 'success', dblclick:"unmsj(row,$event)"},
+          { key:'Name', label: 'Molecule name', sortable: true },
+          { key:'Site', label: 'Site', variant: 'danger'},
+          { key:'Value', label: 'Value', sortable: true , variant: 'info'},
+          { key:'Tipo_Exp_teo', label:'Type', sortable: true },
+
+          { key:'Description', label: 'Description'  },
           { key:'ris_image', label: 'Reference'},
-          { key: 'actions', label: 'Actions' },
+          { key:'actions', label: 'Actions' },
+        
         ],
+        itemsAdd: [
+         {Radical: -1,Solvent: -1,Tipo_Exp_teo:null, Site:null,Value:null, Description:null,Reference:-1 },
+        ],
+ 
+        fieldsAdd: [
+            { key:'Site', label: 'Site' , variant: 'danger'},
+            { key:'Value', label: 'Value', variant: 'info'},
+            { key:'Tipo_Exp_teo',label:'Type', sortable: true },
+            { key:'Description', label: 'Description'  },
+            { key:'Reference', label: 'Reference'  },
+        ],
+        
+        DataPKaNew:{
+         Molecule:-1,
+         Radical: -1,
+         Solvent:-1,
+         Site:null,
+         Value:null,
+         Description:null,
+         Tipo_Exp_teo:-1,
+         Reference:-1,
+        },
+        Molecules:   [{value: -1, text: 'Please select an option'},],
+        Radicals: [{value: -1, text: 'Please select an option'},],
+        Solvents: [{value: -1, text: 'Please select an option'},],
+        References:  [{value: -1, text: 'Please select an option'},],
+        
         totalRows: 1,
         currentPage: 1,
-        perPage: 5,
+        perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
         sortDesc: false,
@@ -286,21 +347,27 @@
           title: '',
           content: ''
         },
-		data_mole:{
-			id:'0',
-			Image: '../../img/matrazRoto.png',
-			Description:'',
-			SMILE: '',
-			Name: '',
-			RIS:'',
-		},
-      }
-     
+      data_mole:{
+         id:'0',
+         Image: '../../img/matrazRoto.png',
+         Description:'',
+         SMILE: '',
+         Name: '',
+         RIS:'',
+      },
+      itemsMolecules:{},
+      itemsferences:{},
+      itemsSolvents:{},
+      itemsRadicals:{},
+      imgs:[],
+      }	
+    
       
     } ,
 
     computed: {
       sortOptions() {
+        
         // Create an options list from our fields
         return this.fields
           .filter(f => f.sortable)
@@ -310,18 +377,25 @@
       }
     },
     mounted() {
-      // Set the initial number of items
-      	this.totalRows = this.items.length
-      	axios.get('../../MoleculeTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-    	this.isBusy= false;
-      });
-      
+      this.getReferences();
+      this.getMolecules();
+      this.getSolvents();
+      this.getRadicals();
+
+       // Set the initial number of items
+       this.totalRows = this.items.length
+       axios.get('../../PK_sTable').then(response =>{
+           console.log(response.data );
+
+    	   this.items = response.data;
+         this.totalRows = this.items.length;
+          this.isBusy= false;
+
+       }); 
     },
     methods: {
       info(item, index, button) {
-    	this.imgAndData(item, index, event) 
+        this.imgAndData(item, index, event) 
         this.infoModal.title = item.Name;
         this.infoModal.content = JSON.stringify(item, null, 2)
         this.$root.$emit('bv::show::modal', this.infoModal.id, button)
@@ -336,175 +410,245 @@
         this.currentPage = 1
       },
       imgAndData(item, index, event){  
-    	this.data_mole.Image=  "../../files/data-base-img/"+item.ID+ "/"+item.Imagen;
-    	this.data_mole.Name=item.Name;
-    	 
+         this.data_mole.Image=  "../../files/data-base-img/"+item.ID+ "/"+item.Imagen;
+         this.data_mole.Name=item.Name;
+       
       },
-      clearaddmol(){
-    	this.formNewnMole.Name='';
-    	this.formNewnMole.SMILE= '';
-    	this.formNewnMole.Description='';
-    	this.formNewnMole.RIS='';
-    	this.formNewnMole.Image= '';
-      },
+ 
       
-      addMolelcule(){
- 	   var key, count = 0;
-  	   if(this.formNewnMole.Name==="" || this.formNewnMole.SMILE==="" ) {
-  		  	alert("Name or Smile cannot be empty");
-	  	 	this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";
-	  		return 0;
-	  	}
-  	   
-
- 	   for(key in this.items ) {
- 		 if(this.items[key].Name.toUpperCase() ===this.formNewnMole.Name.toUpperCase() || 
- 	  	   this.items[key].SMILE.toUpperCase()=== this.formNewnMole.SMILE.toUpperCase() ){
- 	  		alert("this Molecule or Smile Exists");
- 	  	 	this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";
- 	  		return 0;
- 	  	 }
- 	   }
-       /* Initialize the form data */
-       var formData = new FormData(); 
          
-       /*  Add the form data we need to submit */
-       formData.append('Image', this.formNewnMole.Image);
-       formData.append('Name', this.formNewnMole.Name);
-       formData.append('SMILE', this.formNewnMole.SMILE);
-       formData.append('Description', this.formNewnMole.Description);
-       formData.append('RIS', this.formNewnMole.RIS);
-       
-       /* Make the request to the POST ../../MoleculeTable URL */
-       axios.post( '../../MoleculeTable',formData,{
-       headers: { 'Content-Type': 'multipart/form-data'}}
-       ).then(response =>{ 
-    	   	console.log(response.data);	 
-    	   	this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
-    	   }
-       ).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";}); 
-       	
-       axios.get('../../MoleculeTable').then(response =>{
-    	this.items = response.data;
-    	this.totalRows = this.items.length;
-       });
-       
-       this.clearaddmol();
       
-       axios.get('../../MoleculeTable').then(response =>{
-       	this.items = response.data;
-       	this.totalRows = this.items.length;
-	   });
-       this.$refs['addmole'].hide();
-      },
       handleFileUpload(){
-    	  this.formNewnMole.Image = this.$refs.formNewnMole_imagemol.files[0];
+        this.formNewnMole.Image = this.$refs.formNewnMole_imagemol.files[0];
 
       },
       handleFileUploadup(){
-    	  this.formodifi.Image = this.$refs.formodifi_imagemol.files[0];
+        this.formodifi.Image = this.$refs.formodifi_imagemol.files[0];
 
       },
       loadTextFromFile(ev) {
           const file = ev.target.files[0];
           const reader = new FileReader();
           reader.onload = e => {
-        	  this.formodifi.RIS=e.target.result
-        	  this.formNewnMole.RIS =e.target.result};
+           this.formodifi.RIS=e.target.result
+           this.formNewnMole.RIS =e.target.result};
           reader.readAsText(file);
        },
        Delete_id(index){
-    	   
-    	        this.$bvModal.msgBoxConfirm('Please confirm that you want to delete "'+index.Name +'".', {
-    	          title: 'Please Confirm',
-    	          size: 'sm',
-    	          buttonSize: 'sm',
-    	          okVariant: 'danger',
-    	          okTitle: 'YES',
-    	          cancelTitle: 'NO',
-    	          footerClass: 'p-2',
-    	          hideHeaderClose: false,
-    	          centered: true
-    	        })
-    	        .then(value => {
-    	        if(value ===true){
-    	           	axios.delete( '../../MoleculeTable/'+index.ID).then(
-    	            response =>{ 
-    	               axios.get('../../MoleculeTable').then(response =>{
-    	           	      	this.items = response.data;
-    	           	       	this.totalRows = this.items.length;
-    	           	       	
-    	           	   });
+         
+              this.$bvModal.msgBoxConfirm('Please confirm that you want to delete "'+index.Name +'".', {
+                title: 'Please Confirm',
+                size: 'sm',
+                buttonSize: 'sm',
+                okVariant: 'danger',
+                okTitle: 'YES',
+                cancelTitle: 'NO',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+              })
+              .then(value => {
+              if(value ===true){
+                  axios.delete( '../../PK_sTable/'+index.id_pks).then(
+                  response =>{ 
+                     axios.get('../../PK_sTable').then(response =>{
+                           this.items = response.data;
+                           this.totalRows = this.items.length;
+                           
+                     });
  
-    	            }).catch(function(){ this.addMoleMensaje= (this.formNewnMole.Name)+"Error ";}); 
-    	            	       
-    	        }
-    	            
- 	          })
- 	          .catch(err => {
- 	            // An error occurred
- 	          });
-    	        this.addMoleMensaje=  ' _ '+ this.formNewnMole.Name +" add successful";
-    	        
-    	     
+                  }).catch(function(){ this.addMoleMensaje= "Error ";});              
+              }
+                  
+             })
+             .catch(err => {
+               // An error occurred
+             }); 
+             this.addMoleMensaje=  " add successful";
+           
        },
        showmodal(index){
-    	this.formodifi.ID=index.ID;
- 	    this.formodifi.Image="";
- 	    this.formodifi.Name=index.Name;
- 	    this.formodifi.SMILE=index.SMILE;
- 	    this.formodifi.Description=index.Description;
- 	    this.formodifi.RIS=index.RIS;
-    	this.$refs['updatemole'].show();
+       
+          this.formodifi.id_pks=index.id_pks;
+          this.formodifi.Radical=index.ID_Radical;
+          this.formodifi.Solvent=index.Solvent;
+          this.formodifi.Site=index.Site;
+          this.formodifi.Value=index.Value;
+          this.formodifi.Description=index.Description;
+          this.formodifi.Reference=index.id_reference;
+          this.formodifi.Molecule=index.ID;  
+          this.formodifi.Tipo_Exp_teo=index.Tipo_Exp_teo;  
+          
+          this.$refs['updateK_Overall'].show();
        },
-       updateMolelcule(){
-    	   var key, count = 0;
-      	   if(this.formodifi.Name==="" || this.formodifi.SMILE==="" ) {
-      		  	alert("Name or Smile cannot be empty");
-    	  	 	this.addMoleMensaje= (this.formodifi.Name)+"Error ";
-    	  		return 0;
-    	  	}
-      	   
+       updateK_Overalllcule(){
+      
+         if(this.formodifi.Value==="" ||  this.formodifi.Value ===null
+               ||this.formodifi.Molecule==="" ||  this.formodifi.Molecule ===null ||  this.formodifi.Molecule ===-1  ) {
+            alert("Value and Molecule  cannot be empty");
+            this.AddRadicalMensaje= "Error ";
+            return 0;
+         }
+         
+         var formData = new FormData(); 
+            
 
-     	   for(key in this.items ) {
-     		 if((this.items[key].Name.toUpperCase() ===this.formodifi.Name.toUpperCase() || 
-     	  	   this.items[key].SMILE.toUpperCase()=== this.formodifi.SMILE.toUpperCase()) && this.formodifi.ID != this.items[key].ID ){
-     	  		alert("this Molecule or Smile Exists");
-     	  	 	this.addMoleMensaje= (this.formodifi.Name)+"Error ";
-     	  		return 0;
-     	  	 }
-     	   }
-           /* Initialize the form data */
-           var formData = new FormData(); 
-             
-           /*  Add the form data we need to submit */
-           if(this.formodifi.Image !="")
-               formData.append('Image', this.formodifi.Image); 
-           formData.append('Name', this.formodifi.Name);
-           formData.append('SMILE', this.formodifi.SMILE);
-           formData.append('Description', this.formodifi.Description);
-           formData.append('RIS', this.formodifi.RIS);
-           formData.append('_method','PUT');
-           console.log(this.formodifi.Name +" + "+this.formodifi.SMILE)
-           
-           /* Make the request to the POST ../../MoleculeTable URL */
-           axios.post( '../../MoleculeTable/'+this.formodifi.ID,formData,{
+          formData.append('Id_Molecule', this.formodifi.Molecule);
+            formData.append('Site',this.formodifi.Site);
+            formData.append('Description', this.formodifi.Description);
+            formData.append('Reference', this.formodifi.Reference);
+            formData.append('Value', this.formodifi.Value);
+            formData.append('Type', this.formodifi.Tipo_Exp_teo);
+            
+
+            formData.append('_method','PUT');
+         axios.post( '../../PK_sTable/'+this.formodifi.id_pks,formData,{
            headers: { 'Content-Type': 'multipart/form-data'}}
            ).then(response =>{ 
-        	   	console.log(response.data);	 
-        	   	this.addMoleMensaje=  ' _ '+ this.formodifi.Name +" modify successful";
-        	   }
-           ).catch(function(){ this.addMoleMensaje= (this.formodifi.Name)+"Error ";}); 
+                this.addMoleMensaje=  " _ modify successful";
+                axios.get('../../PK_sTable').then(response =>{
+                    this.items = response.data;
+                    this.totalRows = this.items.length;
+                   });
+           }
+           ).catch(function(){
+               });
+       
+  
+           this.$refs['updateK_Overall'].hide();
+       
+       
+       
+       
            
-           this.clearaddmol();
-          
-           axios.get('../../MoleculeTable').then(response =>{
-           	this.items = response.data;
-           	this.totalRows = this.items.length;
-    
+           axios.get('../../PK_sTable').then(response =>{
+               this.items = response.data;
+               this.totalRows = this.items.length;
+                this.isBusy= false;
              });
-           this.$refs['updatemole'].hide();
+             this.$refs['addKoverall'].hide();
+             this.totalRows = this.items.length 
+             axios.get('../../PK_sTable').then(response =>{
+               this.items = response.data;
+               this.totalRows = this.items.length;
+                this.isBusy= false;
+             });  
+       },
+       getMolecules(){
+      axios.get('../../MoleculeTable').then(response =>{
+         this.itemsMolecules=response.data;
+          var key,value,text;
+         for(key in this.itemsMolecules){
+            value=this.itemsMolecules[key].ID;
+            text="<h1>"+this.itemsMolecules[key].ID+"</h1> "+this.itemsMolecules[key].Name;
+            this.Molecules.push({value,text}); 
+			this.imgs[value]="../../files/data-base-img/"+this.itemsMolecules[key].ID+ "/"+this.itemsMolecules[key].Imagen;           
+          }
+      });
+       },
+       getReferences(){
+         axios.get('../../ReferencesTable').then(response =>{
+            this.itemsferences=response.data; 
+                var key,value,text;
+               for(key in this.itemsferences){
+                  value= this.itemsferences[key].id_reference;
+                  text=this.itemsferences[key].id_reference+" "+this.itemsferences[key].Reference.substr(0,20);
+                  this.References.push({value,text});
+                }
+         });
+       }, 
+       getSolvents(){
+         axios.get('../../SolventsTable').then(response =>{ 
+            this.itemsSolvents= response.data; 
+             var key,value,text;
+            for(key in this.itemsSolvents){
+               value =this.itemsSolvents[key].ID_Solvent;
+               text  =this.itemsSolvents[key].Name_Solvent;
+               this.Solvents.push({value,text});
+             }
+         });
+       },
+       
+       getRadicals(){
+      axios.get('../../RadicalsTable').then(response =>{
+      this.itemsRadicals = response.data;
+          var key,value,text;
+         for(key in this.itemsRadicals){
+            value=this.itemsRadicals[key].ID_Radical;
+            text=this.itemsRadicals[key].Name_Radical;
+            this.Radicals.push({value,text});
+          }
+      });
+       }, 
+       modaladdKoverall(){
+            this.$refs['addKoverall'].show();
+       },
+       additem(){
+         this.itemsAdd.push({Radical: -1,Solvent: -1, Site:null,Value:null, Description:null,Reference:-1 },);
+       },
+       cloneitem(){ 
+         var tem =this.itemsAdd[this.itemsAdd.length-1];
+         this.itemsAdd.push(JSON.parse(JSON.stringify(tem)));  
+        },
+       ingresa(row){
+         var g;
+         g=row.value;
+         this.itemsAdd[row.index][row.field.key]=g;
+   
+       },
+       popitem(){
+         this.itemsAdd.pop();
+       },
+       addSaveitem(){
+          var key, count = 0;
+          if(this.DataPKaNew.Molecule===null || this.DataPKaNew.Molecule=== -1 ) {
+             alert("Select a molecule");
+             this.addMoleMensaje = "Error ";
+             return 0;
+          }
+      
+        var idmolecule=this.DataPKaNew.Molecule;
+        this.DataPKaNew.Molecule=-1;
+         var formData = new FormData(); 
+
+          var item =null
+        while(this.itemsAdd.length>0){
+          item = this.itemsAdd.pop();
+          if(item.Value===null ) continue;
+           formData = new FormData();
+           	 formData.append('Id_Molecule', idmolecule);
+             formData.append('Site',item.Site);
+             formData.append('Description', item.Description);
+             formData.append('Reference', item.Reference);
+             formData.append('Value', item.Value);
+             formData.append('Type', item.Tipo_Exp_teo);
+             
+             axios.post( '../../PK_sTable',formData,{
+
+               headers: { 'Content-Type': 'multipart/form-data'}}
+             ).then(response =>{ 
+                   this.addMoleMensaje= " add successful";
+              	console.log(response.data);
+                axios.get('../../PK_sTable').then(response =>{
+                    this.items = response.data;
+                    this.totalRows = this.items.length;
+                     this.isBusy= false;
+                  });
+             }
+             ).catch(function(){});
+             
+        }
+ 
+           this.$refs['addKoverall'].hide();
+           this.totalRows = this.items.length
+           
+           axios.get('../../PK_sTable').then(response =>{
+             this.items = response.data;
+             this.totalRows = this.items.length;
+              this.isBusy= false;
+           });
        },
     }
   }
+  
 </script>
