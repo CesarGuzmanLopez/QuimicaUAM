@@ -80421,7 +80421,11 @@ var render = function() {
                 "div",
                 [
                   _c("b-img", {
-                    attrs: { src: _vm.imgs[_vm.DataPKaNew.Molecule] }
+                    staticClass: "p-4",
+                    attrs: {
+                      "fluid-grow": "",
+                      src: _vm.imgs[_vm.DataPKaNew.Molecule]
+                    }
                   })
                 ],
                 1

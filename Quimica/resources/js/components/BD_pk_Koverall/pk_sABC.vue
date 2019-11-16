@@ -133,7 +133,7 @@
         <div><label>Molecule:</label> <b-form-select v-model="DataPKaNew.Molecule" :options="Molecules" ></b-form-select></div>
               {{DataPKaNew.Molecule}}
          <div v-if="DataPKaNew.Molecule != null && DataPKaNew.Molecule != 'null' && DataPKaNew.Molecule != -1">
-            <b-img :src="imgs[DataPKaNew.Molecule]"/>
+            <b-img class="p-4" fluid-grow :src="imgs[DataPKaNew.Molecule]"/>
          </div>
          <div v-else-if="DataPKaNew.Molecule == null || DataPKaNew.Molecule ==-1">
          </div> 
