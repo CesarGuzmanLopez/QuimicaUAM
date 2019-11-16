@@ -8,8 +8,9 @@
       <meta charset="utf-8"><meta name="language" content="en"><meta name="generator" content="Eclipse"><meta http-equiv="X-UA-Compatible" content="IE=edge"><base target ="_self">
 	  <meta name="csrf-token" content="{{ csrf_token() }}">
      
-     <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="Classification" content="Quimica "><meta name="msapplication-TileColor" content=" #009900" />
+     <meta name="viewport" content="width=device-width, initial-scale=0.7"><meta name="Classification" content="Quimica "><meta name="msapplication-TileColor" content=" #009900" />
       <meta charset="utf-8">
+      
       <!-- media -->
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>">        
 
@@ -84,6 +85,6 @@
     </div>
    </div>
    <?php  ?>
-      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.0_".date("my")."3"?>"></script>
+      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.0_".date("my")."4"?>"></script>
    </body>
 </html>

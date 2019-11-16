@@ -8,8 +8,13 @@
 @endif
 
 
-<div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+<div class="page-wrapper chiller-theme
+   @if(Request::route()->getName() =='home' )
+      toggled
+   @endif
+ ">
+ 
+  <a id="show-sidebar" class="btn btn-sm btn-dark  " href="#">
     <i class="fa fa-bars"></i>
   </a>
   <div class="">

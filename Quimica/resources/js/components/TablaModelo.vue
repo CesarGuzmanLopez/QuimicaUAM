@@ -2,8 +2,9 @@
    <b-container fluid class="bg-white">
    <div class="row">   
    <div class="col-12 col-md-4 tama">
-      <b-img alt="" class="p-4" fluid-grow :src="selected.img"/>
-      
+   <h3><b> {{selected.Name}}</b></h3>
+        <b-img alt="" class="p-4" fluid-grow :src="selected.img"/>
+    
    </div>
    <div class="col-12 col-md-8 px-4 my-4" >
     <div class="row m-4">
@@ -161,17 +162,17 @@
         },
         imgsele(index){
          	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
+       		this.selected.Name=index.item.Name;
         }, 
     }
  }
  </script>
  <style>
- 
- .tama{
-    min-height: 100px;
- }
- .Wcol{
-  max-width: 3px;
- }
- 
+    .tama{
+       min-height: 100px;
+    }
+    .Wcol{
+     max-width: 3px;
+    }
+    
  </style>

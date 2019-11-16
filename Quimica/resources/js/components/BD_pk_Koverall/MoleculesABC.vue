@@ -105,7 +105,7 @@
           <h1 class="fa fa-exclamation-circle text-success mt-auto p-2  mr-4 ">{{ addMoleMensaje}}</h1>
       </div>
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-     <b-img :src='data_mole.Image'/>
+     <b-img class="p-4" fluid-grow :src='data_mole.Image'/>
     </b-modal> 
     
     <b-modal ref="addmole" id="addmole" title="Add molecule"   hide-footer>
@@ -271,7 +271,7 @@
         ],
         totalRows: 1,
         currentPage: 1,
-        perPage: 5,
+        perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
         sortDesc: false,

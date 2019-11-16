@@ -126,7 +126,7 @@
       </div>
    
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-     <b-img :src='data_mole.Image'/>
+     <b-img class="p-4" fluid-grow :src='data_mole.Image'/>
     </b-modal> 
       
     <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="lg"    hide-footer>

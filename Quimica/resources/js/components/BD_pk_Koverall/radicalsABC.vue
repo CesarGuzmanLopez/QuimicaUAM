@@ -204,7 +204,7 @@
         ],
         totalRows: 1,
         currentPage: 1,
-        perPage: 5,
+        perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
         sortDesc: false,

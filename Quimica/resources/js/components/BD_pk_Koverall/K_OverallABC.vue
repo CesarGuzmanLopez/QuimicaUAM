@@ -351,6 +351,7 @@
         
         totalRows: 1,
         currentPage: 1,
+        
         perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
