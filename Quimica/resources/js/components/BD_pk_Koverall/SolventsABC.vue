@@ -63,7 +63,7 @@
       </template>
       <template v-slot:cell(actions)="row">
         <b-button size="sm"  class="fa fa-trash   bg-danger  mr-1"  @click="Delete_id(row.item)"> <span class="text-info"> Delete </span></b-button>
-        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Actualize </span> </b-button>
+        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Edit </span> </b-button>
     
       </template>      
       <template v-slot:row-details="row">
@@ -165,7 +165,7 @@
        
       </b-container>
      <div class="row">
-        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateSolventlcule()" >actualize Solvent</b-button>
+        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateSolventlcule()" >Edit Solvent</b-button>
         <b-button  block @click="$bvModal.hide('updateSolvent')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
      </div>
    </b-modal>
@@ -203,7 +203,7 @@
         ],
         totalRows: 1,
         currentPage: 1,
-        perPage: 5,
+        perPage: 15,
         pageOptions: [5, 10, 15],
         sortBy: '',
         sortDesc: false,

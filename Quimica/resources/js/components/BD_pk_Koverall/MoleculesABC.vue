@@ -1,36 +1,37 @@
 <template>
   <b-container fluid class="bg-white p-2">
     <h1>Tables Molecules.</h1>
-    <!-- User Interface controls -->
-      <b-col lg="12" class="my-1">
+
+    <div class="row m-4">
+  
+     <b-form-input
+        class="col-7 col-xl-4"
+        v-model="filter"
+        type="search"
+        id="filterInput"
+        placeholder="Type to Search"
+      ></b-form-input>
+    
+        <b-button class="col-2 col-xl-1 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+ 
+    <b-col  lg="12" xl="6" md="12" class="my-1">
         <b-form-group
-          label="Filter"
-          label-cols-sm="3"
           label-align-sm="right"
           label-size="sm"
-          label-for="filterInput"
-          class="mb-0"
-        >
-          <b-input-group size="sm">
-            <b-form-input
-              v-model="filter"
-              type="search"
-              id="filterInput"
-              placeholder="Type to Search"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"> Clear </b-button>
-            </b-input-group-append>
-           <div>
-         <b-button v-b-modal.addmole class="fa fa-save bg-success mx-4"> Add molecule</b-button>
-         </div>
-           </b-input-group>
+  
+          class="mb-0">
+          <b-form-checkbox-group v-model="filterOn" class="mt-1">
+            <b class="pr-2">Filter</b>
+            <b-form-checkbox value="Name">Molecule</b-form-checkbox>
+            <b-form-checkbox value="SMILE">Smile</b-form-checkbox>
+            <b-form-checkbox value="RIS">RIS</b-form-checkbox>
+            <b-button v-b-modal.addmole class="fa fa-save bg-success mx-4"> Add molecule</b-button>
           
+          </b-form-checkbox-group>
         </b-form-group>
-     
-      </b-col>
-
-
+      </b-col> 
+    
+    </div>
 
     <!-- Main table element -->
     <b-table
@@ -64,7 +65,7 @@
 
       <template v-slot:cell(actions)="row">
         <b-button size="sm"  class="fa fa-trash   bg-danger  mr-1"  @click="Delete_id(row.item)"> <span class="text-info"> Delete </span></b-button>
-        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Actualize </span> </b-button>
+        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Edit </span> </b-button>
     
       </template>
       <template v-slot:cell(ris_image)="row">
@@ -225,7 +226,7 @@
        
       </b-container>
      <div class="row">
-        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateMolelcule()" >actualize molecule</b-button>
+        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateMolelcule()" >Edit molecule</b-button>
         <b-button  block @click="$bvModal.hide('updatemole')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
      </div>
    </b-modal>

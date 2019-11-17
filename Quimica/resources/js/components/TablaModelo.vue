@@ -10,14 +10,32 @@
     <div class="row m-4">
   
      <b-form-input
-        class="col-8"
+        class="col-7 col-xl-4"
         v-model="filter"
         type="search"
         id="filterInput"
         placeholder="Type to Search"
       ></b-form-input>
     
-        <b-button class="col-2 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+        <b-button class="col-2 col-xl-1 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+ 
+    <b-col  lg="12" xl="6" md="12" class="my-1">
+        <b-form-group
+          label-align-sm="right"
+          label-size="sm"
+  
+          class="mb-0">
+          <b-form-checkbox-group v-model="filterOn" class="mt-1">
+            <b class="pr-2">Filter</b>
+            <b-form-checkbox value="Name">Molecule</b-form-checkbox>
+            <b-form-checkbox value="SMILE">Smile</b-form-checkbox>
+            <b-form-checkbox value="RIS">RIS</b-form-checkbox>
+          </b-form-checkbox-group>
+        </b-form-group>
+      </b-col>
+ 
+ 
+    
     </div>
      <b-table
       id="moleculesTableShowDB"
@@ -58,9 +76,9 @@
       </template>
       <template v-slot:cell(pKa_K_Overall)="row">
         <div @click="imgsele(row)">
-        <b-button size="sm"  class="fa   bg-warning  mr-1"  @click="Delete_id(row.item)"> <span class="text-info"> pKa's </span></b-button>
-        <b-button size="sm"  class="fa   bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> K<sub>overalls</sub></span> </b-button>
-    </div>
+        <b-button size="sm"  class="fa   fa-save bg-info mr-1"  @click="(row.item)"> <span class="text-white"> Save info </span></b-button>
+ 
+     </div>
       </template>
       <template v-slot:cell(Valor)="row"> 
          <div @click="imgsele(row)"> {{row.Value}}</div>
@@ -133,10 +151,10 @@
           filterOn: [],
           fields: [
             { key:'ID',label:'id', variant: 'success',thStyle: { backgroundColor: '#3eef33' ,width: "30px"}},
-            { key:'Name', label: 'Molecule', sortable: true, size:'25' },
-            { key:'SMILE', label: 'Smile', sortable: true },
-            { key:'ris_image', label: 'RIS'},
-            { key:'pKa_K_Overall', label: 'info' },
+            { key:'Name', label: 'Molecule', sortable: true, 'class': 'my-clas'},
+            { key:'SMILE', label: 'Smile', sortable: true ,thStyle: { width: "210px"}},
+            { key:'ris_image', label: 'RIS'  },
+            { key:'pKa_K_Overall', label: 'Info'  },
           ],
       }  
     },
@@ -173,6 +191,9 @@
     }
     .Wcol{
      max-width: 3px;
+    }
+    .infoCol{
+    
     }
     
  </style>

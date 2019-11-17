@@ -25,7 +25,7 @@ Vue.use(uiv )
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('tabla', require('./components/TablaModelo.vue').default);
+Vue.component('tablamodelo', require('./components/TablaModelo.vue').default);
 Vue.component('moleculesabc',require('./components/BD_pk_Koverall/MoleculesABC.vue').default);
 Vue.component('solventsabc',require('./components/BD_pk_Koverall/SolventsABC.vue').default);
 

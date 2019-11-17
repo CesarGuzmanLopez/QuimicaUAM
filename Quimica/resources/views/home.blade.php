@@ -11,9 +11,7 @@
 <div class="page-wrapper chiller-theme
    @if(Request::route()->getName() =='home' )
       toggled
-   @endif
- ">
- 
+   @endif"> 
   <a id="show-sidebar" class="btn btn-sm btn-dark  " href="#">
     <i class="fa fa-bars"></i>
   </a>
@@ -40,7 +38,6 @@
         </a>
       </div>
       <!-- sidebar-header  -->
-   
       <!-- sidebar-search  -->
       <div class="sidebar-menu">
         <ul>
@@ -84,7 +81,6 @@
 	         <!--@endforeach-->
                 </ul>
             </div>
-
           </li>
            <!--@endif-->
           <li class="sidebar-dropdown">
@@ -112,7 +108,6 @@
               <span>Charts</span>
             </a>
           </li>
-
           <li class="header-menu">
             <span>Data base</span>
           </li>
@@ -139,13 +134,12 @@
       </div>
       <!-- sidebar-menu  -->
     </div>
-
   </nav>
   </div>
   <!-- sidebar-wrapper  -->
   <main class="page-content">
     <div class="container-fluid">
-       @section('userCont')      
+      @section('userCont')      
        
       @show
     </div>

@@ -60,8 +60,7 @@
       </template>
         <template v-slot:cell(Tipo_Exp_teo)="row">
         <div v-if="row.value == 'T' ">
-            Theoretical
-             
+            Theoretical  
          </div>
          <div v-else-if="row.value == 'E' ">
               Experimental
@@ -74,13 +73,17 @@
 
       <template v-slot:cell(actions)="row">
         <b-button size="sm"  class="fa fa-trash   bg-danger  mr-1"  @click="Delete_id(row.item)"> <span class="text-info"> Delete </span></b-button>
-        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Actualize </span> </b-button>
+        <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="showmodal(row.item)"> <span class="text-info"> Edit </span> </b-button>
     
       </template>
       <template v-slot:cell(Value)="row"> 
-         {{row.item.Value.toPrecision(2)}}
+         <div v-if="row.item.Tipo_Exp_teo == 'T' ">
+            {{row.value.toFixed(2)}}  
+         </div>
+         <div v-else-if="row.item.Tipo_Exp_teo == 'E' ">
+              {{row.value}}
+         </div>    
       </template>
-      
       
       <template v-slot:cell(ris_image)="row">
          <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="fa fa-image mr-1 " >
@@ -129,7 +132,7 @@
      <b-img class="p-4" fluid-grow :src='data_mole.Image'/>
     </b-modal> 
       
-    <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="lg"    hide-footer>
+    <b-modal ref="addKoverall" id="addKoverall" title="Add pKa" size="xl"    hide-footer>
         <div><label>Molecule:</label> <b-form-select v-model="DataPKaNew.Molecule" :options="Molecules" ></b-form-select></div>
               {{DataPKaNew.Molecule}}
          <div v-if="DataPKaNew.Molecule != null && DataPKaNew.Molecule != 'null' && DataPKaNew.Molecule != -1">
@@ -166,7 +169,7 @@
          <input type="text"  v-model="row.value"   size="7" @input="ingresa(row)"/>
       </template>
       <template v-slot:cell(Description)="row">
-                  <input type="text"  v-model="row.value" size="10"  @input="ingresa(row)"/> 
+                  <input type="text"  v-model="row.value"  @input="ingresa(row)"/> 
       </template>
        <template v-slot:cell(Reference)="row">
               <b-form-select v-model="row.value" @input="ingresa(row)"  :options="References"></b-form-select>
@@ -250,7 +253,7 @@
        
       </b-container>
      <div class="row">
-        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateK_Overalllcule()" >actualize molecule</b-button>
+        <b-button  block  class="fa fa fa-refresh m-3  p-2 col-3 bg-success mx-4" @click = "updateK_Overalllcule()" >Edit molecule</b-button>
         <b-button  block @click="$bvModal.hide('updateK_Overall')" class=" m-3  p-2 col-3 bg-danger mx-4">Cerrar</b-button>    
      </div>
    </b-modal>
@@ -314,7 +317,7 @@
             { key:'Value', label: 'Value', variant: 'info'},
             { key:'Tipo_Exp_teo',label:'Type', sortable: true },
             { key:'Description', label: 'Description'  },
-            { key:'Reference', label: 'Reference'  },
+            { key:'Reference', label: 'Alternative reference'  },
         ],
         
         DataPKaNew:{
@@ -330,7 +333,7 @@
         Molecules:   [{value: -1, text: 'Please select an option'},],
         Radicals: [{value: -1, text: 'Please select an option'},],
         Solvents: [{value: -1, text: 'Please select an option'},],
-        References:  [{value: -1, text: 'Please select an option'},],
+        References:  [{value: -1, text: 'Default for molecule'},],
         
         totalRows: 1,
         currentPage: 1,
@@ -635,13 +638,10 @@
                      this.isBusy= false;
                   });
              }
-             ).catch(function(){});
-             
+             ).catch(function(){});    
         }
- 
            this.$refs['addKoverall'].hide();
-           this.totalRows = this.items.length
-           
+           this.totalRows = this.items.length        
            axios.get('../../PK_sTable').then(response =>{
              this.items = response.data;
              this.totalRows = this.items.length;
@@ -650,5 +650,4 @@
        },
     }
   }
-  
 </script>

@@ -69,7 +69,7 @@
     
       </template>
       <template v-slot:cell(Valor)="row"> 
-         {{row.item.Valor.toPrecision(2)}}
+         {{row.item.Valor.toPrecision(3)}}
       </template>
       
       
@@ -117,7 +117,7 @@
      <b-img :src='data_mole.Image'/>
     </b-modal> 
       
-    <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="lg"    hide-footer>
+    <b-modal ref="addKoverall" id="addKoverall" title="addKoverall" size="xl"    hide-footer>
         <div><label>Molecule:</label> <b-form-select v-model="Data_pKaN.Molecule" :options="Molecules"></b-form-select></div>
         
       <b-table
@@ -149,7 +149,8 @@
          <input type="text"  v-model="row.value"   size="7" @input="ingresa(row)"/>
       </template>
       <template v-slot:cell(Descripcion)="row">
-                  <input type="text"  v-model="row.value" size="10"  @input="ingresa(row)"/> 
+                 
+                  <input type="text"  v-model="row.value"  @input="ingresa(row)"/> 
       </template>
        <template v-slot:cell(Reference)="row">
               <b-form-select v-model="row.value" @input="ingresa(row)"  :options="References"></b-form-select>
@@ -330,7 +331,7 @@
             { key:'Tipo', label:'Type'},
             { key:'Valor', label: 'Value', variant: 'info'},
             { key:'Descripcion', label: 'Description'  },
-            { key:'Reference', label: 'Reference'  },
+            { key:'Reference', label: 'Alternative reference'  },
            ]
         ,
         
@@ -347,7 +348,7 @@
         Molecules:	[{value: -1, text: 'Please select an option'},],
         Radicals:	[{value: -1, text: 'Please select an option'},],
         Solvents:	[{value: -1, text: 'Please select an option'},],
-        References:	[{value: -1, text: 'Please select an option'},],
+        References:	[{value: -1, text: 'Default for molecle'},],
         
         totalRows: 1,
         currentPage: 1,

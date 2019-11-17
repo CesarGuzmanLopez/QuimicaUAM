@@ -2114,6 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2222,7 +2223,7 @@ __webpack_require__.r(__webpack_exports__);
         label: 'Description'
       }, {
         key: 'Reference',
-        label: 'Reference'
+        label: 'Alternative reference'
       }],
       Data_pKaN: {
         Molecule: -1,
@@ -2248,7 +2249,7 @@ __webpack_require__.r(__webpack_exports__);
       }],
       References: [{
         value: -1,
-        text: 'Please select an option'
+        text: 'Default for molecle'
       }],
       totalRows: 1,
       currentPage: 1,
@@ -2590,6 +2591,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -3747,7 +3749,7 @@ __webpack_require__.r(__webpack_exports__);
       }],
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
+      perPage: 15,
       pageOptions: [5, 10, 15],
       sortBy: '',
       sortDesc: false,
@@ -4230,6 +4232,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4324,7 +4329,7 @@ __webpack_require__.r(__webpack_exports__);
         label: 'Description'
       }, {
         key: 'Reference',
-        label: 'Reference'
+        label: 'Alternative reference'
       }],
       DataPKaNew: {
         Molecule: -1,
@@ -4350,7 +4355,7 @@ __webpack_require__.r(__webpack_exports__);
       }],
       References: [{
         value: -1,
-        text: 'Please select an option'
+        text: 'Default for molecule'
       }],
       totalRows: 1,
       currentPage: 1,
@@ -5248,6 +5253,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5272,17 +5295,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       key: 'Name',
       label: 'Molecule',
       sortable: true,
-      size: '25'
+      'class': 'my-clas'
     }, {
       key: 'SMILE',
       label: 'Smile',
-      sortable: true
+      sortable: true,
+      thStyle: {
+        width: "210px"
+      }
     }, {
       key: 'ris_image',
       label: 'RIS'
     }, {
       key: 'pKa_K_Overall',
-      label: 'info'
+      label: 'Info'
     }]), _ref;
   },
   computed: {
@@ -37977,7 +38003,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.tama{\n   min-height: 100px;\n}\n.Wcol{\n max-width: 3px;\n}\n\n", ""]);
+exports.push([module.i, "\n.tama{\n   min-height: 100px;\n}\n.Wcol{\n max-width: 3px;\n}\n.infoCol{\n}\n\n", ""]);
 
 // exports
 
@@ -77491,7 +77517,7 @@ var render = function() {
               return [
                 _vm._v(
                   " \n         " +
-                    _vm._s(row.item.Valor.toPrecision(2)) +
+                    _vm._s(row.item.Valor.toPrecision(3)) +
                     "\n      "
                 )
               ]
@@ -77618,7 +77644,7 @@ var render = function() {
           attrs: {
             id: "addKoverall",
             title: "addKoverall",
-            size: "lg",
+            size: "xl",
             "hide-footer": ""
           }
         },
@@ -77795,7 +77821,7 @@ var render = function() {
                           expression: "row.value"
                         }
                       ],
-                      attrs: { type: "text", size: "10" },
+                      attrs: { type: "text" },
                       domProps: { value: row.value },
                       on: {
                         input: [
@@ -78191,63 +78217,77 @@ var render = function() {
       _c("h1", [_vm._v("Tables Molecules.")]),
       _vm._v(" "),
       _c(
-        "b-col",
-        { staticClass: "my-1", attrs: { lg: "12" } },
+        "div",
+        { staticClass: "row m-4" },
         [
+          _c("b-form-input", {
+            staticClass: "col-7 col-xl-4",
+            attrs: {
+              type: "search",
+              id: "filterInput",
+              placeholder: "Type to Search"
+            },
+            model: {
+              value: _vm.filter,
+              callback: function($$v) {
+                _vm.filter = $$v
+              },
+              expression: "filter"
+            }
+          }),
+          _vm._v(" "),
           _c(
-            "b-form-group",
+            "b-button",
             {
-              staticClass: "mb-0",
-              attrs: {
-                label: "Filter",
-                "label-cols-sm": "3",
-                "label-align-sm": "right",
-                "label-size": "sm",
-                "label-for": "filterInput"
+              staticClass: "col-2 col-xl-1 mx-4",
+              attrs: { disabled: !_vm.filter },
+              on: {
+                click: function($event) {
+                  _vm.filter = ""
+                }
               }
             },
+            [_vm._v(" Clear ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "b-col",
+            { staticClass: "my-1", attrs: { lg: "12", xl: "6", md: "12" } },
             [
               _c(
-                "b-input-group",
-                { attrs: { size: "sm" } },
+                "b-form-group",
+                {
+                  staticClass: "mb-0",
+                  attrs: { "label-align-sm": "right", "label-size": "sm" }
+                },
                 [
-                  _c("b-form-input", {
-                    attrs: {
-                      type: "search",
-                      id: "filterInput",
-                      placeholder: "Type to Search"
-                    },
-                    model: {
-                      value: _vm.filter,
-                      callback: function($$v) {
-                        _vm.filter = $$v
-                      },
-                      expression: "filter"
-                    }
-                  }),
-                  _vm._v(" "),
                   _c(
-                    "b-input-group-append",
-                    [
-                      _c(
-                        "b-button",
-                        {
-                          attrs: { disabled: !_vm.filter },
-                          on: {
-                            click: function($event) {
-                              _vm.filter = ""
-                            }
-                          }
+                    "b-form-checkbox-group",
+                    {
+                      staticClass: "mt-1",
+                      model: {
+                        value: _vm.filterOn,
+                        callback: function($$v) {
+                          _vm.filterOn = $$v
                         },
-                        [_vm._v(" Clear ")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
+                        expression: "filterOn"
+                      }
+                    },
                     [
+                      _c("b", { staticClass: "pr-2" }, [_vm._v("Filter")]),
+                      _vm._v(" "),
+                      _c("b-form-checkbox", { attrs: { value: "Name" } }, [
+                        _vm._v("Molecule")
+                      ]),
+                      _vm._v(" "),
+                      _c("b-form-checkbox", { attrs: { value: "SMILE" } }, [
+                        _vm._v("Smile")
+                      ]),
+                      _vm._v(" "),
+                      _c("b-form-checkbox", { attrs: { value: "RIS" } }, [
+                        _vm._v("RIS")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "b-button",
                         {
@@ -78368,11 +78408,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -78921,7 +78957,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize molecule")]
+                [_vm._v("Edit molecule")]
               ),
               _vm._v(" "),
               _c(
@@ -79153,11 +79189,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -79453,7 +79485,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize Reference")]
+                [_vm._v("Edit Reference")]
               ),
               _vm._v(" "),
               _c(
@@ -79685,11 +79717,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -79981,7 +80009,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize Solvent")]
+                [_vm._v("Edit Solvent")]
               ),
               _vm._v(" "),
               _c(
@@ -80179,9 +80207,7 @@ var render = function() {
             fn: function(row) {
               return [
                 row.value == "T"
-                  ? _c("div", [
-                      _vm._v("\n          Theoretical\n           \n       ")
-                    ])
+                  ? _c("div", [_vm._v("\n          Theoretical  \n       ")])
                   : row.value == "E"
                   ? _c("div", [_vm._v("\n            Experimental\n       ")])
                   : _vm._e()
@@ -80227,11 +80253,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -80240,11 +80262,19 @@ var render = function() {
             key: "cell(Value)",
             fn: function(row) {
               return [
-                _vm._v(
-                  " \n       " +
-                    _vm._s(row.item.Value.toPrecision(2)) +
-                    "\n    "
-                )
+                row.item.Tipo_Exp_teo == "T"
+                  ? _c("div", [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(row.value.toFixed(2)) +
+                          "  \n       "
+                      )
+                    ])
+                  : row.item.Tipo_Exp_teo == "E"
+                  ? _c("div", [
+                      _vm._v("\n            " + _vm._s(row.value) + "\n       ")
+                    ])
+                  : _vm._e()
               ]
             }
           },
@@ -80387,8 +80417,8 @@ var render = function() {
           ref: "addKoverall",
           attrs: {
             id: "addKoverall",
-            title: "addKoverall",
-            size: "lg",
+            title: "Add pKa",
+            size: "xl",
             "hide-footer": ""
           }
         },
@@ -80565,7 +80595,7 @@ var render = function() {
                           expression: "row.value"
                         }
                       ],
-                      attrs: { type: "text", size: "10" },
+                      attrs: { type: "text" },
                       domProps: { value: row.value },
                       on: {
                         input: [
@@ -80858,7 +80888,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize molecule")]
+                [_vm._v("Edit molecule")]
               ),
               _vm._v(" "),
               _c(
@@ -81090,11 +81120,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -81386,7 +81412,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize Radical")]
+                [_vm._v("Edit Radical")]
               ),
               _vm._v(" "),
               _c(
@@ -81459,7 +81485,7 @@ var render = function() {
             { staticClass: "row m-4" },
             [
               _c("b-form-input", {
-                staticClass: "col-8",
+                staticClass: "col-7 col-xl-4",
                 attrs: {
                   type: "search",
                   id: "filterInput",
@@ -81477,7 +81503,7 @@ var render = function() {
               _c(
                 "b-button",
                 {
-                  staticClass: "col-2 mx-4",
+                  staticClass: "col-2 col-xl-1 mx-4",
                   attrs: { disabled: !_vm.filter },
                   on: {
                     click: function($event) {
@@ -81486,6 +81512,53 @@ var render = function() {
                   }
                 },
                 [_vm._v(" Clear ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-col",
+                { staticClass: "my-1", attrs: { lg: "12", xl: "6", md: "12" } },
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      staticClass: "mb-0",
+                      attrs: { "label-align-sm": "right", "label-size": "sm" }
+                    },
+                    [
+                      _c(
+                        "b-form-checkbox-group",
+                        {
+                          staticClass: "mt-1",
+                          model: {
+                            value: _vm.filterOn,
+                            callback: function($$v) {
+                              _vm.filterOn = $$v
+                            },
+                            expression: "filterOn"
+                          }
+                        },
+                        [
+                          _c("b", { staticClass: "pr-2" }, [_vm._v("Filter")]),
+                          _vm._v(" "),
+                          _c("b-form-checkbox", { attrs: { value: "Name" } }, [
+                            _vm._v("Molecule")
+                          ]),
+                          _vm._v(" "),
+                          _c("b-form-checkbox", { attrs: { value: "SMILE" } }, [
+                            _vm._v("Smile")
+                          ]),
+                          _vm._v(" "),
+                          _c("b-form-checkbox", { attrs: { value: "RIS" } }, [
+                            _vm._v("RIS")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
               )
             ],
             1
@@ -81608,36 +81681,17 @@ var render = function() {
                         _c(
                           "b-button",
                           {
-                            staticClass: "fa   bg-warning  mr-1",
+                            staticClass: "fa   fa-save bg-info mr-1",
                             attrs: { size: "sm" },
                             on: {
                               click: function($event) {
-                                return _vm.Delete_id(row.item)
+                                row.item
                               }
                             }
                           },
                           [
-                            _c("span", { staticClass: "text-info" }, [
-                              _vm._v(" pKa's ")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-button",
-                          {
-                            staticClass: "fa   bg-warning mr-1",
-                            attrs: { size: "sm" },
-                            on: {
-                              click: function($event) {
-                                return _vm.showmodal(row.item)
-                              }
-                            }
-                          },
-                          [
-                            _c("span", { staticClass: "text-info" }, [
-                              _vm._v(" K"),
-                              _c("sub", [_vm._v("overalls")])
+                            _c("span", { staticClass: "text-white" }, [
+                              _vm._v(" Save info ")
                             ])
                           ]
                         )
@@ -93970,7 +94024,7 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(uiv__WEBPACK_IMPORTED_MODULE_4__)
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('tabla', __webpack_require__(/*! ./components/TablaModelo.vue */ "./resources/js/components/TablaModelo.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('tablamodelo', __webpack_require__(/*! ./components/TablaModelo.vue */ "./resources/js/components/TablaModelo.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('moleculesabc', __webpack_require__(/*! ./components/BD_pk_Koverall/MoleculesABC.vue */ "./resources/js/components/BD_pk_Koverall/MoleculesABC.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('solventsabc', __webpack_require__(/*! ./components/BD_pk_Koverall/SolventsABC.vue */ "./resources/js/components/BD_pk_Koverall/SolventsABC.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('k_overallabc', __webpack_require__(/*! ./components/BD_pk_Koverall/K_OverallABC.vue */ "./resources/js/components/BD_pk_Koverall/K_OverallABC.vue")["default"]);
