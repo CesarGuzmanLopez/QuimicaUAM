@@ -64,7 +64,7 @@ class K_overalsTable extends Controller
     	if($request->has('Solvent') && $request->Solvent!="-1"&&$request->Solvent!=-1 &&$request->Solvent!="null")
     		$koverralls->Solvent=0+$request->Solvent;
     		
-    	if($request->has('pH') && $request->pH!="" &&$request->pH!="null" )
+    	if($request->has('pH')  &&$request->pH!="null" )
     		$koverralls->pH=$request->pH;
     	
     	if($request->has('Valor') && $request->Valor!="" &&$request->Valor!="null" )
@@ -127,7 +127,7 @@ class K_overalsTable extends Controller
   			if($request->has('Solvent') && $request->Solvent!="-1"&&$request->Solvent!=-1 &&$request->Solvent!="null")
    				$koverralls->Solvent=0+$request->Solvent;
     					
-   			if($request->has('pH') && $request->pH!="" &&$request->pH!="null" )
+   			if($request->has('pH')   &&$request->pH!="null" )
 				$koverralls->pH=$request->pH;
     						
    			if($request->has('Valor') && $request->Valor!="" &&$request->Valor!="null" )

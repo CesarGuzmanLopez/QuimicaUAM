@@ -5270,6 +5270,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -5282,7 +5310,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isBusy: true,
       items: [],
       totalRows: 0
-    }, _defineProperty(_ref, "totalRows", 1), _defineProperty(_ref, "currentPage", 1), _defineProperty(_ref, "perPage", 8), _defineProperty(_ref, "pageOptions", [5, 10, 15]), _defineProperty(_ref, "sortBy", ''), _defineProperty(_ref, "sortDesc", false), _defineProperty(_ref, "sortDirection", 'asc'), _defineProperty(_ref, "filter", null), _defineProperty(_ref, "filterOn", []), _defineProperty(_ref, "fields", [{
+    }, _defineProperty(_ref, "totalRows", 1), _defineProperty(_ref, "currentPage", 1), _defineProperty(_ref, "perPage", 8), _defineProperty(_ref, "pageOptions", [5, 10, 15]), _defineProperty(_ref, "sortBy", ''), _defineProperty(_ref, "sortDesc", false), _defineProperty(_ref, "sortDirection", 'asc'), _defineProperty(_ref, "filter", null), _defineProperty(_ref, "filterOn", []), _defineProperty(_ref, "pKa_s", []), _defineProperty(_ref, "K_Overals", []), _defineProperty(_ref, "fields", [{
       key: 'ID',
       label: 'id',
       variant: 'success',
@@ -5338,10 +5366,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    imgsele: function imgsele(index) {
+    Selected: function Selected(index) {
+      var _this2 = this;
+
+      //Primero camio la imagen
       this.selected.img = "files/data-base-img/" + index.item.ID + "/" + index.item.Imagen;
       ;
-      this.selected.Name = index.item.Name;
+      this.selected.Name = index.item.Name; //despues seleciono unos pka especificos 
+
+      this.pKa_s = [];
+      axios.get('PK_S/' + index.item.ID).then(function (response) {
+        console.log(response.data);
+        _this2.pKa_s = response.data;
+        /*	if(this.pKa_s.length>0)
+                 $("#PKA_S").addClass("res").removeClass("ocu"); 
+              else 
+        	   $("#PKA_S").removeClass("res").addClass("ocu");
+            */
+      }); //despues seleccino unos KOverals
+
+      this.K_Overals = [];
+      axios.get('KOverals/' + index.item.ID).then(function (response) {
+        console.log(response.data);
+        _this2.K_Overals = response.data;
+        /*
+               	    if(this.K_Overals.length>0)
+                       $("#K_Ov").addClass("res").removeClass("ocu"); 
+                     else 
+               		   $("#K_Ov").removeClass("res").addClass("ocu");
+          */
+      });
     }
   }
 });
@@ -38002,7 +38056,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.tama{\n   min-height: 100px;\n}\n.Wcol{\n max-width: 3px;\n}\n.infoCol{\n}\n\n", ""]);
+exports.push([module.i, "\n.tama{\n   min-height: 100px;\n}\n.Wcol{\n max-width: 3px;\n}\n.infoCol{\n}\n.as{ \n  padding: 0px !important;\n  padding-left:20px !important;\n}\n.trans{\n}\n.contentDATA{\n  background-color:  #dee2e6 !important;\n  min-height: 100px;\n  padding: 10px;\n  border-radius: 0px 40px 0px 40px !important;\n}\n.fade-enter-active, .fade-leave-active {\n  -webkit-transition: opacity .5s;\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\n  opacity: 0;\n}\n.text_font{\n     font-size: .75rem !important;\n}\n", ""]);
 
 // exports
 
@@ -77501,11 +77555,7 @@ var render = function() {
                       }
                     }
                   },
-                  [
-                    _c("span", { staticClass: "text-info" }, [
-                      _vm._v(" Actualize ")
-                    ])
-                  ]
+                  [_c("span", { staticClass: "text-info" }, [_vm._v(" Edit ")])]
                 )
               ]
             }
@@ -78161,7 +78211,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("actualize molecule")]
+                [_vm._v("edit")]
               ),
               _vm._v(" "),
               _c(
@@ -81459,97 +81509,118 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("b-container", { staticClass: "bg-white", attrs: { fluid: "" } }, [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col-12 col-md-4 tama" },
-        [
-          _c("h3", [_c("b", [_vm._v(" " + _vm._s(_vm.selected.Name))])]),
-          _vm._v(" "),
-          _c("b-img", {
-            staticClass: "p-4",
-            attrs: { alt: "", "fluid-grow": "", src: _vm.selected.img }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-12 col-md-8 px-4 my-4" },
-        [
+  return _c(
+    "b-container",
+    { staticClass: "col-12 ", attrs: { fluid: "" } },
+    [
+      _c("div", { staticClass: "row text_font" }, [
+        _c(
+          "div",
+          { staticClass: "col-12 col-md-4 p-4 center-block bg-white" },
+          [
+            _c("h3", [_c("b", [_vm._v(" " + _vm._s(_vm.selected.Name))])]),
+            _vm._v(" "),
+            _c("b-img", {
+              staticClass: "p-4",
+              attrs: { alt: "", "fluid-grow": "", src: _vm.selected.img }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-md-8 p-4 as pl-m-1" }, [
           _c(
             "div",
-            { staticClass: "row m-4" },
+            { staticClass: "bg-white p-2 flex-column " },
             [
-              _c("b-form-input", {
-                staticClass: "col-7 col-xl-4",
-                attrs: {
-                  type: "search",
-                  id: "filterInput",
-                  placeholder: "Type to Search"
-                },
-                model: {
-                  value: _vm.filter,
-                  callback: function($$v) {
-                    _vm.filter = $$v
-                  },
-                  expression: "filter"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "b-button",
-                {
-                  staticClass: "col-2 col-xl-1 mx-4",
-                  attrs: { disabled: !_vm.filter },
-                  on: {
-                    click: function($event) {
-                      _vm.filter = ""
-                    }
-                  }
-                },
-                [_vm._v(" Clear ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "b-col",
-                { staticClass: "my-1", attrs: { lg: "12", xl: "6", md: "12" } },
+                "div",
+                { staticClass: "row mx-4 mb-3" },
                 [
+                  _c("b-form-input", {
+                    staticClass: "col-7 col-xl-4",
+                    attrs: {
+                      type: "search",
+                      id: "filterInput",
+                      placeholder: "Type to Search"
+                    },
+                    model: {
+                      value: _vm.filter,
+                      callback: function($$v) {
+                        _vm.filter = $$v
+                      },
+                      expression: "filter"
+                    }
+                  }),
+                  _vm._v(" "),
                   _c(
-                    "b-form-group",
+                    "b-button",
                     {
-                      staticClass: "mb-0",
-                      attrs: { "label-align-sm": "right", "label-size": "sm" }
+                      staticClass: "col-2 col-xl-1 mx-4",
+                      attrs: { disabled: !_vm.filter },
+                      on: {
+                        click: function($event) {
+                          _vm.filter = ""
+                        }
+                      }
+                    },
+                    [_vm._v(" Clear ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-col",
+                    {
+                      staticClass: "my-1 ",
+                      attrs: { lg: "12", xl: "6", md: "12" }
                     },
                     [
                       _c(
-                        "b-form-checkbox-group",
+                        "b-form-group",
                         {
-                          staticClass: "mt-1",
-                          model: {
-                            value: _vm.filterOn,
-                            callback: function($$v) {
-                              _vm.filterOn = $$v
-                            },
-                            expression: "filterOn"
+                          staticClass: "mb-0",
+                          attrs: {
+                            "label-align-sm": "right",
+                            "label-size": "sm"
                           }
                         },
                         [
-                          _c("b", { staticClass: "pr-2" }, [_vm._v("Filter")]),
-                          _vm._v(" "),
-                          _c("b-form-checkbox", { attrs: { value: "Name" } }, [
-                            _vm._v("Molecule")
-                          ]),
-                          _vm._v(" "),
-                          _c("b-form-checkbox", { attrs: { value: "SMILE" } }, [
-                            _vm._v("Smile")
-                          ]),
-                          _vm._v(" "),
-                          _c("b-form-checkbox", { attrs: { value: "RIS" } }, [
-                            _vm._v("RIS")
-                          ])
+                          _c(
+                            "b-form-checkbox-group",
+                            {
+                              staticClass: "mt-1",
+                              model: {
+                                value: _vm.filterOn,
+                                callback: function($$v) {
+                                  _vm.filterOn = $$v
+                                },
+                                expression: "filterOn"
+                              }
+                            },
+                            [
+                              _c("b", { staticClass: "pr-2" }, [
+                                _vm._v("Filter")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-form-checkbox",
+                                { attrs: { value: "Name" } },
+                                [_vm._v("Molecule")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-form-checkbox",
+                                { attrs: { value: "SMILE" } },
+                                [_vm._v("Smile")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-form-checkbox",
+                                { attrs: { value: "RIS" } },
+                                [_vm._v("RIS")]
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -81558,286 +81629,342 @@ var render = function() {
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("b-table", {
-            attrs: {
-              id: "moleculesTableShowDB",
-              "show-empty": "",
-              small: "",
-              stacked: "md",
-              responsive: "sm",
-              striped: "",
-              hover: "",
-              small: "",
-              items: _vm.items,
-              fields: _vm.fields,
-              "current-page": _vm.currentPage,
-              "per-page": _vm.perPage,
-              filter: _vm.filter,
-              filterIncludedFields: _vm.filterOn,
-              "sort-by": _vm.sortBy,
-              "sort-desc": _vm.sortDesc,
-              "sort-direction": _vm.sortDirection,
-              busy: _vm.isBusy,
-              fixed: "",
-              noCollapse: "",
-              outlined: ""
-            },
-            on: {
-              "update:sortBy": function($event) {
-                _vm.sortBy = $event
-              },
-              "update:sort-by": function($event) {
-                _vm.sortBy = $event
-              },
-              "update:sortDesc": function($event) {
-                _vm.sortDesc = $event
-              },
-              "update:sort-desc": function($event) {
-                _vm.sortDesc = $event
-              },
-              filtered: _vm.onFiltered
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "table-busy",
-                fn: function() {
-                  return [
-                    _c(
-                      "div",
-                      { staticClass: "text-center text-dark my-2" },
-                      [
-                        _c("b-spinner", {
-                          attrs: {
-                            small: "",
-                            label: "align-middle",
-                            variant: "dark"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("strong", [_vm._v("Loading...")])
-                      ],
-                      1
-                    )
-                  ]
+              ),
+              _vm._v(" "),
+              _c("b-table", {
+                attrs: {
+                  id: "moleculesTableShowDB",
+                  "show-empty": "",
+                  small: "",
+                  stacked: "md",
+                  responsive: "sm",
+                  striped: "",
+                  hover: "",
+                  small: "",
+                  items: _vm.items,
+                  fields: _vm.fields,
+                  "current-page": _vm.currentPage,
+                  "per-page": _vm.perPage,
+                  filter: _vm.filter,
+                  filterIncludedFields: _vm.filterOn,
+                  "sort-by": _vm.sortBy,
+                  "sort-desc": _vm.sortDesc,
+                  "sort-direction": _vm.sortDirection,
+                  busy: _vm.isBusy,
+                  fixed: "",
+                  noCollapse: "",
+                  outlined: ""
                 },
-                proxy: true
-              },
-              {
-                key: "cell(Name)",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [_vm._v(" " + _vm._s(row.value) + " ")]
-                    )
-                  ]
-                }
-              },
-              {
-                key: "cell(SMILE)",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [_vm._v(" " + _vm._s(row.value) + " ")]
-                    )
-                  ]
-                }
-              },
-              {
-                key: "cell(pKa_K_Overall)",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [
+                on: {
+                  "update:sortBy": function($event) {
+                    _vm.sortBy = $event
+                  },
+                  "update:sort-by": function($event) {
+                    _vm.sortBy = $event
+                  },
+                  "update:sortDesc": function($event) {
+                    _vm.sortDesc = $event
+                  },
+                  "update:sort-desc": function($event) {
+                    _vm.sortDesc = $event
+                  },
+                  filtered: _vm.onFiltered
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "table-busy",
+                    fn: function() {
+                      return [
                         _c(
-                          "b-button",
+                          "div",
+                          { staticClass: "text-center text-dark my-2" },
+                          [
+                            _c("b-spinner", {
+                              attrs: {
+                                small: "",
+                                label: "align-middle",
+                                variant: "dark"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("strong", [_vm._v("Loading...")])
+                          ],
+                          1
+                        )
+                      ]
+                    },
+                    proxy: true
+                  },
+                  {
+                    key: "cell(Name)",
+                    fn: function(row) {
+                      return [
+                        _c(
+                          "div",
                           {
-                            staticClass: "fa   fa-save bg-info mr-1",
-                            attrs: { size: "sm" },
                             on: {
                               click: function($event) {
-                                row.item
+                                return _vm.Selected(row)
+                              }
+                            }
+                          },
+                          [_vm._v(" " + _vm._s(row.value) + " ")]
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "cell(SMILE)",
+                    fn: function(row) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.Selected(row)
+                              }
+                            }
+                          },
+                          [_vm._v(" " + _vm._s(row.value) + " ")]
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "cell(pKa_K_Overall)",
+                    fn: function(row) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.Selected(row)
                               }
                             }
                           },
                           [
-                            _c("span", { staticClass: "text-white" }, [
-                              _vm._v(" Save info ")
-                            ])
-                          ]
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "fa   fa-save bg-info mr-1",
+                                attrs: { size: "sm" },
+                                on: {
+                                  click: function($event) {
+                                    row.item
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", { staticClass: "text-white" }, [
+                                  _vm._v(" Save info ")
+                                ])
+                              ]
+                            )
+                          ],
+                          1
                         )
-                      ],
-                      1
-                    )
-                  ]
-                }
-              },
-              {
-                key: "cell(Valor)",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [_vm._v(" " + _vm._s(row.Value))]
-                    )
-                  ]
-                }
-              },
-              {
-                key: "cell(ris_image)",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [
+                      ]
+                    }
+                  },
+                  {
+                    key: "cell(Valor)",
+                    fn: function(row) {
+                      return [
                         _c(
-                          "b-button",
+                          "div",
                           {
-                            staticClass: "fa fa-file-text ",
-                            attrs: { size: "sm" },
-                            on: { click: row.toggleDetails }
+                            on: {
+                              click: function($event) {
+                                return _vm.Selected(row)
+                              }
+                            }
+                          },
+                          [_vm._v(" " + _vm._s(row.Value))]
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "cell(ris_image)",
+                    fn: function(row) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.Selected(row)
+                              }
+                            }
                           },
                           [
-                            _vm._v(
-                              "\n       " +
-                                _vm._s(row.detailsShowing ? "Hide" : "Show") +
-                                " RIS\n     "
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "fa fa-file-text ",
+                                attrs: { size: "sm" },
+                                on: { click: row.toggleDetails }
+                              },
+                              [
+                                _vm._v(
+                                  "\n       " +
+                                    _vm._s(
+                                      row.detailsShowing ? "Hide" : "Show"
+                                    ) +
+                                    " RIS\n     "
+                                )
+                              ]
                             )
-                          ]
+                          ],
+                          1
                         )
-                      ],
-                      1
-                    )
-                  ]
-                }
-              },
-              {
-                key: "row-details",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "div",
-                      {
-                        on: {
-                          click: function($event) {
-                            return _vm.imgsele(row)
-                          }
-                        }
-                      },
-                      [
-                        _c("b-card", [
-                          row.item.Reference != null &&
-                          row.item.Reference != "null"
-                            ? _c(
-                                "div",
-                                [
-                                  _c("b-form-textarea", {
-                                    attrs: {
-                                      rows: "6",
-                                      "max-rows": "10",
-                                      value: row.item.Reference
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : row.item.RIS != null
-                            ? _c(
-                                "div",
-                                [
-                                  _c("b-form-textarea", {
-                                    attrs: {
-                                      rows: "6",
-                                      "max-rows": "10",
-                                      value: row.item.RIS
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ])
-                      ],
-                      1
-                    )
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c(
-            "b-col",
-            { staticClass: "my-1", attrs: { sm: "7", md: "12" } },
-            [
-              _c("b-pagination", {
-                staticClass: "my-0",
-                attrs: {
-                  "total-rows": _vm.totalRows,
-                  "per-page": _vm.perPage,
-                  align: "fill",
-                  size: "sm"
-                },
-                model: {
-                  value: _vm.currentPage,
-                  callback: function($$v) {
-                    _vm.currentPage = $$v
+                      ]
+                    }
                   },
-                  expression: "currentPage"
-                }
+                  {
+                    key: "row-details",
+                    fn: function(row) {
+                      return [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.Selected(row)
+                              }
+                            }
+                          },
+                          [
+                            _c("b-card", [
+                              row.item.Reference != null &&
+                              row.item.Reference != "null"
+                                ? _c(
+                                    "div",
+                                    [
+                                      _c("b-form-textarea", {
+                                        attrs: {
+                                          rows: "6",
+                                          "max-rows": "10",
+                                          value: row.item.Reference
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                : row.item.RIS != null
+                                ? _c(
+                                    "div",
+                                    [
+                                      _c("b-form-textarea", {
+                                        attrs: {
+                                          rows: "6",
+                                          "max-rows": "10",
+                                          value: row.item.RIS
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ])
+                          ],
+                          1
+                        )
+                      ]
+                    }
+                  }
+                ])
               }),
               _vm._v(" "),
-              _c("br")
+              _c(
+                "b-col",
+                { staticClass: "my-1", attrs: { sm: "7", md: "12" } },
+                [
+                  _c("b-pagination", {
+                    staticClass: "my-0",
+                    attrs: {
+                      "total-rows": _vm.totalRows,
+                      "per-page": _vm.perPage,
+                      align: "fill",
+                      size: "sm"
+                    },
+                    model: {
+                      value: _vm.currentPage,
+                      callback: function($$v) {
+                        _vm.currentPage = $$v
+                      },
+                      expression: "currentPage"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("br")
+                ],
+                1
+              )
             ],
             1
           )
-        ],
-        1
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            name: "fade",
+            "enter-active-class": "res",
+            "leave-active-class": "ocu"
+          }
+        },
+        [
+          _vm.pKa_s.length > 0
+            ? _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticClass: " row pt-4  mt-4 contentDATA",
+                    attrs: { id: "PKA_S" }
+                  },
+                  [_c("h3", [_c("b", [_vm._v("pKa's")])])]
+                )
+              ])
+            : _vm._e()
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            name: "fade",
+            "enter-active-class": "res",
+            "leave-active-class": "ocu"
+          }
+        },
+        [
+          _vm.K_Overals.length > 0
+            ? _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "row pt-4 mt-4 contentDATA",
+                    attrs: { id: "K_Ov" }
+                  },
+                  [
+                    _c("h3", [
+                      _c("b", [_vm._v("K"), _c("sub", [_vm._v("overalls")])])
+                    ])
+                  ]
+                )
+              ])
+            : _vm._e()
+        ]
       )
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -93991,7 +94118,7 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery, __webpack_provided_window_dot_$) {/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery, __webpack_provided_window_dot_$, global) {/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery-ui/ui/widgets/datepicker.js */ "./node_modules/jquery-ui/ui/widgets/datepicker.js");
 /* harmony import */ var jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery_ui_ui_widgets_datepicker_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -94006,6 +94133,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 __webpack_provided_window_dot_$ = __webpack_provided_window_dot_jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+global.$ = global.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -94013,6 +94141,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(uiv__WEBPACK_IMPORTED_MODULE_4__);
 /**
@@ -94059,7 +94188,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function ($) {
     if (x < $("header").height()) $(".sidebar-wrapper").css("top", $("header").height() - x);else $(".sidebar-wrapper").css("top", 0);
   });
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

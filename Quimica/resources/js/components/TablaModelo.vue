@@ -1,29 +1,30 @@
 <template>
-   <b-container fluid class="bg-white">
-   <div class="row">   
-   <div class="col-12 col-md-4 tama">
+   <b-container fluid class="col-12 ">
+   
+   <div class="row text_font">   
+   <div class="col-12 col-md-4 p-4 center-block bg-white">
    <h3><b> {{selected.Name}}</b></h3>
         <b-img alt="" class="p-4" fluid-grow :src="selected.img"/>
-    
-   </div>
-   <div class="col-12 col-md-8 px-4 my-4" >
-    <div class="row m-4">
-  
+   </div >
+
+   <div class="col-12 col-md-8 p-4 as pl-m-1">
+   
+   <div class="bg-white p-2 flex-column " >
+    <div class="row mx-4 mb-3">
      <b-form-input
         class="col-7 col-xl-4"
         v-model="filter"
         type="search"
         id="filterInput"
         placeholder="Type to Search"
-      ></b-form-input>
-    
-        <b-button class="col-2 col-xl-1 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+      ></b-form-input>  
+      <b-button class="col-2 col-xl-1 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
  
-    <b-col  lg="12" xl="6" md="12" class="my-1">
+    <b-col  lg="12" xl="6" md="12" class="my-1 " >
         <b-form-group
           label-align-sm="right"
           label-size="sm"
-  
+ 
           class="mb-0">
           <b-form-checkbox-group v-model="filterOn" class="mt-1">
             <b class="pr-2">Filter</b>
@@ -69,24 +70,24 @@
       </template>
     
       <template v-slot:cell(Name)="row" >
-       <div @click="imgsele(row)"> {{ row.value }} </div>
+       <div @click="Selected(row)"> {{ row.value }} </div>
       </template>
       <template v-slot:cell(SMILE)="row" >
-       <div @click="imgsele(row)"> {{ row.value }} </div>
+       <div @click="Selected(row)"> {{ row.value }} </div>
       </template>
       <template v-slot:cell(pKa_K_Overall)="row">
-        <div @click="imgsele(row)">
+        <div @click="Selected(row)">
         <b-button size="sm"  class="fa   fa-save bg-info mr-1"  @click="(row.item)"> <span class="text-white"> Save info </span></b-button>
  
      </div>
       </template>
       <template v-slot:cell(Valor)="row"> 
-         <div @click="imgsele(row)"> {{row.Value}}</div>
+         <div @click="Selected(row)"> {{row.Value}}</div>
       </template>
       
       
       <template v-slot:cell(ris_image)="row">
-         <div @click="imgsele(row)">
+         <div @click="Selected(row)">
         <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
           {{ row.detailsShowing ? 'Hide' : 'Show' }} RIS
         </b-button>
@@ -94,7 +95,7 @@
       </template>
       
       <template v-slot:row-details="row">
-       <div @click="imgsele(row)">
+       <div @click="Selected(row)">
         <b-card >
          <div v-if="row.item.Reference != null && row.item.Reference != 'null'">
              <b-form-textarea
@@ -127,9 +128,36 @@
       <br/> 
     </b-col>
     </div>
-    
     </div>
-       
+    </div>
+    
+         <transition
+     name="fade"
+            enter-active-class="res"
+            leave-active-class="ocu"
+         >
+         <div v-if="pKa_s.length>0">
+            <div id="PKA_S" class=" row pt-4  mt-4 contentDATA">
+               <h3><b>pKa's</b></h3>  
+               
+               
+             </div>
+         </div>
+        </transition>
+         
+       <transition
+        name="fade"
+             enter-active-class="res"
+            leave-active-class="ocu"
+         >
+         <div v-if="K_Overals.length>0">
+            <div id="K_Ov" class="row pt-4 mt-4 contentDATA">
+                <h3><b>K<sub>overalls</sub></b></h3> 
+                
+            </div>
+         </div>
+      </transition> 
+
    </b-container>  
 </template>
 <script>
@@ -149,6 +177,9 @@
           sortDirection: 'asc',
           filter: null,
           filterOn: [],
+          pKa_s: [],
+          K_Overals: [],
+          
           fields: [
             { key:'ID',label:'id', variant: 'success',thStyle: { backgroundColor: '#3eef33' ,width: "30px"}},
             { key:'Name', label: 'Molecule', sortable: true, 'class': 'my-clas'},
@@ -158,6 +189,7 @@
           ],
       }  
     },
+    
     computed: {
     	sortOptions() { 
     		return this.fields.filter(f => f.sortable).map(
@@ -178,10 +210,43 @@
           this.totalRows = filteredItems.length
           this.currentPage = 1
         },
-        imgsele(index){
-         	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
+        Selected(index){
+         	//Primero camio la imagen
+        	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
        		this.selected.Name=index.item.Name;
-        }, 
+       		//despues seleciono unos pka especificos 
+            this.pKa_s = [];
+            
+  
+            
+            
+       		axios.get( 'PK_S/'+index.item.ID 
+            ).then(response =>{ 
+         	   	console.log(response.data);	 
+           	    this.pKa_s = response.data;
+         	/*	if(this.pKa_s.length>0)
+                   $("#PKA_S").addClass("res").removeClass("ocu"); 
+                else 
+         		   $("#PKA_S").removeClass("res").addClass("ocu");
+              */  
+             });
+       		
+       
+     	   //despues seleccino unos KOverals
+            this.K_Overals= [];  
+            axios.get( 'KOverals/'+index.item.ID 
+            ).then(response =>{ 
+         	   	console.log(response.data);	 
+           	    this.K_Overals = response.data; 
+    /*
+           	    if(this.K_Overals.length>0)
+                   $("#K_Ov").addClass("res").removeClass("ocu"); 
+                 else 
+           		   $("#K_Ov").removeClass("res").addClass("ocu");
+      */            
+             });
+            
+        },
     }
  }
  </script>
@@ -195,5 +260,31 @@
     .infoCol{
     
     }
+    .as{ 
+      padding: 0px !important;
+      padding-left:20px !important;
+      
+    }
+    .trans{
+       
+    }
+
+    .contentDATA{
+      background-color:  #dee2e6 !important;
+      min-height: 100px;
+      padding: 10px;
+      border-radius: 0px 40px 0px 40px !important;
+      
+    }
     
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+       
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+      opacity: 0;
+    }
+    .text_font{
+         font-size: .75rem !important;
+    }
  </style>

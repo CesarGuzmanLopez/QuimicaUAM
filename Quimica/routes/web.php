@@ -17,6 +17,11 @@ Route::get('/','PrincipalController@index');
 Route::get('/Data-base', 'PrincipalController@BD');
 	
 Route::apiResource('/getMolecules','View_DATABASE\MoleculesController');
+Route::apiResource('/KOverals','View_DATABASE\KOverals');
+Route::apiResource('/PK_S','View_DATABASE\PK_S');
+
+
+
 
 Auth::routes(['verify' => true]);
 

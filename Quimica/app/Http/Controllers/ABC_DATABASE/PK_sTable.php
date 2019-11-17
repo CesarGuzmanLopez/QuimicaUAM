@@ -94,7 +94,7 @@ class PK_sTable extends Controller
     	
     	$pKa->ID_Alta=auth()->id();
     	$pKa->ID =0+ $request->Id_Molecule;
-    	if($request->has('Site') && $request->Site!="" &&$request->Site!="null" )
+    	if($request->has('Site')   &&$request->Site!="null" )
     		$pKa->Site=$request->Site;
      	$pKa->Description=$request->Description;
  		if($request->has('id_reference') && $request->id_reference!="" &&$request->id_reference!="null" )

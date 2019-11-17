@@ -6,6 +6,7 @@
 
 import $ from 'jquery';
 window.$ = window.jQuery = $;
+global.$ = global.jQuery = require('jquery');
 
 import 'jquery-ui/ui/widgets/datepicker.js';
 
@@ -13,9 +14,9 @@ require('./bootstrap');
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import * as uiv from 'uiv'
-
+window.Vue = require('vue');
 Vue.use(BootstrapVue)
-Vue.use(uiv )
+Vue.use(uiv)
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,6 +34,7 @@ Vue.component('k_overallabc',require('./components/BD_pk_Koverall/K_OverallABC.v
 Vue.component('pk_sabc',require('./components/BD_pk_Koverall/pk_sABC.vue').default);
 Vue.component('radicalsabc',require('./components/BD_pk_Koverall/radicalsABC.vue').default);
 Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC.vue').default);
+
 var app = new Vue({
     el: '#app',
 });
