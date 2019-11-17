@@ -26,7 +26,6 @@
             <b-form-checkbox value="SMILE">Smile</b-form-checkbox>
             <b-form-checkbox value="RIS">RIS</b-form-checkbox>
             <b-button v-b-modal.addmole class="fa fa-save bg-success mx-4"> Add molecule</b-button>
-          
           </b-form-checkbox-group>
         </b-form-group>
       </b-col> 
