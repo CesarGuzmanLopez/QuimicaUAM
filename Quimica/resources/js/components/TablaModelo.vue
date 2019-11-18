@@ -150,10 +150,10 @@
                    </div> 
                     <div class="row "> 
                        <div class="col-1"></div>
-                       <div class="col-4"> <b>Value:  <span class="pl-3">{{item.Value}}</span> </b></div>
+                       <div class="col-4"> <b>pKa{{index+1}}:  <span class="pl-3">{{item.Value}}</span> </b></div>
                        <div class="col-3"  v-if="item.Site !='' && item.Site!=null"  data-toggle="tooltip" title="Site for image">Site: {{item.Site}}</div>
                        <div class="col-4" v-if="item.Description !='' && item.Description!=null"  data-toggle="tooltip" title="description regarding this value"><div>Description:</div> {{item.Description}}</div>           
-                     <hr/>
+                     
                      </div>
                   </div>
                 
@@ -166,27 +166,60 @@
          <div v-if="K_Overals.length>0" class="col-12 col-md-6  pt-0 px-0">
             <div id="K_Ov" class=" pt-4 mt-4 contentDATA">
                 <h3><b>Kinetic constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
-                
                 <div class="col-12"> 
                   <div v-for="item in K_Overals ">
                     <div class="   col-12">
                     <span data-toggle="tooltip" :title="item.Valor.toFixed(0)" > {{item.Valor.toPrecision(2)}}</span>
                      </div>
-                    <hr/>
                   </div>
                 </div>
             </div>
          </div>
       </transition> 
+     <transition name="fade">
+       <div v-if="pKa_s.length>0" class="col-12 pr-md-4 "> 
+         <div  class="col-12 col-md-12 bg-white mt-4 p-0  ">
+         <div class="row p-0 m-0 pt-4  mt-4 contentDATA ">
+           <div class="col-12"> 
+             <h3><b>Dissociaton Constants graphics</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
+           </div>
+            
+            <div class="col-12 col-md-5 p-4 " >
+                <b-row>
+                <h4><label  label-align-sm="left" label-size="sm" for="pH_graph" class=" col-1 mb-0">pH</label></h4>
+                <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"></b-form-input>  
+           </b-row>
+           </div>
+           
+           <div class="col-12 col-md-7 p-4">
+          
+            <div class="ct-chart ct-golden-section " id="Uncn1" ></div>
+           </div>
+        
+         </div>
+         </div>
+         </div>
+      </transition> 
+
 </div>
    </b-container>  
 </template>
 <script>
+
+  var values_Graphics;
   export default {
+	  
     data() {   
       return {
     	  tipo_pK:"",
     	  tipo_kO:"",
+    	  /*grafica */
+    	  
+    	  pH_F_Gr:7.4,
+    	  pKa_s_Gr: [],
+    	  
+    	  
+    	  /**/
     	  
     	  inx:0,
     	  selected:{img:"img/gene.jpg",name:""},
@@ -223,6 +256,7 @@
     	}
     },
     mounted() {
+    	values_Graphics =[56,113,86,98]
         // Set the initial number of items
         this.totalRows = this.items.length
         axios.get('getMolecules').then(response =>{
@@ -239,6 +273,128 @@
         cambiatipo_pk(valor){
         	this.tipo_pK=valor;
         },
+        
+        /*Grafica  */
+        fBeta(k){
+        	var suma=0.0;
+        	if(k>this.pKa_s_Gr.length)
+        		throw ("k mayor que pk_a");
+        	for(var i=0; i<k ; i++ ){ 
+         		suma += this.pKa_s_Gr[(this.pKa_s_Gr.length)-i-1];
+        	
+        	}
+         	return 10**suma;
+        },
+        F0(V_pH){
+        	var suma=1.0;
+        	var Con_H = 10 ** (-V_pH);
+        	for(var i=0; i<this.pKa_s_Gr.length;i++ ){
+        		suma += this.fBeta(i+1)*Con_H**(i+1)
+        		
+        	}
+        	return 1/suma;
+        },
+        FK(V_pH, K){
+        	if(K==0)
+        		return this.F0(V_pH);
+        	var Con_H = 10 ** (-V_pH);
+        	
+        	return this.F0(V_pH)*this.fBeta(K)*Con_H**K;
+        },
+        cargagraph(){
+        	
+        	
+        	var pH=this.pH_F_Gr;
+         	var Serie =[];
+         	var xs=[]; this.pKa_s_Gr=[];
+         	for(var j=0; j< this.pKa_s.length;j++){ 
+        		
+         		this.pKa_s_Gr.push(this.pKa_s[j].Value);
+        	}
+         	
+         	
+         	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
+        		var valores=[];
+        		//console.log(this.pKa_s_Gr);
+			
+        		for(var i=0.1; i<=14; i+=.1){
+ 					var d=this.FK(i,j);
+        			valores.push(d);
+        		}
+
+        		Serie.push(valores.slice());
+        		
+         	}
+
+
+        	for(var i=0.0; i<=14; i+=.1){
+    			xs.push(i);	
+    		}
+        	setTimeout(x=>{
+        	var unc = new Chartist.Line('#Uncn1', {
+        		
+       		    labels: xs,
+       		    series: Serie,		 
+       	  },{
+       		 showPoint: false,
+       		  axisX: { 
+       		    labelInterpolationFnc: function(value, index) {
+       		      return index* 10 % 200 === 0 ? index/10 : null;
+       		    }
+       		  },
+       		 
+       		  plugins: [
+       			  Chartist.plugins.ctAxisTitle({
+       				  axisX: {
+       					  axisTitle: 'pH',
+       					  axisClass: 'ct-axis-titlex',
+       					  offset: {
+       						  x: 240,
+       						  y: 25
+       					  },
+       					  textAnchor: 'middle',
+       					  flipTitle: false,
+       				  },
+       				  axisY: {
+       					  axisTitle: 'molar fraction',
+       					  axisClass: 'ct-axis-titley',
+       					  offset: {
+       						  x: -145,
+       						  y: -165
+       					  },
+       					  textAnchor: 'middle',
+       					  flipTitle: false,
+       				  },
+       			  }),
+       			  
+       			  
+       		  ]
+       		  
+       		  
+       		  
+       		}
+       	  
+       	 
+        );
+        unc.on('draw', function(data) {
+        	  if(data.type === 'line' || data.type === 'area') {
+        		    data.element.animate({
+        		      d: {
+        		        begin: 100 * data.index,
+        		        dur: 100,
+        		        from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+        		        to: data.path.clone().stringify(),
+        		        easing: Chartist.Svg.Easing.easeOutQuint
+        		      }
+        		    });
+        		  }
+        		});
+	
+        	} ,100);	
+        }
+        
+        ,
+        /*fin grafica*/
         Selected(index){
         	//contador para los indices
         	this.tipo_pK="";
@@ -246,31 +402,43 @@
          	//Primero camio la imagen
         	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
        		this.selected.Name=index.item.Name; 
+       		var getData=false;
        		for (var i = 0; i < this.data_pKa_s.length; i+=1) {
        		  if(this.data_pKa_s[i].id==index.item.ID ){
        			  this.pKa_s=[];
        			  this.K_Overals=[];
        			  this.pKa_s=this.data_pKa_s[i].data;
        			  this.K_Overals=this.data_K_Overalls[i].data;
-				  return 0;  
+       			getData=true;
+       			this.cargagraph();
        		  }   
        		}	
+       		
+       		
+       		if(!getData){
+       		
        		//despues seleciono unos pka especificos 
-        		axios.get( 'PK_S/'+index.item.ID 
+            axios.get( 'PK_S/'+index.item.ID 
             ).then(response =>{ 
             	this.pKa_s = response.data;
            	    this.data_pKa_s.push({id:index.item.ID ,data:JSON.parse(JSON.stringify(response.data))});
+           	 this.cargagraph();
             });  
      	   //despues seleccino unos KOverals
             axios.get( 'KOverals/'+index.item.ID 
             ).then(response =>{ 
            	    this.K_Overals = response.data; 
            		this.data_K_Overalls.push({id:index.item.ID ,data:  JSON.parse(JSON.stringify(response.data))});
-  
+           		this.cargagraph();
              }); 
+       		}
+       		
+            
         },
     }
+    
  }
+
  </script>
  <style>
     .tama{
@@ -346,5 +514,33 @@
     min-height: 100px;
     padding: 30px;
     margin-bottom: 30px;
+   }
+   .ct-axis-titley{
+      font-size: 20px !important;
+  
+    transform: rotate(-90deg);
+
+background-color: red !important;
+  /* Legacy vendor prefixes that you probably don't need... */
+
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  
+  
+   }
+   .ct-axis-titlex{
+      font-size: 20px !important;
+      
+      
+      
    }
  </style>

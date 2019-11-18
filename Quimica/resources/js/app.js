@@ -11,12 +11,20 @@ global.$ = global.jQuery = require('jquery');
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 require('./bootstrap');
+require('chartist-plugin-axistitle');
+//require('chartist-plugin-?????????');
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import * as uiv from 'uiv'
 window.Vue = require('vue');
+import Chartist from 'chartist';
+global.Chartist =require('chartist');
+
+
 Vue.use(BootstrapVue)
 Vue.use(uiv)
+Vue.use(Chartist)
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,10 +43,11 @@ Vue.component('pk_sabc',require('./components/BD_pk_Koverall/pk_sABC.vue').defau
 Vue.component('radicalsabc',require('./components/BD_pk_Koverall/radicalsABC.vue').default);
 Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC.vue').default);
 
+ 
+
 var app = new Vue({
     el: '#app',
 });
-
 
 
 $(function ($) {
