@@ -8,7 +8,6 @@
             <b-nav card-header tabs>
               <b-nav-item active>General</b-nav-item>
               <b-nav-item>Details</b-nav-item>
-            </b-nav>
           </template>
           <b-card-text> 
                Table containing all the molecules for the database of k_overalls and pk's
@@ -78,7 +77,7 @@
        
       </div>
        <div class="col-12 col-md-4 py-5">
-        <b-card title="K overals" body-class="text-center"  bg-variant="light" header="Light" header-tag="nav">
+        <b-card title="K Overalls" body-class="text-center"  bg-variant="light" header="Light" header-tag="nav">
           <template v-slot:header>
             <b-nav card-header tabs>
               <b-nav-item active>General</b-nav-item>
@@ -86,7 +85,7 @@
             </b-nav>
           </template>
           <b-card-text> 
-               Table containing all the K overals for the database of k_overalls and pk's
+               Table containing all the K Overalls for the database of k_overalls and pk's
           </b-card-text>
           <b-button variant="primary" href="{{url('ModifyBD/DB-pk-Koverall/K_overall')}}">Modify</b-button>
         </b-card>        

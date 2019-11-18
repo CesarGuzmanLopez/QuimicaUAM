@@ -5298,19 +5298,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
 
     return _ref = {
+      tipo_pK: "",
+      tipo_kO: "",
+      inx: 0,
       selected: {
-        img: "img/matrazRoto.png",
+        img: "img/gene.jpg",
         name: ""
       },
       isBusy: true,
       items: [],
       totalRows: 0
-    }, _defineProperty(_ref, "totalRows", 1), _defineProperty(_ref, "currentPage", 1), _defineProperty(_ref, "perPage", 8), _defineProperty(_ref, "pageOptions", [5, 10, 15]), _defineProperty(_ref, "sortBy", ''), _defineProperty(_ref, "sortDesc", false), _defineProperty(_ref, "sortDirection", 'asc'), _defineProperty(_ref, "filter", null), _defineProperty(_ref, "filterOn", []), _defineProperty(_ref, "pKa_s", []), _defineProperty(_ref, "K_Overals", []), _defineProperty(_ref, "fields", [{
+    }, _defineProperty(_ref, "totalRows", 1), _defineProperty(_ref, "currentPage", 1), _defineProperty(_ref, "perPage", 8), _defineProperty(_ref, "pageOptions", [5, 10, 15]), _defineProperty(_ref, "sortBy", ''), _defineProperty(_ref, "sortDesc", false), _defineProperty(_ref, "sortDirection", 'asc'), _defineProperty(_ref, "filter", null), _defineProperty(_ref, "filterOn", []), _defineProperty(_ref, "pKa_s", []), _defineProperty(_ref, "K_Overals", []), _defineProperty(_ref, "data_K_Overalls", []), _defineProperty(_ref, "data_pKa_s", []), _defineProperty(_ref, "fields", [{
       key: 'ID',
       label: 'id',
       variant: 'success',
@@ -5366,35 +5388,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+    cambiatipo_pk: function cambiatipo_pk(valor) {
+      this.tipo_pK = valor;
+    },
     Selected: function Selected(index) {
       var _this2 = this;
 
-      //Primero camio la imagen
+      //contador para los indices
+      this.tipo_pK = "";
+      this.tipo_kO = ""; //Primero camio la imagen
+
       this.selected.img = "files/data-base-img/" + index.item.ID + "/" + index.item.Imagen;
       ;
-      this.selected.Name = index.item.Name; //despues seleciono unos pka especificos 
+      this.selected.Name = index.item.Name;
 
-      this.pKa_s = [];
+      for (var i = 0; i < this.data_pKa_s.length; i += 1) {
+        if (this.data_pKa_s[i].id == index.item.ID) {
+          this.pKa_s = [];
+          this.K_Overals = [];
+          this.pKa_s = this.data_pKa_s[i].data;
+          this.K_Overals = this.data_K_Overalls[i].data;
+          return 0;
+        }
+      } //despues seleciono unos pka especificos 
+
+
       axios.get('PK_S/' + index.item.ID).then(function (response) {
-        console.log(response.data);
         _this2.pKa_s = response.data;
-        /*	if(this.pKa_s.length>0)
-                 $("#PKA_S").addClass("res").removeClass("ocu"); 
-              else 
-        	   $("#PKA_S").removeClass("res").addClass("ocu");
-            */
+
+        _this2.data_pKa_s.push({
+          id: index.item.ID,
+          data: JSON.parse(JSON.stringify(response.data))
+        });
       }); //despues seleccino unos KOverals
 
-      this.K_Overals = [];
       axios.get('KOverals/' + index.item.ID).then(function (response) {
-        console.log(response.data);
         _this2.K_Overals = response.data;
-        /*
-               	    if(this.K_Overals.length>0)
-                       $("#K_Ov").addClass("res").removeClass("ocu"); 
-                     else 
-               		   $("#K_Ov").removeClass("res").addClass("ocu");
-          */
+
+        _this2.data_K_Overalls.push({
+          id: index.item.ID,
+          data: JSON.parse(JSON.stringify(response.data))
+        });
       });
     }
   }
@@ -38056,7 +38090,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.tama{\n   min-height: 100px;\n}\n.Wcol{\n max-width: 3px;\n}\n.infoCol{\n}\n.as{ \n  padding: 0px !important;\n  padding-left:20px !important;\n}\n.trans{\n}\n.contentDATA{\n  background-color:  #dee2e6 !important;\n  min-height: 100px;\n  padding: 10px;\n  border-radius: 0px 40px 0px 40px !important;\n}\n.fade-enter-active, .fade-leave-active {\n  -webkit-transition: opacity .5s;\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\n  opacity: 0;\n}\n.text_font{\n     font-size: .75rem !important;\n}\n", ""]);
+exports.push([module.i, "\n.tama{\n       min-height: 100px;\n}\n.Wcol{\n     max-width: 3px;\n}\n.infoCol{\n}\n.as{ \n      padding: 0px !important;\n      padding-left:20px !important;\n}\n.trans{\n}\n.contentDATA{\n      background-color:  #ffffff !important;\n      min-height: 100px;\n      padding: 10px;\n      border-radius: 0px 40px 0px 10px !important;\n}\n.contentDATA h3{\n      display:inline-block;\n      width: 100%;\n      border-bottom: 4px solid blue;\n}\n.fade-enter-active, .fade-leave-active {\n  -webkit-transition: all .5s ease-in;\n  transition: all .5s ease-in;\n   opacity: 100;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); \n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\n   opacity: 0;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   height:0px;\n}\n.text_font{\n         font-size: .75rem !important;\n}\n.img_max{\n}\n.img_molecule{\n      max-height: 340px;\n}\n#BaseDatos {\n   \n    min-height: 100px;\n    padding: 30px;\n    margin-bottom: 30px;\n}\n ", ""]);
 
 // exports
 
@@ -81509,26 +81543,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "b-container",
-    { staticClass: "col-12 ", attrs: { fluid: "" } },
-    [
-      _c("div", { staticClass: "row text_font" }, [
-        _c(
-          "div",
-          { staticClass: "col-12 col-md-4 p-4 center-block bg-white" },
-          [
-            _c("h3", [_c("b", [_vm._v(" " + _vm._s(_vm.selected.Name))])]),
-            _vm._v(" "),
-            _c("b-img", {
-              staticClass: "p-4",
-              attrs: { alt: "", "fluid-grow": "", src: _vm.selected.img }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-md-8 p-4 as pl-m-1" }, [
+  return _c("b-container", { staticClass: "col-12 ", attrs: { fluid: "" } }, [
+    _c("div", { staticClass: "row text_font" }, [
+      _c(
+        "div",
+        { staticClass: "col-12 col-md-4 p-4 center-block bg-white img_max" },
+        [
+          _c("h3", [_c("b", [_vm._v(" " + _vm._s(_vm.selected.Name))])]),
+          _vm._v(" "),
+          _c("b-img", {
+            staticClass: "p-2 img_molecule",
+            attrs: { alt: "", "fluid-grow": "", src: _vm.selected.img }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "col-12 pt-4  px-0   pr-md-0 col-md-8 pt-md-0 pl-md-4 "
+        },
+        [
           _c(
             "div",
             { staticClass: "bg-white p-2 flex-column " },
@@ -81761,6 +81797,24 @@ var render = function() {
                                   _vm._v(" Save info ")
                                 ])
                               ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-button",
+                              {
+                                staticClass: "fa fa-paper-plane mr-1",
+                                attrs: { size: "sm", href: "#info" },
+                                on: {
+                                  click: function($event) {
+                                    row.item
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", { staticClass: "text-white" }, [
+                                  _vm._v(" go ")
+                                ])
+                              ]
                             )
                           ],
                           1
@@ -81809,11 +81863,11 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n       " +
+                                  "\n          " +
                                     _vm._s(
                                       row.detailsShowing ? "Hide" : "Show"
                                     ) +
-                                    " RIS\n     "
+                                    " RIS\n        "
                                 )
                               ]
                             )
@@ -81906,65 +81960,165 @@ var render = function() {
             ],
             1
           )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "transition",
-        {
-          attrs: {
-            name: "fade",
-            "enter-active-class": "res",
-            "leave-active-class": "ocu"
-          }
-        },
-        [
-          _vm.pKa_s.length > 0
-            ? _c("div", [
-                _c(
-                  "div",
-                  {
-                    staticClass: " row pt-4  mt-4 contentDATA",
-                    attrs: { id: "PKA_S" }
-                  },
-                  [_c("h3", [_c("b", [_vm._v("pKa's")])])]
-                )
-              ])
-            : _vm._e()
         ]
-      ),
-      _vm._v(" "),
-      _c(
-        "transition",
-        {
-          attrs: {
-            name: "fade",
-            "enter-active-class": "res",
-            "leave-active-class": "ocu"
-          }
-        },
-        [
-          _vm.K_Overals.length > 0
-            ? _c("div", [
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row p-1 ", attrs: { id: "info" } },
+      [
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.pKa_s.length > 0
+            ? _c("div", { staticClass: "col-12 p-0  col-md-6 pr-md-4 " }, [
                 _c(
                   "div",
                   {
-                    staticClass: "row pt-4 mt-4 contentDATA",
-                    attrs: { id: "K_Ov" }
+                    staticClass: "pt-4  mt-4 contentDATA",
+                    attrs: { id: "PKA_S" }
                   },
                   [
                     _c("h3", [
-                      _c("b", [_vm._v("K"), _c("sub", [_vm._v("overalls")])])
-                    ])
+                      _c("b", [_vm._v("Dissociaton Constants")]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "float-right" }, [
+                        _vm._v(" " + _vm._s(_vm.selected.Name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-12" },
+                      _vm._l(_vm.pKa_s, function(item, index) {
+                        return _c("div", [
+                          index == 0 || item.Tipo_Exp_teo
+                            ? _c("div", [
+                                _c("div", { staticClass: "col-12" }, [
+                                  item.Tipo_Exp_teo == "E"
+                                    ? _c("div", [
+                                        _c("b", [_vm._v("Experimental")])
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  item.Tipo_Exp_teo == "T"
+                                    ? _c("div", [
+                                        _c("b", [_vm._v("Theoretical")])
+                                      ])
+                                    : _vm._e()
+                                ])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row " }, [
+                            _c("div", { staticClass: "col-1" }, [
+                              _vm._v(_vm._s(index + 1))
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-4" }, [
+                              _c("b", [
+                                _vm._v("Value:  "),
+                                _c("span", { staticClass: "pl-3" }, [
+                                  _vm._v(_vm._s(item.Value))
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            item.Site != "" && item.Site != null
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-3",
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      title: "Site for image"
+                                    }
+                                  },
+                                  [_vm._v("Site: " + _vm._s(item.Site))]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.Description != "" && item.Description != null
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-4",
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      title: "description regarding this value"
+                                    }
+                                  },
+                                  [
+                                    _c("div", [_vm._v("Description:")]),
+                                    _vm._v(" " + _vm._s(item.Description))
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("hr")
+                          ])
+                        ])
+                      }),
+                      0
+                    )
                   ]
                 )
               ])
             : _vm._e()
-        ]
-      )
-    ],
-    1
-  )
+        ]),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.K_Overals.length > 0
+            ? _c("div", { staticClass: "col-12 col-md-6  pt-0 px-0" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: " pt-4 mt-4 contentDATA",
+                    attrs: { id: "K_Ov" }
+                  },
+                  [
+                    _c("h3", [
+                      _c("b", [
+                        _vm._v("Kinetic constants K"),
+                        _c("sub", [_vm._v("overalls")])
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "float-right" }, [
+                        _vm._v(" " + _vm._s(_vm.selected.Name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-12" },
+                      _vm._l(_vm.K_Overals, function(item) {
+                        return _c("div", [
+                          _c("div", { staticClass: "   col-12" }, [
+                            _c(
+                              "span",
+                              {
+                                attrs: {
+                                  "data-toggle": "tooltip",
+                                  title: item.Valor.toFixed(0)
+                                }
+                              },
+                              [_vm._v(" " + _vm._s(item.Valor.toPrecision(2)))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("hr")
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

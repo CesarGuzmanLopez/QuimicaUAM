@@ -19,8 +19,9 @@
       <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <style type="text/css">
          #Container{
-            background-image: url( "{{ asset('img/Fondo.svg') }}");
+ /*           background-image: url( "{{ asset('img/Fondo.svg') }}");*/
              background-repeat: repeat;
+            background-color: #f6f6f6
          }
       </style> 
       <!-- @show()-->

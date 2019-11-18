@@ -2,12 +2,11 @@
    <b-container fluid class="col-12 ">
    
    <div class="row text_font">   
-   <div class="col-12 col-md-4 p-4 center-block bg-white">
+   <div class="col-12 col-md-4 p-4 center-block bg-white img_max">
    <h3><b> {{selected.Name}}</b></h3>
-        <b-img alt="" class="p-4" fluid-grow :src="selected.img"/>
-   </div >
-
-   <div class="col-12 col-md-8 p-4 as pl-m-1">
+        <b-img alt="" class="p-2 img_molecule"  fluid-grow :src="selected.img"/>
+   </div > 
+   <div class="col-12 pt-4  px-0   pr-md-0 col-md-8 pt-md-0 pl-md-4 ">
    
    <div class="bg-white p-2 flex-column " >
     <div class="row mx-4 mb-3">
@@ -78,7 +77,7 @@
       <template v-slot:cell(pKa_K_Overall)="row">
         <div @click="Selected(row)">
         <b-button size="sm"  class="fa   fa-save bg-info mr-1"  @click="(row.item)"> <span class="text-white"> Save info </span></b-button>
- 
+        <b-button size="sm"  class="fa fa-paper-plane mr-1" href="#info" @click="(row.item)"> <span class="text-white"> go </span></b-button>
      </div>
       </template>
       <template v-slot:cell(Valor)="row"> 
@@ -130,41 +129,65 @@
     </div>
     </div>
     </div>
-    
-         <transition
-     name="fade"
-            enter-active-class="res"
-            leave-active-class="ocu"
-         >
-         <div v-if="pKa_s.length>0">
-            <div id="PKA_S" class=" row pt-4  mt-4 contentDATA">
-               <h3><b>pKa's</b></h3>  
-               
-               
+    <div class="row p-1 " id="info">
+   <transition name="fade">
+         <div v-if="pKa_s.length>0" class="col-12 p-0  col-md-6 pr-md-4 ">
+            <div id="PKA_S" class="pt-4  mt-4 contentDATA">
+               <h3><b>Dissociaton Constants</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
+             <div class="col-12">
+                  
+                  <div v-for="(item, index) in pKa_s" >
+                   <div v-if="index == 0 ||item.Tipo_Exp_teo ">
+                        <div  class="col-12"  >
+                           <div  v-if="item.Tipo_Exp_teo =='E' " >
+                             <b>Experimental</b>
+                           </div>
+                           <div v-if="item.Tipo_Exp_teo =='T' " >
+                             <b>Theoretical</b>  
+                           </div> 
+                        </div>
+                   </div> 
+                    <div class="row "> 
+                       <div class="col-1">{{index+1}}</div>
+                       <div class="col-4"> <b>Value:  <span class="pl-3">{{item.Value}}</span> </b></div>
+                       <div class="col-3"  v-if="item.Site !='' && item.Site!=null"  data-toggle="tooltip" title="Site for image">Site: {{item.Site}}</div>
+                       <div class="col-4" v-if="item.Description !='' && item.Description!=null"  data-toggle="tooltip" title="description regarding this value"><div>Description:</div> {{item.Description}}</div>           
+                     <hr/>
+                     </div>
+                  </div>
+                
+                </div>
              </div>
          </div>
         </transition>
          
-       <transition
-        name="fade"
-             enter-active-class="res"
-            leave-active-class="ocu"
-         >
-         <div v-if="K_Overals.length>0">
-            <div id="K_Ov" class="row pt-4 mt-4 contentDATA">
-                <h3><b>K<sub>overalls</sub></b></h3> 
-                
+     <transition name="fade">
+         <div v-if="K_Overals.length>0" class="col-12 col-md-6  pt-0 px-0">
+            <div id="K_Ov" class=" pt-4 mt-4 contentDATA">
+                <h3><b>Kinetic constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
+                <div class="col-12"> 
+                  <div v-for="item in K_Overals ">
+                    <div class="   col-12">
+                    <span data-toggle="tooltip" :title="item.Valor.toFixed(0)" > {{item.Valor.toPrecision(2)}}</span>
+                     </div>
+                    <hr/>
+                  </div>
+                </div>
             </div>
          </div>
       </transition> 
-
+</div>
    </b-container>  
 </template>
 <script>
   export default {
     data() {   
       return {
-    	  selected:{img:"img/matrazRoto.png",name:""},
+    	  tipo_pK:"",
+    	  tipo_kO:"",
+    	  
+    	  inx:0,
+    	  selected:{img:"img/gene.jpg",name:""},
     	  isBusy: true,
     	  items:[],
     	  totalRows:0,
@@ -179,7 +202,8 @@
           filterOn: [],
           pKa_s: [],
           K_Overals: [],
-          
+          data_K_Overalls: [],
+          data_pKa_s: [],
           fields: [
             { key:'ID',label:'id', variant: 'success',thStyle: { backgroundColor: '#3eef33' ,width: "30px"}},
             { key:'Name', label: 'Molecule', sortable: true, 'class': 'my-clas'},
@@ -210,42 +234,38 @@
           this.totalRows = filteredItems.length
           this.currentPage = 1
         },
+        cambiatipo_pk(valor){
+        	this.tipo_pK=valor;
+        },
         Selected(index){
+        	//contador para los indices
+        	this.tipo_pK="";
+    	  	this.tipo_kO="";
          	//Primero camio la imagen
         	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
-       		this.selected.Name=index.item.Name;
+       		this.selected.Name=index.item.Name; 
+       		for (var i = 0; i < this.data_pKa_s.length; i+=1) {
+       		  if(this.data_pKa_s[i].id==index.item.ID ){
+       			  this.pKa_s=[];
+       			  this.K_Overals=[];
+       			  this.pKa_s=this.data_pKa_s[i].data;
+       			  this.K_Overals=this.data_K_Overalls[i].data;
+				  return 0;  
+       		  }   
+       		}	
        		//despues seleciono unos pka especificos 
-            this.pKa_s = [];
-            
-  
-            
-            
-       		axios.get( 'PK_S/'+index.item.ID 
+        		axios.get( 'PK_S/'+index.item.ID 
             ).then(response =>{ 
-         	   	console.log(response.data);	 
-           	    this.pKa_s = response.data;
-         	/*	if(this.pKa_s.length>0)
-                   $("#PKA_S").addClass("res").removeClass("ocu"); 
-                else 
-         		   $("#PKA_S").removeClass("res").addClass("ocu");
-              */  
-             });
-       		
-       
+            	this.pKa_s = response.data;
+           	    this.data_pKa_s.push({id:index.item.ID ,data:JSON.parse(JSON.stringify(response.data))});
+            });  
      	   //despues seleccino unos KOverals
-            this.K_Overals= [];  
             axios.get( 'KOverals/'+index.item.ID 
             ).then(response =>{ 
-         	   	console.log(response.data);	 
            	    this.K_Overals = response.data; 
-    /*
-           	    if(this.K_Overals.length>0)
-                   $("#K_Ov").addClass("res").removeClass("ocu"); 
-                 else 
-           		   $("#K_Ov").removeClass("res").addClass("ocu");
-      */            
-             });
-            
+           		this.data_K_Overalls.push({id:index.item.ID ,data:  JSON.parse(JSON.stringify(response.data))});
+  
+             }); 
         },
     }
  }
@@ -270,21 +290,56 @@
     }
 
     .contentDATA{
-      background-color:  #dee2e6 !important;
+      background-color:  #ffffff !important;
       min-height: 100px;
       padding: 10px;
-      border-radius: 0px 40px 0px 40px !important;
+      border-radius: 0px 40px 0px 10px !important;
       
     }
-    
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s;
-       
+    .contentDATA h3{
+      display:inline-block;
+      width: 100%;
+      border-bottom: 4px solid blue;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-      opacity: 0;
-    }
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s ease-in;
+   opacity: 100;
+   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+   -moz-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   -ms-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   -o-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+   opacity: 0;
+   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+
+   -moz-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+
+   -ms-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+
+   -o-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+
+   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
+
+   height:0px;
+  
+}
+
     .text_font{
          font-size: .75rem !important;
     }
+    .img_max{
+       
+    
+    }
+    .img_molecule{
+      max-height: 340px;
+    }
+    #BaseDatos {
+   
+    min-height: 100px;
+    padding: 30px;
+    margin-bottom: 30px;
+   }
  </style>

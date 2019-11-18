@@ -25,8 +25,7 @@ footer{
 	border: none;
 }
 #BaseDatos{
-	border: gray 2px solid;
-	min-height: 100px;
+ 	min-height: 500px;
 	padding: 30px;
 	margin-bottom: 30px;
 }

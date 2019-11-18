@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-
+@extends('layouts.app') 
 @section('content')   
   <div class="cover-container d-flex w-100 h-100  mx-auto flex-column">
     <div id="BaseDatos" class=""> 
@@ -9,6 +7,5 @@
       <!-- fin table de moleculas --> 
     </div>
    </div>
-   
 @endsection
 
