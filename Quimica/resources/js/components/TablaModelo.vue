@@ -137,8 +137,8 @@
              <div class="col-12">
                   
                   <div v-for="(item, index) in pKa_s" >
-                   <div v-if="index == 0 ||item.Tipo_Exp_teo ">
-                        <div  class="col-12"  >
+                   <div v-if="index == 0 ||item.Tipo_Exp_teo !=pKa_s[index-1].Tipo_Exp_teo ">
+                        <div  class="col-12 sub"  >
                            <div  v-if="item.Tipo_Exp_teo =='E' " >
                              <b>Experimental</b>
                            </div>
@@ -146,9 +146,10 @@
                              <b>Theoretical</b>  
                            </div> 
                         </div>
+                        
                    </div> 
                     <div class="row "> 
-                       <div class="col-1">{{index+1}}</div>
+                       <div class="col-1"></div>
                        <div class="col-4"> <b>Value:  <span class="pl-3">{{item.Value}}</span> </b></div>
                        <div class="col-3"  v-if="item.Site !='' && item.Site!=null"  data-toggle="tooltip" title="Site for image">Site: {{item.Site}}</div>
                        <div class="col-4" v-if="item.Description !='' && item.Description!=null"  data-toggle="tooltip" title="description regarding this value"><div>Description:</div> {{item.Description}}</div>           
@@ -165,6 +166,7 @@
          <div v-if="K_Overals.length>0" class="col-12 col-md-6  pt-0 px-0">
             <div id="K_Ov" class=" pt-4 mt-4 contentDATA">
                 <h3><b>Kinetic constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
+                
                 <div class="col-12"> 
                   <div v-for="item in K_Overals ">
                     <div class="   col-12">
@@ -335,6 +337,9 @@
     }
     .img_molecule{
       max-height: 340px;
+    }
+    .sub{
+      font-size: 20px;
     }
     #BaseDatos {
    

@@ -5317,6 +5317,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -38090,7 +38092,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.tama{\n       min-height: 100px;\n}\n.Wcol{\n     max-width: 3px;\n}\n.infoCol{\n}\n.as{ \n      padding: 0px !important;\n      padding-left:20px !important;\n}\n.trans{\n}\n.contentDATA{\n      background-color:  #ffffff !important;\n      min-height: 100px;\n      padding: 10px;\n      border-radius: 0px 40px 0px 10px !important;\n}\n.contentDATA h3{\n      display:inline-block;\n      width: 100%;\n      border-bottom: 4px solid blue;\n}\n.fade-enter-active, .fade-leave-active {\n  -webkit-transition: all .5s ease-in;\n  transition: all .5s ease-in;\n   opacity: 100;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); \n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\n   opacity: 0;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   height:0px;\n}\n.text_font{\n         font-size: .75rem !important;\n}\n.img_max{\n}\n.img_molecule{\n      max-height: 340px;\n}\n#BaseDatos {\n   \n    min-height: 100px;\n    padding: 30px;\n    margin-bottom: 30px;\n}\n ", ""]);
+exports.push([module.i, "\n.tama{\n       min-height: 100px;\n}\n.Wcol{\n     max-width: 3px;\n}\n.infoCol{\n}\n.as{ \n      padding: 0px !important;\n      padding-left:20px !important;\n}\n.trans{\n}\n.contentDATA{\n      background-color:  #ffffff !important;\n      min-height: 100px;\n      padding: 10px;\n      border-radius: 0px 40px 0px 10px !important;\n}\n.contentDATA h3{\n      display:inline-block;\n      width: 100%;\n      border-bottom: 4px solid blue;\n}\n.fade-enter-active, .fade-leave-active {\n  -webkit-transition: all .5s ease-in;\n  transition: all .5s ease-in;\n   opacity: 100;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); \n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {\n   opacity: 0;\n   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);\n\n   height:0px;\n}\n.text_font{\n         font-size: .75rem !important;\n}\n.img_max{\n}\n.img_molecule{\n      max-height: 340px;\n}\n.sub{\n      font-size: 20px;\n}\n#BaseDatos {\n   \n    min-height: 100px;\n    padding: 30px;\n    margin-bottom: 30px;\n}\n ", ""]);
 
 // exports
 
@@ -81991,9 +81993,10 @@ var render = function() {
                       { staticClass: "col-12" },
                       _vm._l(_vm.pKa_s, function(item, index) {
                         return _c("div", [
-                          index == 0 || item.Tipo_Exp_teo
+                          index == 0 ||
+                          item.Tipo_Exp_teo != _vm.pKa_s[index - 1].Tipo_Exp_teo
                             ? _c("div", [
-                                _c("div", { staticClass: "col-12" }, [
+                                _c("div", { staticClass: "col-12 sub" }, [
                                   item.Tipo_Exp_teo == "E"
                                     ? _c("div", [
                                         _c("b", [_vm._v("Experimental")])
@@ -82010,9 +82013,7 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _c("div", { staticClass: "row " }, [
-                            _c("div", { staticClass: "col-1" }, [
-                              _vm._v(_vm._s(index + 1))
-                            ]),
+                            _c("div", { staticClass: "col-1" }),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-4" }, [
                               _c("b", [
