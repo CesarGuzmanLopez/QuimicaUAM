@@ -129,9 +129,9 @@
     </div>
     </div>
     </div>
-    <div class="row p-1 " id="info">
+    <div class="row " id="info">
    <transition name="fade">
-         <div v-if="pKa_s.length>0" class="col-12 p-0  col-md-6 pr-md-4 ">
+         <div v-if="pKa_s.length>0" class="col-12 p-0 m-md-0 col-md-6 pr-md-4 ">
             <div id="PKA_S" class="pt-4  mt-4 contentDATA">
                <h3><b>Dissociaton Constants</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
              <div class="col-12">
@@ -169,7 +169,7 @@
                 <div class="col-12"> 
                   <div v-for="item in K_Overals ">
                     <div class="   col-12">
-                    <span data-toggle="tooltip" :title="item.Valor.toFixed(0)" > {{item.Valor.toPrecision(2)}}</span>
+                    <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span></span>
                      </div>
                   </div>
                 </div>
@@ -177,25 +177,35 @@
          </div>
       </transition> 
      <transition name="fade">
-       <div v-if="pKa_s.length>0" class="col-12 pr-md-4 "> 
+       <div v-if="pKa_s.length>0" class="col-12 p-0 "> 
          <div  class="col-12 col-md-12 bg-white mt-4 p-0  ">
          <div class="row p-0 m-0 pt-4  mt-4 contentDATA ">
            <div class="col-12"> 
-             <h3><b>Dissociaton Constants graphics</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
+             <h3><b>Dissociaton Constants Graphic</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
            </div>
             
-            <div class="col-12 col-md-5 p-4 " >
+            <div class="col-12 col-md-5 p-0 pl-4  pt-4" >
                 <b-row>
                 <h4><label  label-align-sm="left" label-size="sm" for="pH_graph" class=" col-1 mb-0">pH</label></h4>
-                <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"></b-form-input>  
+                <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
+                <div class="col-12" @change(cargagraph)>
+                   <b>Molar fractions at pH: {{pH_F_Gr}} </b>
+                     <b-row>
+                      
+                      <div v-for="( item, index) in Fractions " class="col-3 p-0 pl-1 ">
+                       
+                         
+                          <span data-toggle="tooltip" :title="item.toFixed(10)" ><span class="cursiva"><em>f</em><sub>{{index}}</sub>:</span>{{item.toPrecision(1)}}</span>
+                      
+                       </div>
+     
+                    </b-row>
+                </div>
            </b-row>
-           </div>
-           
-           <div class="col-12 col-md-7 p-4">
-          
+           </div> 
+           <div class="col-12 col-md-7 p-4"> 
             <div class="ct-chart ct-golden-section " id="Uncn1" ></div>
-           </div>
-        
+           </div> 
          </div>
          </div>
          </div>
@@ -220,7 +230,7 @@
     	  
     	  
     	  /**/
-    	  
+    	  Fractions:[],
     	  inx:0,
     	  selected:{img:"img/gene.jpg",name:""},
     	  isBusy: true,
@@ -297,53 +307,58 @@
         FK(V_pH, K){
         	if(K==0)
         		return this.F0(V_pH);
-        	var Con_H = 10 ** (-V_pH);
-        	
+        	var Con_H = 10 ** (-V_pH); 
         	return this.F0(V_pH)*this.fBeta(K)*Con_H**K;
         },
         cargagraph(){
-        	
-        	
-        	var pH=this.pH_F_Gr;
+			var pH=this.pH_F_Gr;
          	var Serie =[];
          	var xs=[]; this.pKa_s_Gr=[];
          	for(var j=0; j< this.pKa_s.length;j++){ 
         		
          		this.pKa_s_Gr.push(this.pKa_s[j].Value);
-        	}
-         	
-         	
+        	} 
+         	this.Fractions=[];
          	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
         		var valores=[];
-        		//console.log(this.pKa_s_Gr);
-			
+        		//console.log(this.pKa_s_Gr); 
         		for(var i=0.1; i<=14; i+=.1){
  					var d=this.FK(i,j);
         			valores.push(d);
         		}
-
-        		Serie.push(valores.slice());
         		
-         	}
-
-
+        		this.Fractions.push(this.FK(this.pH_F_Gr,j));
+        		Serie.push(valores.slice()); 
+         	} 
+         	var temp=[];
         	for(var i=0.0; i<=14; i+=.1){
-    			xs.push(i);	
-    		}
+    			xs.push(i);
+        	}
+        
         	setTimeout(x=>{
         	var unc = new Chartist.Line('#Uncn1', {
         		
        		    labels: xs,
-       		    series: Serie,		 
-       	  },{
+       		    series: Serie,
+
+        	},{
+       		  
+       		  fullwidth: true,
+       		  chartPadding: {
+       			  right: 40,
+       		  },
        		 showPoint: false,
        		  axisX: { 
        		    labelInterpolationFnc: function(value, index) {
        		      return index* 10 % 200 === 0 ? index/10 : null;
        		    }
        		  },
-       		 
        		  plugins: [
+       			  Chartist.plugins.legend({
+       				  legendNames: ['A', 'HA','H2A','H3A'],
+       				  className: 'Bunchnames'
+       			  }), 
+       			  ,
        			  Chartist.plugins.ctAxisTitle({
        				  axisX: {
        					  axisTitle: 'pH',
@@ -366,15 +381,8 @@
        					  flipTitle: false,
        				  },
        			  }),
-       			  
-       			  
        		  ]
-       		  
-       		  
-       		  
-       		}
-       	  
-       	 
+       	   }
         );
         unc.on('draw', function(data) {
         	  if(data.type === 'line' || data.type === 'area') {
@@ -391,9 +399,7 @@
         		});
 	
         	} ,100);	
-        }
-        
-        ,
+        },
         /*fin grafica*/
         Selected(index){
         	//contador para los indices
@@ -412,9 +418,7 @@
        			getData=true;
        			this.cargagraph();
        		  }   
-       		}	
-       		
-       		
+       		} 
        		if(!getData){
        		
        		//despues seleciono unos pka especificos 
@@ -432,6 +436,7 @@
            		this.cargagraph();
              }); 
        		}
+
        		
             
         },
@@ -482,56 +487,44 @@
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
    opacity: 0;
-   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
-
-   -moz-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
-
-   -ms-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
-
-   -o-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
-
-   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1);
-
+   -webkit-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   -moz-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   -ms-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   -o-transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
+   transition: all 0.5s cubic-bezier(1, -0.5, 0.5, 1); 
    height:0px;
   
+} 
+.text_font{
+   font-size: .75rem !important;
 }
+ .img_max{ 
+ }
+ .img_molecule{
+   max-height: 340px;
+ }
+ .sub{
+   font-size: 20px;
+ }
+ #BaseDatos {
 
-    .text_font{
-         font-size: .75rem !important;
-    }
-    .img_max{
-       
-    
-    }
-    .img_molecule{
-      max-height: 340px;
-    }
-    .sub{
-      font-size: 20px;
-    }
-    #BaseDatos {
-   
-    min-height: 100px;
-    padding: 30px;
-    margin-bottom: 30px;
-   }
-   .ct-axis-titley{
-      font-size: 20px !important;
-  
-    transform: rotate(-90deg);
+ min-height: 100px;
+ padding: 30px;
+ margin-bottom: 30px;
+}
+.ct-axis-titley{
+   font-size: 20px !important;
+
+ transform: rotate(-90deg);
 
 background-color: red !important;
-  /* Legacy vendor prefixes that you probably don't need... */
-
+  /* Legacy vendor prefixes that you probably don't need... */ 
   /* Safari */
-  -webkit-transform: rotate(-90deg);
-
+  -webkit-transform: rotate(-90deg); 
   /* Firefox */
   -moz-transform: rotate(-90deg);
-
   /* IE */
-  -ms-transform: rotate(-90deg);
-
+  -ms-transform: rotate(-90deg); 
   /* Opera */
   -o-transform: rotate(-90deg);
   
@@ -539,8 +532,13 @@ background-color: red !important;
    }
    .ct-axis-titlex{
       font-size: 20px !important;
-      
-      
-      
    }
+  .Bunchnames{
+  /* color: red;*/
+  
+  }
+  .cursiva{
+  font: 20px italic;
+  
+  }
  </style>

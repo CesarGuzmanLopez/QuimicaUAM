@@ -1,8 +1,8 @@
 @extends('layouts.app') 
 @section('content')   
-  <div class="cover-container d-flex col-10  mx-auto flex-column justify  ">
-    <div id="BaseDatos" class=""> 
-             <h1 class="p-2 bg-white " >Molecular Properties Database</h1>
+  <div class="cover-container d-flex col-md-11 px-md-4  p-0 col-12  m-0 p-0 mx-auto flex-column justify  ">
+    <div id="BaseDatos" class="col-12 p-0 pt-4"> 
+             <h1 class=" bg-white p-0 " >Molecular Properties Database</h1>
                <tablamodelo></tablamodelo>
       <!-- fin table de moleculas --> 
     </div>
