@@ -12,7 +12,7 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 				<div class="card-block px-3">
 					<h4 class="card-title"><?=$title?></h4>
 					<p class="card-text"> <?=$description?></p>
-						<a href="$link" class="btn btn-dark"><?=$go?></a>
+						<a href="<?=$link?>" class="btn btn-dark"><?=$go?></a>
 				</div>
 			</div> 
 			</div>
