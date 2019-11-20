@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\q_db_molecules;
-
 class PrincipalController extends Controller
 {
     /**
@@ -14,7 +13,6 @@ class PrincipalController extends Controller
     public function __construct()
     {
     }
-
     /**
      * Show the application dashboard.
      *
@@ -22,13 +20,11 @@ class PrincipalController extends Controller
      */
     public function index()
     {
-
     	return view('Principal')->with('title',"Quimica A. G.");
     }
-    public function BD()
-    {	
-    	$molelcules = q_db_molecules::all();
-    	return view('Data_Base')->with('title',"Data Base")->with('molecules',$molelcules);
+    public function BDKinetics()
+    {
+    	return view('BDKinetics')->with('title',"Kinetics");
     }
     public function userapi(Request $request) {
     		return $request->user();

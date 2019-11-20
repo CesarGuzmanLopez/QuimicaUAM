@@ -14,7 +14,7 @@
 
 Route::get('/','PrincipalController@index');
 
-Route::get('/Data-base', 'PrincipalController@BD');
+Route::get('/Kinetics', 'PrincipalController@BDKinetics');
 	
 Route::apiResource('/getMolecules','View_DATABASE\MoleculesController');
 Route::apiResource('/KOverals','View_DATABASE\KOverals');

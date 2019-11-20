@@ -5,9 +5,7 @@
 
 @if(Auth::user()->hasRole('admin'))
 
-@endif
-
-
+@endif 
 <div class="page-wrapper chiller-theme
    @if(Request::route()->getName() =='home' )
       toggled

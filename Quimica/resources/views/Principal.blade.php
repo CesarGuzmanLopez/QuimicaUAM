@@ -12,10 +12,9 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 				<div class="card-block px-3">
 					<h4 class="card-title"><?=$title?></h4>
 					<p class="card-text"> <?=$description?></p>
-					<a href="Data-base" class="btn btn-dark"><?=$go?></a>
+						<a href="$link" class="btn btn-dark"><?=$go?></a>
 				</div>
-			</div>
-			
+			</div> 
 			</div>
 		</div>
 
@@ -30,7 +29,7 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 	     <div class="col-md-8">        
     	    <h1 class="cover-heading"> Annia Galano's Group</h1>    
 		    <hr>
-               <?php CreaTargeta("Data Base",asset('img/logoBD.svg'),"Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Data-base'));?>  
+               <?php CreaTargeta("Data Base",asset('img/logoBD.svg'),"  Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Kinetics'));?>  
             <hr>
             <div class="lead">
 		      <h3>Annia Galano</h3><a href="https://www.agalano.com/" class="btn btn-lg btn-secondary">agalano.com</a>

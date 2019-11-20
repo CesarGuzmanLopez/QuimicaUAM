@@ -40,8 +40,17 @@
 	
 	    <b-collapse id="nav-collapse" is-nav>
 	      <b-navbar-nav>
-	        <b-nav-item href="{{ url('Data-base') }}">Base Data</b-nav-item>
-	        <b-nav-item href="#" disabled>Desktop apps</b-nav-item>
+	          <b-nav-item-dropdown>
+             <template v-slot:button-content>
+               <em>Databases</em>
+             </template>
+              
+               <b-dropdown-item href="{{ url('Kinetics') }}">Kinetics</b-dropdown-item>
+	       
+          </b-nav-item-dropdown>
+          
+          
+           <b-nav-item href="#" disabled>Desktop apps</b-nav-item>
 	      </b-navbar-nav>
 	
 	      <!-- Right aligned nav items -->
@@ -65,17 +74,18 @@
 	          <b-dropdown-item href="{{ route('logout') }}">Sign Out</b-dropdown-item>
 	       <!--@endguest-->
            
-           </b-nav-item-dropdown>
-	      
+           </b-nav-item-dropdown> 
+           
+           
+           
          </b-navbar-nav>
 	    </b-collapse>
+       
 	  </b-navbar>
      </header>
      @show  
-   @section('content')
-  
-    @show
-
+   @section('content') 
+   @show 
    @section('footer')
    <footer class="  fixed-bottom navbar-light bg-faded">
     <div class=" text-center py-3">© 2018 Copyright:
