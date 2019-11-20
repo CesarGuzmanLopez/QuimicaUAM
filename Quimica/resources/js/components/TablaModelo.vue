@@ -331,9 +331,7 @@
          	var temp=[];
         	for(var i=0.0; i<=14; i+=.1){
     			xs.push(i);
-        	}
-        	
-        
+        	}        
         	setTimeout(x=>{
         	var unc = new Chartist.Line('#Uncn1', {
         		
