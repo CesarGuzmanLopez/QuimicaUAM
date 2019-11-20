@@ -1,6 +1,5 @@
 <template>
-   <b-container fluid class="col-12 ">
-   
+   <b-container fluid class="col-12 "> 
    <div class="row text_font">   
    <div class="col-12 col-md-4 p-4 center-block bg-white img_max">
    <h3><b> {{selected.Name}}</b></h3>
@@ -165,12 +164,12 @@
      <transition name="fade">
          <div v-if="K_Overals.length>0" class="col-12 col-md-6  pt-0 px-0">
             <div id="K_Ov" class=" pt-4 mt-4 contentDATA">
-                <h3><b>Kinetic constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
+                <h3><b>Kinetics constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
                 <div class="col-12"> 
                   <div v-for="item in K_Overals ">
-                    <div class="   col-12">
-                    <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span></span>
-                     </div>
+                    <b-row >
+                       <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span></span>
+                    </b-row>                     
                   </div>
                 </div>
             </div>
@@ -209,9 +208,8 @@
          </div>
          </div>
          </div>
-      </transition> 
-
-</div>
+      </transition>  
+     </div>
    </b-container>  
 </template>
 <script>
@@ -342,7 +340,6 @@
        		    series: Serie,
 
         	},{
-       		  
        		  fullwidth: true,
        		  chartPadding: {
        			  right: 40,
