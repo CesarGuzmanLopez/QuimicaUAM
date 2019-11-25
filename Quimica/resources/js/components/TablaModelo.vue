@@ -124,7 +124,7 @@
     </div>
     </div>
     </div>
-    <div class="row " id="info">
+    <div class="row pb-3 mb-4 " id="info">
    <transition name="fade">
          <div v-if="pKa_s.length>0" class="col-12 p-0 m-md-0 col-md-6 pr-md-4 ">
             <div id="PKA_S" class="pt-4  mt-4 contentDATA">
@@ -173,7 +173,7 @@
       </transition> 
      <transition name="fade">
        <div v-if="pKa_s.length>0" class="col-12 p-0 "> 
-         <div  class="col-12 col-md-12 bg-white mt-4 p-0  ">
+         <div  class="col-12 col-md-12 bg-white mt-4 p-0 " @onload="cargagraph" >
          <div class="row p-0 m-0 pt-4  mt-4 contentDATA ">
            <div class="col-12"> 
              <h3><b>Dissociaton Constants Graphic</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
@@ -198,9 +198,12 @@
                 </div>
            </b-row>
            </div> 
-           <div class="col-12 col-md-7 p-4"> 
-            <div class="ct-chart ct-golden-section " id="Uncn1" ></div>
-           </div> 
+           <div class="col-12 col-md-7 p-0"> 
+ 				 
+ 				<div id="graph"></div>
+ 				 
+ 				
+            </div> 
          </div>
          </div>
          </div>
@@ -253,8 +256,7 @@ export default {
     	}
     },
     mounted() {
-    	// Set the initial number of items
-        this.totalRows = this.items.length
+         this.totalRows = this.items.length
         axios.get('getMolecules').then(response =>{
         	this.items = response.data;
             this.isBusy= false;
@@ -279,6 +281,7 @@ export default {
         	}
          	return 10**suma;
         },
+        
         F0(V_pH){
         	var suma=1.0;
         	var Con_H = 10 ** (-V_pH);
@@ -294,11 +297,19 @@ export default {
         	return this.F0(V_pH)*this.fBeta(K)*Con_H**K;
         },
         cargagraph(){
-			var pH=this.pH_F_Gr;
+        	/**
+        	*Lo intente en verdad lo intente pero no se pudo 
+        	*esto lo dejo asi por si en algun tiempo en mi vida lo quiero continuar 
+        	*o no fin xoxox
+        	**/
+        	
+        	var pH=this.pH_F_Gr;
          	var Serie =[];
          	var xs=[]; this.pKa_s_Gr=[];
          	for(var j=0; j< this.pKa_s.length;j++){ 
+         		
          		this.pKa_s_Gr.push(this.pKa_s[j].Value);
+         		
         	}
          	this.Fractions=[];
          	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
@@ -310,83 +321,64 @@ export default {
         		}
         		this.Fractions.push(this.FK(this.pH_F_Gr,j));
         		Serie.push(valores.slice()); 
-         	} 
-         	var temp=[];
-        	for(var i=0.0; i<=14; i+=.1){
-    			xs.push(i);
-        	}
-        	//setTimeut Grafica
-        	setTimeout(x=>{
-        		var unc = new Chartist.Line('#Uncn1', 
-        		{
-        			labels: xs,
-       		    	series: Serie,
-        		},
-        		{
-       		    	fullwidth: true,
-       		    	chartPadding: {
-       			  		right: 40,
-       		  		},
-          		 	showPoint: false,
-          		  	axisX: { 
-          		    	labelInterpolationFnc: function(value, index) {
-          		      		return index* 10 % 200 === 0 ? index/10 : null;
-          		    	}
-          		  	},
-          		  	plugins: [
-          			  	Chartist.plugins.legend({
-             				legendNames: ['A', 'HA','H2A','H3A'],
-             				className: 'Bunchnames'
-          				}), 
-          			    Chartist.plugins.ctAxisTitle({
-          				  	axisX: {
-          						axisTitle: 'pH',
-          					  	axisClass: 'ct-axis-titlex',
-          					  	offset: {
-          							x: 240,
-          						  	y: 25
-          					  	},
-          					  	textAnchor: 'middle',
-          					  	flipTitle: false,
-          				  	},
-          				  	axisY: {
-          						axisTitle: 'molar fraction',
-          					  	axisClass: 'ct-axis-titley',
-          					  	offset: {
-          						  	x: -145,
-          						  	y: -165
-          					  	},
-          					  	textAnchor: 'middle',
-          					  	flipTitle: false,
-          				  	},
-          			  	}),
-          		    ]
-        		});
-        		unc.on('draw', function(data){
-        	  		if(data.type === 'line' || data.type === 'area') {
-        		    	data.element.animate({
-              		      	d:{
-              		        	begin: 100 * data.index,
-              		        	dur: 100,
-              		        	from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-              		        	to: data.path.clone().stringify(),
-              		        	easing: Chartist.Svg.Easing.easeOutQuint
-              		      	}
-        		    	});
-        		  	}
-        		});
-        		
-        		
-        	} ,100);
-        	//fin setTimeut Grafica
-        },
+         	}
+        	var margin = {top: 20, right: 20, bottom: 20, left: 20},
+       		padding = {top: 60, right: 60, bottom: 60, left: 60};
+        	
+        	$("#graph").empty();
+        	const svg = d3
+	           	.select("#graph")
+	           	.append("svg")
+	            .attr("viewBox", '0 0 400 250');
+	        const chart = svg
+	         	.append("g")
+	         	.attr("transform", 'translate(0,0)');
+	        const xScale = d3
+		    	.scaleLinear()
+		     	.domain([0,14])
+		    	.range([0, 350])
+		     	 ;
+	        const yScale = d3
+		     	.scaleLinear()
+		     	.domain([1, 0])
+		     	.range([0 , 200])
+				; 
+	         // Add the Y Axis
+	        chart
+	         	.append("g")
+	         	.attr("transform", 'translate(30, 10)')
+	         	.call(d3.axisLeft(yScale)); 
+	        // Add the X Axis
+	        chart
+	            .append("g")
+	            .attr("transform", 'translate(30,210)')
+	            .call(d3.axisBottom(xScale).ticks(24).tickFormat(function (x){
+	            	if((x*10)%10 == 0)
+	            		return x;
+	            	return "";
+	            }));
+             //Aqui empezo la grafica echa a medida
+             
+       	 	var line = d3.line()
+    			.x(function(d,i) {   return xScale(i); }) // set the x values for the line generator
+    			.y(function(d,i) {	 return yScale(d.y); }) // set the y values for the line generator 
+		    	.curve(d3.curveCardinal) //	 apply smoothing to the line
+			
+		    var dataset = d3.range(0,14,.95).map(d =>{return { "y" : this.FK(d,1)}});
+            
+	        chart.append("path")
+	        	.attr("transform", 'translate(30,10)')
+	          	.datum(dataset) 
+	          	.attr("d", line);
+	        	
+	     },
         /*fin grafica*/
         Selected(index){
         	//contador para los indices
         	this.tipo_pK="";
     	  	this.tipo_kO="";
          	//Primero camio la imagen
-        	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;;
+        	this.selected.img="files/data-base-img/"+index.item.ID+ "/"+index.item.Imagen;
        		this.selected.Name=index.item.Name; 
        		var getData=false;
        		for (var i = 0; i < this.data_pKa_s.length; i+=1) {
@@ -407,7 +399,8 @@ export default {
            	    	this.data_pKa_s.push({id:index.item.ID ,data:JSON.parse(JSON.stringify(response.data))});
            	 	this.cargagraph();
             	});  
-     	   		//despues seleccino unos KOverals
+     	 
+       			//despues seleccino unos KOverals
             	axios.get( 'KOverals/'+index.item.ID 
             	).then(response =>{ 
            	    	this.K_Overals = response.data; 
@@ -498,4 +491,20 @@ export default {
    .cursiva{
       font: 20px italic; 
    }
+   #chart_wrap {
+    position: relative;
+    padding-bottom: 100%;
+    height: 0;
+    overflow:hidden;
+}
+
+#graph {
+    top: 0;
+    left: 0;
+    width:100%;
+    min-width:200px;
+    height:300px;
+    max-width:650px;
+    padding-bottom: 10px;
+}
 </style>
