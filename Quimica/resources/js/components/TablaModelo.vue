@@ -55,8 +55,7 @@
       noCollapse 
       outlined 
     >
-    
-      <template v-slot:table-busy>
+    <template v-slot:table-busy>
         <div class="text-center text-dark my-2">
           <b-spinner small label="align-middle" variant="dark"></b-spinner>
           <strong>Loading...</strong>
@@ -78,8 +77,6 @@
       <template v-slot:cell(Valor)="row"> 
          <div @click="Selected(row)"> {{row.Value}}</div>
       </template>
-      
-      
       <template v-slot:cell(ris_image)="row">
          <div @click="Selected(row)">
         <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
@@ -87,7 +84,6 @@
         </b-button>
          </div>
       </template>
-      
       <template v-slot:row-details="row">
        <div @click="Selected(row)">
         <b-card >
@@ -104,8 +100,7 @@
                max-rows="10"
                :value='row.item.RIS'
              ></b-form-textarea>
-         </div>    
-         
+         </div>
         </b-card>
         </div>
       </template>
@@ -125,12 +120,11 @@
     </div>
     </div>
     <div class="row " id="info">
-   <transition name="fade">
+    <transition name="fade">
          <div v-if="pKa_s.length>0" class="col-12 p-0 m-md-0 col-md-6 pr-md-4 ">
             <div id="PKA_S" class="pt-4  mt-4 contentDATA">
                <h3><b>Dissociaton Constants</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
              <div class="col-12">
-                  
                   <div v-for="(item, index) in pKa_s" >
                    <div v-if="index == 0 ||item.Tipo_Exp_teo !=pKa_s[index-1].Tipo_Exp_teo ">
                         <div  class="col-12 sub"  >
@@ -140,8 +134,7 @@
                            <div v-if="item.Tipo_Exp_teo =='T' " >
                              <b>Theoretical</b>  
                            </div> 
-                        </div>
-                        
+                        </div>            
                    </div> 
                     <div class="row "> 
                        <div class="col-1"></div>
@@ -185,15 +178,10 @@
                 <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
                 <div class="col-12" @change(cargagraph)>
                    <b>Molar fractions at pH: {{pH_F_Gr}} </b>
-                     <b-row>
-                      
+                     <b-row> 
                       <div v-for="( item, index) in Fractions " class="col-3 p-0 pl-1 ">
-                       
-                         
                           <span data-toggle="tooltip" :title="item.toFixed(10)" ><span class="cursiva"><em>f</em><sub>{{index}}</sub>:</span>{{item.toPrecision(1)}}</span>
-                      
-                       </div>
-     
+                    </div>
                     </b-row>
                 </div>
            </b-row>
@@ -209,7 +197,8 @@
    </b-container>  
 </template> 
 <script>
-export default {	  
+var y;
+export default {//vue  
 	data(){
 		return {
     	    tipo_pK:"",
@@ -262,7 +251,7 @@ export default {
         }); 
     },
     methods: { 
-    	onFiltered(filteredItems) {
+    	onFiltered( filteredItems) {
         	this.totalRows = filteredItems.length
           	this.currentPage = 1
         },
@@ -270,7 +259,7 @@ export default {
         	this.tipo_pK=valor;
         },
         /*Grafica  */
-        fBeta(k){
+        fBeta( k){
         	var suma=0.0;
         	if(k>this.pKa_s_Gr.length)
         		throw ("k mayor que pk_a");
@@ -279,7 +268,7 @@ export default {
         	}
          	return 10**suma;
         },
-        F0(V_pH){
+        F0( V_pH){
         	var suma=1.0;
         	var Con_H = 10 ** (-V_pH);
         	for(var i=0; i<this.pKa_s_Gr.length;i++ ){
@@ -287,7 +276,7 @@ export default {
         	}
         	return 1/suma;
         },
-        FK(V_pH, K){
+        FK( V_pH, K){
         	if(K==0)
         		return this.F0(V_pH);
         	var Con_H = 10 ** (-V_pH); 
@@ -300,6 +289,7 @@ export default {
          	for(var j=0; j< this.pKa_s.length;j++){ 
          		this.pKa_s_Gr.push(this.pKa_s[j].Value);
         	}
+         	var eti=['A', 'HA','H2A','H3A'];
          	this.Fractions=[];
          	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
         		var valores=[];
@@ -309,12 +299,20 @@ export default {
         			valores.push(d);
         		}
         		this.Fractions.push(this.FK(this.pH_F_Gr,j));
-        		Serie.push(valores.slice()); 
+        		Serie.push({"name":eti[j],
+        			
+        			 type: 'line',
+                     label: "2017",
+                     backgroundColor: 'rgba(151,249,190,0.5)',
+                     borderColor: 'rgba(151,249,190,1)',
+                     borderWidth: 1,
+                     "data": valores.slice()}); 
+         	
          	} 
          	var temp=[];
         	for(var i=0.0; i<=14; i+=.1){
     			xs.push(i);
-        	}
+        	}       
         	//setTimeut Grafica
         	setTimeout(x=>{
         		var unc = new Chartist.Line('#Uncn1', 
@@ -323,7 +321,7 @@ export default {
        		    	series: Serie,
         		},
         		{
-       		    	fullwidth: true,
+        			fullwidth: true,
        		    	chartPadding: {
        			  		right: 40,
        		  		},
@@ -333,35 +331,15 @@ export default {
           		      		return index* 10 % 200 === 0 ? index/10 : null;
           		    	}
           		  	},
+          		
           		  	plugins: [
           			  	Chartist.plugins.legend({
-             				legendNames: ['A', 'HA','H2A','H3A'],
+          			  	 position: 'bottom',
              				className: 'Bunchnames'
-          				}), 
-          			    Chartist.plugins.ctAxisTitle({
-          				  	axisX: {
-          						axisTitle: 'pH',
-          					  	axisClass: 'ct-axis-titlex',
-          					  	offset: {
-          							x: 240,
-          						  	y: 25
-          					  	},
-          					  	textAnchor: 'middle',
-          					  	flipTitle: false,
-          				  	},
-          				  	axisY: {
-          						axisTitle: 'molar fraction',
-          					  	axisClass: 'ct-axis-titley',
-          					  	offset: {
-          						  	x: -145,
-          						  	y: -165
-          					  	},
-          					  	textAnchor: 'middle',
-          					  	flipTitle: false,
-          				  	},
-          			  	}),
-          		    ]
+          				}),]
+   
         		});
+        		
         		unc.on('draw', function(data){
         	  		if(data.type === 'line' || data.type === 'area') {
         		    	data.element.animate({
@@ -392,12 +370,12 @@ export default {
        		for (var i = 0; i < this.data_pKa_s.length; i+=1) {
        			if(this.data_pKa_s[i].id==index.item.ID ){
        				this.pKa_s=[];
-       				this.K_Overals=[];
+       				this.K_Overals=[];    
        			  	this.pKa_s=this.data_pKa_s[i].data;
        			  	this.K_Overals=this.data_K_Overalls[i].data;
        				getData=true;
        				this.cargagraph();
-       		  	}   
+       		  	}
        		}
        		if(!getData){
        			//despues seleciono unos pka especificos 
@@ -493,7 +471,6 @@ export default {
       font-size: 20px !important;
    }
    .Bunchnames{
-      
    }
    .cursiva{
       font: 20px italic; 
