@@ -22,6 +22,11 @@ class PrincipalController extends Controller
     {
     	return view('Principal')->with('title',"Quimica A. G.");
     }
+    public function  relative_k_overall(){
+        
+        return view('relative-k-overall')->with("title","Relative Kinetic");
+        
+    }
     public function BDKinetics()
     {
     	return view('BDKinetics')->with('title',"Kinetics");
