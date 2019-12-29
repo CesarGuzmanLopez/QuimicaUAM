@@ -171,28 +171,22 @@
            <div class="col-12"> 
              <h3><b>Dissociaton Constants Graphic</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
            </div>
+            
             <div class="col-12 col-md-5 p-0 pl-4  pt-4" >
                 <b-row>
                 <h4><label  label-align-sm="left" label-size="sm" for="pH_graph" class=" col-1 mb-0">pH</label></h4>
                 <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
                 <div class="col-12" @change(cargagraph)>
                    <b>Molar fractions at pH: {{pH_F_Gr}} </b>
-                     <b-row>
+                     <b-row> 
                       <div v-for="( item, index) in Fractions " class="col-3 p-0 pl-1 ">
                           <span data-toggle="tooltip" :title="item.toFixed(10)" ><span class="cursiva"><em>f</em><sub>{{index}}</sub>:</span>{{item.toPrecision(1)}}</span>
                     </div>
                     </b-row>
                 </div>
            </b-row>
-           </div>
-           <div class="col-12 col-md-7 p-4 pr-5">
-           	<div class="colores row">
-  				<div v-for="(item,index) in labelEtic" class="col-3 p-0 pl-1">
-  					<div class="row">
-					<div  :class="item[1]+ ' col-3 '"> </div> <div class="col-5">{{ item[0] }}</div>
-					</div>
-                </div>	
-           	</div> 
+           </div> 
+           <div class="col-12 col-md-7 p-4"> 
             <div class="ct-chart ct-golden-section " id="Uncn1" ></div>
            </div> 
          </div>
@@ -213,15 +207,13 @@ export default {//vue
     	    pH_F_Gr:7.4,
     	  	pKa_s_Gr: [], 
     	  	/*fin grafica*/
-    	  	Fractions:	[],
-    	  	inx:		0,
-    	  	selected:	{img:"img/gene.jpg",name:""},
-    	  	isBusy: 	true,
-    	  	items:		[],
-    	  	colors:	["color1", "color2", "color3", "color4", "color5"],
-    	  	labelEtic:[],
-    	  	totalRows:	0,
-    	    totalRows: 	1,
+    	  	Fractions:[],
+    	  	inx:0,
+    	  	selected:{img:"img/gene.jpg",name:""},
+    	  	isBusy: true,
+    	  	items:[],
+    	  	totalRows:0,
+    	    totalRows: 1,
             currentPage: 1,
             perPage: 8,
             pageOptions: [5, 10, 15],
@@ -299,7 +291,6 @@ export default {//vue
         	}
          	var eti=['A', 'HA','H2A','H3A'];
          	this.Fractions=[];
-         	this.labelEtic =[];
          	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
         		var valores=[];
         		//console.log(this.pKa_s_Gr); 
@@ -308,9 +299,7 @@ export default {//vue
         			valores.push(d);
         		}
         		this.Fractions.push(this.FK(this.pH_F_Gr,j));
-        		this.labelEtic.push([eti[j],this.colors[j]]);
-        		Serie.push(
-        			{"name":eti[j],
+        		Serie.push({"name":eti[j],
         			
         			 type: 'line',
                      label: "2017",
@@ -325,7 +314,7 @@ export default {//vue
     			xs.push(i);
         	}       
         	//setTimeut Grafica
-        	setTimeout((x)=>{
+        	setTimeout(x=>{
         		var unc = new Chartist.Line('#Uncn1', 
         		{
         			labels: xs,
@@ -339,12 +328,16 @@ export default {//vue
           		 	showPoint: false,
           		  	axisX: { 
           		    	labelInterpolationFnc: function(value, index) {
-          		      		var A=  index% 20 === 0 ? index/10 : null;
-          		    		if(index% (pH*10)  ===  0)
-          		    			A=index/10
-          		    	    return A;
+          		      		return index* 10 % 200 === 0 ? index/10 : null;
           		    	}
           		  	},
+          		
+          		  	plugins: [
+          			  	Chartist.plugins.legend({
+          			  	 position: 'bottom',
+             				className: 'Bunchnames'
+          				}),]
+   
         		});
         		
         		unc.on('draw', function(data){
@@ -390,10 +383,8 @@ export default {//vue
             	).then(response =>{ 
             		this.pKa_s = response.data;
            	    	this.data_pKa_s.push({id:index.item.ID ,data:JSON.parse(JSON.stringify(response.data))});
-   
-           	    	this.cargagraph();
+           	 	this.cargagraph();
             	});  
-       		
      	   		//despues seleccino unos KOverals
             	axios.get( 'KOverals/'+index.item.ID 
             	).then(response =>{ 
@@ -404,9 +395,7 @@ export default {//vue
        		}
         },
     }
-
 }
-
 </script>
 <style>
     .tama{
@@ -481,29 +470,9 @@ export default {//vue
    .ct-axis-titlex{
       font-size: 20px !important;
    }
- 
-   .color1{
-	   background-color: #453d3f;
+   .Bunchnames{
    }
-   .color2{
-	   background-color: #6188e2; 
-   }	
-
-   .color3{
-   	   background-color: #86797d;
-   }	
-
-   .color4{
-   	   background-color: #6b0392;
-   }	
-
-   .color5{
-   	   background-color: #0544d3;
-   }	
-
-
-   
-
-
-
+   .cursiva{
+      font: 20px italic; 
+   }
 </style>
