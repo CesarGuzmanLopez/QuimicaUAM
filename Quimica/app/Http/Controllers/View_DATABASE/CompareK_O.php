@@ -66,11 +66,13 @@ class CompareK_O extends Controller
     
         switch($request->appeal){
             case "Const":
+                $Type = ($request->Type =="All")?"": $request->Type ;
                 $VarTable =  $koverralls
+                
                 ->leftjoin('q_db_molecules','q_db_k_overalls.ID_Molecule', '=',  'q_db_molecules.ID')
                 ->leftjoin('q_db_radicals' ,'q_db_k_overalls.radical','=','q_db_radicals.ID_Radical')
                 ->leftjoin('q_db_solvents' ,'q_db_k_overalls.Solvent','=','q_db_solvents.ID_Solvent')
-                ->where('q_db_k_overalls.Tipo','Like','%'.$request->Type.'%')
+                ->where('q_db_k_overalls.Tipo','Like','%'.$Type.'%')
                 ->where('q_db_k_overalls.Solvent','=',$request->IDSolvent)
                 ->where('q_db_k_overalls.radical','=',$request->IDRadical)
                 ->orderBy('q_db_k_overalls.Valor')
@@ -101,6 +103,7 @@ class CompareK_O extends Controller
                 ->addselect('q_db_solvents.Name_Solvent')
                 ->addSelect('q_db_radicals.ID_Radical')
                 ->addSelect('q_db_radicals.Name_Radical')
+                ->addSelect('q_db_molecules.ID')
                 ->distinct('q_db_solvents.Name_Solvent')
                 ->get();
                 
