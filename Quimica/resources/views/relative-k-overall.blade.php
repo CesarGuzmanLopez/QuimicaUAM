@@ -32,17 +32,31 @@
                           </option>
 						</select>	
 					</div></div></div>		
+    				
+    				<div class="col-3"><div class="row"><div class="col-12 col-md-4"><label>pH  </label></div><div class="col-12 col-md-8"> 
+						<select  class="form-control " @change="changepH()" v-model="pH_Selected">
+                          <option v-for="option in Act_pH" v-bind:value="option.pH">
+                           <?="  {{ option.pH }}"?>
+                          </option>
+						</select>	
+					</div></div></div>		
     					
     			</div>
     			<div class="row p-2">
-    			<div class="col-md-4  col-0"></div><div class="pl-4 col-md-2 col-4" >	<input type="radio" name="type_e" value="All" v-model="TypSelected" @change="changeSol()"> All</div> 
-    			<div class="col-4 col-md-3 pl-4"><input type="radio" name="type_e" value="Exp" v-model="TypSelected"@change="changeSol()" > Experimental</div>
-    			<div class="col-md-3 pl-4 col-4"><input type="radio" name="type_e"  value="Theo" v-model="TypSelected" @change="changeSol()" > Theoretical </div>
+    			<div class="col-md-0  col-0"></div><div class="pl-4 col-md-2 col-4" >	<input type="radio" name="type_e" value="All" v-model="TypSelected" @change="changepH()"> All</div> 
+    			<div class="col-4 col-md-3 pl-4"><input type="radio" name="type_e" value="Exp" v-model="TypSelected"@change="changepH()" > Experimental</div>
+    			<div class="col-md-3 pl-4 col-4"><input type="radio" name="type_e"  value="Theo. with f_M" v-model="TypSelected" @change="changepH()" > Theoretical with fraction molar</div>
+    		    <div class="col-md-3 pl-4 col-4"><input type="radio" name="type_e"  value="Theo. without f_M" v-model="TypSelected" @change="changepH()" > Theoretical without fraction molar </div>
+    				
+
     			</div>
     		</form>
     	</div>
     	<div class=""> 
+    	
     	<div class="table-responsive bg-white p-2">
+    	
+		<h1>	Click on item to compare</h1>
    		<!-- inicia la tabla -->    	
     	    <b-table
               show-empty
@@ -57,21 +71,47 @@
               :current-page="currentPage"
               :per-page="perPage"
               :filter="filter"
-              
+              @row-clicked="RowClicked"
               :sort-by.sync="sortBy"
               :sort-desc.sync="sortDesc"
               :sort-direction="sortDirection"
               @filtered="onFiltered"
               :busy="isBusy"
+               :tbody-tr-class="rowClass"
             >
-            <template>
-           
-            </template>
-			<template>
-			
-			</template>
-
-
+           	<template v-slot:cell(Valor)="row" >
+       			<div @click="Selected(row)"><?=" {{ row.value.toPrecision(2) }}"?> </div>
+      		</template>
+            <template v-slot:cell(Relation)="row" >
+            	<div v-if ="(IDK_OveralComparation!=-1)">
+       				<div @click="Selected(row)"><?=" {{ ((row.item.Valor/ValorCompare)*100).toFixed(2) }}"?>%  </div>
+      		
+      			</div>
+      		
+      		</template>
+      		
+      	  <template v-slot:row-details="row">
+                <b-card >
+                  <b-form-textarea
+                        rows="6"
+                        max-rows="10"
+                        :value='row.item.RIS'>
+                       <?="{{ row.item.RIS }}"?>
+                      </b-form-textarea>
+                    </b-card>
+          </template>
+      		
+      		
+      		
+      		<template v-slot:cell(info)="row" >
+        
+                <b-button size="sm" @click="row.toggleDetails" class="fa fa-file-text ">
+               <?="   {{ row.detailsShowing ? 'Hide' : 'Show' }} RIS"?>
+                </b-button>
+        
+      		
+      		</template>
+      		
 		    </b-table>
 
 
