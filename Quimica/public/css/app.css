@@ -20187,8 +20187,8 @@ readers do not read off random characters that represent icons */
   }
 
   50% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    -webkit-transform: rotate(100deg);
+            transform: rotate(100deg);
   }
 
   60% {
@@ -20234,8 +20234,8 @@ readers do not read off random characters that represent icons */
   }
 
   50% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    -webkit-transform: rotate(100deg);
+            transform: rotate(100deg);
   }
 
   60% {

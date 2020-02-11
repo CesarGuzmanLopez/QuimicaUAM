@@ -348,7 +348,7 @@
         Molecules:	[{value: -1, text: 'Please select an option'},],
         Radicals:	[{value: -1, text: 'Please select an option'},],
         Solvents:	[{value: -1, text: 'Please select an option'},],
-        References:	[{value: -1, text: 'Default for molecle'},],
+        References:	[{value: -1, text: 'Default for molecule'},],
         
         totalRows: 1,
         currentPage: 1,

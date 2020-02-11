@@ -11,13 +11,17 @@ global.$ = global.jQuery = require('jquery');
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 require('./bootstrap');
-require('chartist-plugin-axistitle');
-require('chartist-plugin-legend');
+
 //import Vue from 'vue'
 
 import BootstrapVue from 'bootstrap-vue'
 //import * as uiv from 'uiv'
 window.Vue = require('vue');
+Vue.use(BootstrapVue)
+
+require('chartist-plugin-axistitle');
+require('chartist-plugin-legend');
+
 
 import Chartist from 'chartist';
 global.Chartist =require('chartist');
@@ -47,9 +51,19 @@ Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC
 
  
 
-var app = new Vue({
-    el: '#app',
+var menuPrin = new Vue({
+    el: '#menuPrin',
 });
+
+
+
+var aux = new Vue({
+    el: '#aux',
+});
+
+
+
+
 
 
 $(function ($) {
@@ -97,3 +111,4 @@ $(window).scroll(function(){
 });
 
 
+require('./compare_kO')

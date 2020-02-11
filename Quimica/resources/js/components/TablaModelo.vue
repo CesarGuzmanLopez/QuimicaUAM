@@ -382,7 +382,7 @@ export default {//vue
        			  	this.K_Overals=this.data_K_Overalls[i].data;
        				getData=true;
        				this.cargagraph();
-       		  	}
+       		  	} 
        		}
        		if(!getData){
        			//despues seleciono unos pka especificos 

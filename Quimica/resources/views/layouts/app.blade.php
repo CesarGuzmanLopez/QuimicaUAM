@@ -28,11 +28,11 @@
     </head>
     <body>
    <div id="Container" >
-    <div id="app">
 
 	 @section('header')  
+   	 <div id="menuPrin">
    	  <header >
-	  
+	 
      <b-navbar toggleable="lg" type="dark" variant="dark">
 	    <b-navbar-brand href="{{ url('/') }}">Computational chemistry and cheminformatic</b-navbar-brand>
 	
@@ -83,7 +83,9 @@
        
 	  </b-navbar>
      </header>
+     </div>
      @show  
+
    @section('content') 
    @show 
    @section('footer')
@@ -94,7 +96,6 @@
    </footer>
    @show
     </div>
-   </div>
    <?php  ?>
       <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.002_".date("my")."1"?>"></script>
    </body>

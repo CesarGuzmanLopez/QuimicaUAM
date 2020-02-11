@@ -137,9 +137,11 @@
   <!-- sidebar-wrapper  -->
   <main class="page-content">
     <div class="container-fluid">
+      <div id="aux">
       @section('userCont')      
        
       @show
+      </div>
     </div>
   </main>
   <!-- page-content" -->

@@ -1,4 +1,5 @@
 @extends('home')
+
 @section('userCont') 
 <b-container fluid>
 	<div class="row">
@@ -91,5 +92,7 @@
         </b-card>        
       </div>
    </div>
+
 </b-container>
+
 @endsection

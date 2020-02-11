@@ -5,16 +5,14 @@
 @import 'variables';
 
 // Bootstrap
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/bootstrap-vue/src/index.scss';
-@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-@import '~@fortawesome/fontawesome-free/scss/regular';
-@import '~@fortawesome/fontawesome-free/scss/solid';
-@import '~@fortawesome/fontawesome-free/scss/brands';
-@import "_my-chartist-settings.scss";
-@import "node_modules/chartist/dist/scss/chartist.scss";
-
-
+@import 'node_modules/bootstrap/scss/bootstrap'				;
+@import 'node_modules/bootstrap-vue/src/index.scss'			;
+@import '~@fortawesome/fontawesome-free/scss/fontawesome'	;
+@import '~@fortawesome/fontawesome-free/scss/regular'		;
+@import '~@fortawesome/fontawesome-free/scss/solid'			;
+@import '~@fortawesome/fontawesome-free/scss/brands'		;
+@import "_my-chartist-settings.scss"						;
+@import "node_modules/chartist/dist/scss/chartist.scss"		;
 @keyframes swing {
   0% {
     transform: rotate(0deg);
@@ -29,7 +27,7 @@
     transform: rotate(-10deg);
   }
   50% {
-    transform: rotate(0deg);
+    transform: rotate(100deg);
   }
   60% {
     transform: rotate(75deg);
