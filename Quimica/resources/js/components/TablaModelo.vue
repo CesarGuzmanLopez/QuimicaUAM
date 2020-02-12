@@ -6,18 +6,20 @@
         <b-img alt="" class="p-2 img_molecule"  fluid-grow :src="selected.img"/>
    </div > 
    <div class="col-12 pt-4  px-0   pr-md-0 col-md-8 pt-md-0 pl-md-4 ">
-   <div class="bg-white p-2 flex-column " >
-     <div class="row mx-4 mb-3">
+   <div class="bg-white  flex-column " >
+     <div class="row p-4">
+     
       <b-form-input
-        class="col-7 col-xl-4"
+        class="col-7 col-md-4"
         v-model="filter"
         type="search"
         id="filterInput"
         placeholder="Type to Search"
       ></b-form-input>  
-      <b-button class="col-2 col-xl-1 mx-4" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+      
+      <b-button class="col-5 px-4 col-md-1" :disabled="!filter" @click="filter = ''"> Clear </b-button>
  
-      <b-col  lg="12" xl="6" md="12" class="my-1 " >
+      <div  class="col-6 col-md-4" >
         <b-form-group
           label-align-sm="right"
           label-size="sm"
@@ -30,7 +32,10 @@
             <b-form-checkbox value="RIS">RIS</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
-      </b-col>
+      </div>
+      <div class="col-6 col-md-2">
+		<h5>	<a href="/Kinetics/relative-k-overall">Relative K Overall</a></h5>
+      </div>
      </div>
      <b-table
       id="moleculesTableShowDB"
@@ -499,11 +504,6 @@ export default {//vue
 
    .color5{
    	   background-color: #0544d3;
-   }	
-
-
-   
-
-
+   }
 
 </style>

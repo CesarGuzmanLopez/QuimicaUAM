@@ -7,6 +7,7 @@
         <h1 class=" bg-white p-2 " >Relative kinetic effectiveness of compounds</h1>
     	<div class="bg-white p-2 mb-2"> 	 
     		<form>
+    		
     			<div class="row p-2">
     				<div class="col-5"><div class="row"><div class="col-12 col-md-6"><label>Reference component</label></div><div class="col-12 col-md-4">  
     				<select  class="form-control" @change="changeMol()"  v-model="MolSelected">
@@ -17,6 +18,7 @@
 					
     				</div></div></div>
     				<div class="col-4"><div class="row"><div class="col-12 col-md-6"><label>Reference Radical  </label></div><div class="col-12 col-md-4"> 
+ 					 
  					 <select  class="form-control " @change="changeRad()"  v-model="RadSelected">
                       <option v-for="option in ActSRad" v-bind:value="option.ID_Radical">
                        <?="  {{ option.Name_Radical }}"?>
@@ -50,6 +52,7 @@
     				
 
     			</div>
+    			
     		</form>
     	</div>
     	<div class=""> 
@@ -116,7 +119,19 @@
 
 
     	<!-- fin tabla -->
+    <b-col sm="7" md="12" class="my-1">
+      <b-pagination
+       v-model="currentPage"
+       :total-rows="totalRows"
+       :per-page="perPage"
+       align="fill"
+       size="sm"
+       class="my-0"
+      ></b-pagination>
+      <br/> 
+    </b-col>
     	</div>
+
      	</div>
      </div>
     </div>

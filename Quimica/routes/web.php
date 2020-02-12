@@ -21,7 +21,7 @@ Route::apiResource('/getCompareK_O','View_DATABASE\CompareK_O');
 
 Route::apiResource('/KOverals','View_DATABASE\KOverals');
 Route::apiResource('/PK_S','View_DATABASE\PK_S');
-Route::get("/relative-k-overall","PrincipalController@relative_k_overall");
+Route::get("/Kinetics/relative-k-overall","PrincipalController@relative_k_overall");
 
 
 

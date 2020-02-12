@@ -49,28 +49,28 @@ var Compare_kO = new Vue({
         formData.append('IDMolecule',"2");
      	formData.append('Type', "");
      	formData.append('pH', "7.4");
-     	await axios.post('getCompareK_O', formData).then((response) =>{
+     	await axios.post('/getCompareK_O', formData).then((response) =>{
         	this.Molecules =response.data;
         }); 
         formData.delete('appeal');
         formData.append('appeal','Radicals');//peticion de datos
-        await axios.post('getCompareK_O', formData).then((response) =>{
+        await axios.post('/getCompareK_O', formData).then((response) =>{
         	this.ActSRad =response.data;
          });
         formData.delete('appeal');
         formData.append('appeal','Solvents');//peticion de datos
-        await axios.post('getCompareK_O', formData).then( (response) =>{
+        await axios.post('/getCompareK_O', formData).then( (response) =>{
         	this.ActSolv =response.data;
          });
 
         formData.delete('appeal');
         formData.append('appeal','pH');//peticion de datos
-        await  axios.post('getCompareK_O', formData).then( (response) =>{
+        await  axios.post('/getCompareK_O', formData).then( (response) =>{
         	this.Act_pH =response.data;
          });
         formData.delete('appeal');
         formData.append('appeal','Const');//peticion de datos
-        await axios.post('getCompareK_O', formData).then( (response) =>{
+        await axios.post('/getCompareK_O', formData).then( (response) =>{
         	this.items =response.data;
          });
     },
@@ -88,7 +88,7 @@ var Compare_kO = new Vue({
             formData.append('pH',"7.4");
             formData.append('IDMolecule',this.MolSelected);
             formData.append('appeal','Radicals');
-            axios.post('getCompareK_O', formData).then((response) =>{
+            axios.post('/getCompareK_O', formData).then((response) =>{
             	this.ActSRad =response.data;
    
              });
@@ -104,7 +104,7 @@ var Compare_kO = new Vue({
             formData.append('IDMolecule',this.MolSelected);
             formData.append('IDRadical',this.RadSelected);
             formData.append('appeal','Solvents');
-            axios.post('getCompareK_O', formData).then((response) =>{
+            axios.post('/getCompareK_O', formData).then((response) =>{
             	this.ActSolv =response.data;
  
               });              
@@ -117,7 +117,7 @@ var Compare_kO = new Vue({
             formData.append('IDRadical',this.RadSelected);
             formData.append('IDSolvent',this.SolSelected);
             formData.append('appeal','pH');//peticion de datos
-            axios.post('getCompareK_O', formData).then( (response) =>{
+            axios.post('/getCompareK_O', formData).then( (response) =>{
             	this.Act_pH =response.data;
               });
             
@@ -134,7 +134,7 @@ var Compare_kO = new Vue({
             else 
             	formData.append('pH',"-1");
               formData.append('appeal','Const');//peticion de datos
-            axios.post('getCompareK_O', formData).then( (response) =>{
+            axios.post('/getCompareK_O', formData).then( (response) =>{
             	this.items =response.data;
               });
             

@@ -44,9 +44,10 @@
              <template v-slot:button-content>
                <em>Databases</em>
              </template>
-              
-               <b-dropdown-item href="{{ url('Kinetics') }}">Kinetics</b-dropdown-item>
-	       
+                <b-dropdown-group id="dropdown-group-1" header="Kinetics">
+               		<b-dropdown-item href="{{ url('Kinetics') }}">Data base kinetics </b-dropdown-group>
+               		<b-dropdown-item href="{{ url('Kinetics/relative-k-overall') }}">Relative K Overall </b-dropdown-group>
+               		
           </b-nav-item-dropdown>
           
           
