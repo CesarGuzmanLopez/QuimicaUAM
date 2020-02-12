@@ -6,6 +6,7 @@
               <div id="aux">
                <tablamodelo></tablamodelo>
       	      </div>
+      	      
       <!-- fin table de moleculas --> 
     </div>
    </div>
