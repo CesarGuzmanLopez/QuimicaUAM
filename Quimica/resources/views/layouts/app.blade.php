@@ -12,7 +12,7 @@
       <meta charset="utf-8">
       
       <!-- media -->
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>1">        
 
       <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?">  
       <!--@section('fondocss')-->
@@ -31,8 +31,7 @@
 
 	 @section('header')  
    	 <div id="menuPrin">
-   	  <header >
-	 
+   	  <header > 
      <b-navbar toggleable="lg" type="dark" variant="dark">
 	    <b-navbar-brand href="{{ url('/') }}">Computational chemistry and cheminformatic</b-navbar-brand>
 	
@@ -46,14 +45,12 @@
              </template>
                 <b-dropdown-group id="dropdown-group-1" header="Kinetics">
                		<b-dropdown-item href="{{ url('Kinetics') }}">Data base kinetics </b-dropdown-group>
-               		<b-dropdown-item href="{{ url('Kinetics/relative-k-overall') }}">Relative K Overall </b-dropdown-group>
+               		<b-dropdown-item href="{{ url('Kinetics/relative-k-overall') }}">Relative K Overall </b-dropdown-item>
                		
-          </b-nav-item-dropdown>
-          
-          
-           <b-nav-item href="#" disabled>Desktop apps</b-nav-item>
+          </b-nav-item-dropdown> 
+           <b-nav-item href="#" >Desktop apps</b-nav-item>
+	    
 	      </b-navbar-nav>
-	
 	      <!-- Right aligned nav items -->
 	      <b-navbar-nav class="ml-auto">
 	
@@ -62,23 +59,17 @@
 	          <template v-slot:button-content>
 	            <em>User</em>
 	          </template>
-             
               <!-- @guest-->
               <b-dropdown-item href="{{ route('login') }}">{{ __('Login') }}</b-dropdown-item>
-              <!--@if (Route::has('register'))-->
-     
+              <!--@if (Route::has('register'))--> 
               <b-dropdown-item href="{{ route('register') }}">{{ __('Register') }}</b-dropdown-item>
              
               <!--@endif-->
               <!--@else-->
 	          <b-dropdown-item href="{{ route('home') }}" > Home</b-dropdown-item>
 	          <b-dropdown-item href="{{ route('logout') }}">Sign Out</b-dropdown-item>
-	       <!--@endguest-->
-           
-           </b-nav-item-dropdown> 
-           
-           
-           
+	       <!--@endguest--> 
+           </b-nav-item-dropdown>  
          </b-navbar-nav>
 	    </b-collapse>
        

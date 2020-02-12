@@ -3,11 +3,11 @@
 function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 	<div  class="card cardPrincipal">
 		<div class="row ">
-            <?php if($urlImage != ""){?>
+            <? if($urlImage != ""){?>
 			<div class="col-md-4">
 			   <img src="<?=$urlImage?>" class="w-100">
 			</div>
-            <?php }?>
+            <? }?>
 			<div class="col-md-8 px-3">
 				<div class="card-block px-3">
 					<h4 class="card-title"><?=$title?></h4>
@@ -22,9 +22,8 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
 };
 
 ?>
-@section('content')
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto ">  
-  <article role="main" id="Presentation" class="inner cover container">
+@section('content') 
+  <article role="main" id="Presentation" class="  ">
     <div class="row ">
 	     <div class="col-md-8">        
     	    <h1 class="cover-heading"> Annia Galano's Group</h1>    
@@ -44,6 +43,8 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
         </div>
     </div>
   </article>
-</div>
+ 
+  
+
 @endsection
 
