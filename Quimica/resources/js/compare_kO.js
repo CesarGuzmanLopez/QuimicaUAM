@@ -6,7 +6,7 @@ var Compare_kO = new Vue({
     			{ key:'Name', label: 'Molecule name', sortable: true, ID_Molecule:'ID_Molecule' },
     	        { key:'Name_Radical', label: 'Radical', sortable: true },
     	        { key:'Name_Solvent', label: 'Solvent', sortable: true },
-    	        { key:'Valor', label: 'Value', sortable: true , variant: 'info'},
+    	        { key:'Valor', label: 'K Overall', sortable: true , variant: 'info'},
     	        { key:'pH', label:'pH', sortable: true },
     	        { key:'Tipo', label:'Type', sortable: true },
     	        { key:'Descripcion', label: 'Description'},
@@ -19,7 +19,6 @@ var Compare_kO = new Vue({
     	    filter: null,
             filterOn: ['Valor'],
             perPage: 15,
-            pageOptions: [5, 10, 15],
             sortBy: '',
             sortDesc: false,
             Molecules:[] ,
@@ -33,8 +32,11 @@ var Compare_kO = new Vue({
             TypSelected:"All",
             sortDirection: 'asc',
     	    items: [],
+    	    molToCompare:"Trolox",
     	    IDK_OveralComparation:14,
     	    ValorCompare :410000,
+    	    userMol:"",
+    	    userValue:0,
 
     	}
     },
@@ -47,6 +49,7 @@ var Compare_kO = new Vue({
     	formData.append('IDSolvent',"1");
         formData.append('IDRadical',"1");
         formData.append('IDMolecule',"2");
+ 
      	formData.append('Type', "");
      	formData.append('pH', "7.4");
      	await axios.post('/getCompareK_O', formData).then((response) =>{
@@ -72,7 +75,11 @@ var Compare_kO = new Vue({
         formData.append('appeal','Const');//peticion de datos
         await axios.post('/getCompareK_O', formData).then( (response) =>{
         	this.items =response.data;
+        	   
+            this.molToCompare = this.items[1];
+ 
          });
+    
     },
     computed: {},
     methods : {
@@ -120,7 +127,6 @@ var Compare_kO = new Vue({
             axios.post('/getCompareK_O', formData).then( (response) =>{
             	this.Act_pH =response.data;
               });
-            
     	},
     	changepH(){
             this.items=[];
@@ -130,6 +136,7 @@ var Compare_kO = new Vue({
             formData.append('IDSolvent',this.SolSelected);
             formData.append('Type',this.TypSelected);
             if(this.pH_Selected != null)
+            	
             	formData.append('pH',this.pH_Selected);
             else 
             	formData.append('pH',"-1");
@@ -151,7 +158,13 @@ var Compare_kO = new Vue({
     			this.IDK_OveralComparation = item.ID_K_OVERALL;
     		else
     			this.IDK_OveralComparation =-1;
+    		this.molToCompare = item;
     		this.ValorCompare =parseFloat(" " + item.Valor);
+    		this.userMol="";
+    		this.userValue=0;
+    		
+    	},
+    	compareTo(){
     		
     	},
     	onFiltered(filteredItems) {

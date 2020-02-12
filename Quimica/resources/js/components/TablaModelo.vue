@@ -34,15 +34,17 @@
         </b-form-group>
       </div>
       <div class="col-6 col-md-2">
-		<h5>	<a href="/Kinetics/relative-k-overall">Relative K Overall</a></h5>
+      
+		 
+        <b-button href="/Kinetics/relative-k-overall" variant="outline-primary">Relative K Overall</b-button>
+      
       </div>
      </div>
      <b-table
       id="moleculesTableShowDB"
       show-empty
       small
-      stacked="md"
-      responsive="sm"
+       responsive="sm"
       striped 
        hover small
       :items="items"
@@ -160,15 +162,25 @@
             <div id="K_Ov" class=" pt-4 mt-4 contentDATA">
                 <h3><b>Kinetics constants K<sub>overalls</sub></b> <span class="float-right"> {{selected.Name}}</span></h3> 
                 <div class="col-12"> 
-                  <div v-for="item in K_Overals ">
-                    <b-row >
-                       <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span></span>
-                    </b-row>                     
+               <div class="row">
+               	<div class="col-12 col-md-9">
+                  <div v-for="item in K_Overals"> 
+                    <div class="row py-1"  >
+                       <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span> <span><b>Description: </b>{{item.Descripcion}} </span>  </span>
+                    </div>                     
                   </div>
+                  
+                 </div>
+                 <div class="col-0 col-md-3">
+                         <b-button href="/Kinetics/relative-k-overall" variant="outline-primary">Relative K Overall</b-button>
+                 
+                 </div>
                 </div>
+               </div>
             </div>
          </div>
       </transition> 
+      
      <transition name="fade">
        <div v-if="pKa_s.length>0" class="col-12 p-0 "> 
          <div  class="col-12 col-md-12 bg-white mt-4 p-0  ">
@@ -208,6 +220,7 @@
    </b-container>  
 </template> 
 <script>
+
 var y;
 export default {//vue  
 	data(){
