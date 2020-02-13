@@ -20170,8 +20170,9 @@ readers do not read off random characters that represent icons */
   padding-bottom: 100px;
 }
 
-#Presentation .card {
-  background-color: red;
+#Presentation .cardPrincipal {
+  min-width: 200px !important;
+  /*background-color: rgb(100, 64, 128);*/
 }
 
 @-webkit-keyframes swing {

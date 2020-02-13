@@ -82,7 +82,7 @@
    @show 
    @section('footer')
    <footer class="  fixed-bottom navbar-light bg-faded">
-    <div class=" text-center py-3">© 2018 Copyright:
+    <div class=" text-center py-3">© <?=date("Y") ?> Copyright:
       <a href="https://www.agalano.com/"> Annia Galano's Group</a>
     </div>
    </footer>

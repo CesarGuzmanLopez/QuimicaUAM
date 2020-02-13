@@ -1,50 +1,65 @@
 @extends('layouts.app')
 <?php 
 function CreaTargeta($title, $urlImage, $description,$go, $link){?>
-	<div  class="card cardPrincipal">
-		<div class="row ">
+	 
+	<b-card no-body  lg class="p-3 m-4">
+		<div class="row">
             <? if($urlImage != ""){?>
-			<div class="col-md-4">
-			   <img src="<?=$urlImage?>" class="w-100">
+			<div  class="col-12 col-md-4 p-md-1 p-5 ">
+			   <b-img src="<?=$urlImage?>" fluid alt="Fluid image"></b-img>
 			</div>
             <? }?>
-			<div class="col-md-8 px-3">
+			<div class="col-12 col-md-8 px-3">
 				<div class="card-block px-3">
 					<h4 class="card-title"><?=$title?></h4>
-					<p class="card-text"> <?=$description?></p>
+					 <b-card-text><?=$description?></b-card-text>
 						<a href="<?=$link?>" class="btn btn-dark"><?=$go?></a>
 				</div>
 			</div> 
 			</div>
-		</div>
-
-<?php 
+		</b-card>
+ <?php 
 };
 
 ?>
 @section('content') 
-  <article role="main" id="Presentation" class="  ">
-    <div class="row ">
-	     <div class="col-md-8">        
-    	    <h1 class="cover-heading"> Annia Galano's Group</h1>    
-		    <hr>
-               <?php CreaTargeta("Data Base",asset('img/logoBD.svg'),"  Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Kinetics'));?>  
-            <hr>
-            <div class="lead">
-		      <h3>Annia Galano</h3><a href="https://www.agalano.com/" class="btn btn-lg btn-secondary">agalano.com</a>
-		    </div>
-	    </div>
-  
-        <div class="col col-md-auto">
-         <h1 class="cover-heading">Research interest</h1>
-         <p class="lead">Computational Chemistry</p>
-         <p class="lead">Oxidative Stress and antioxidants</p>
-         <p class="lead">Ath  mosferic chemistry</p>          
-        </div>
-    </div>
-  </article>
- 
-  
+<div id="aux">
 
+  <article role="main" id="Presentation" class="  ">
+ 
+    <h1 class="col-12 text-center"> Annia Galano's Group</h1>    
+      	
+ 	<div class="p-4 m1 row cardPrincipal">
+ 		<div id="i_Databases">
+     		<div class="mx-4 p-3 text-info ">
+     			<h1>Databases</h1>
+     		</div>
+     		
+        	 <?php CreaTargeta("Star Data Base",asset('img/Stra_img.jpg'),"STAR is an application and database for astrochemistry. <br>The database holds Thermochemistry theoretical information of the ground state (enthalpy and free energy) for 134 species observed in phase gas (in black) and proposed intermediaries (in gray). Currently, Thermochemistry data is calculated with the CBS-QB3 composite method. The application finds possible bimolecular chemical reactions that have potential to create a molecule in the ISM.","Data Base",url('Star'));?>   		
+     		 <?php CreaTargeta("Kinetics Data Base ",asset('img/Kinetiks_img.jpg'),"  Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Kinetics'));?>  
+ 		</div>
+ 		<div>
+ 		<div id="i_aplications"> 
+ 			<div class="mx-4 p-3 text-info ">
+     			<h1>Web Applications </h1>
+     		</div>
+ 		
+         <?php CreaTargeta("Relative kinetic effectiveness of compounds",asset('img/compareK_img.jpg'),"Relative assessment between antioxidants compounds","App",url('Kinetics/relative-k-overall'));?>  
+       	</div>
+       	<div id="i_aplications"> 
+ 			<div class="mx-4 p-3 text-info ">
+     			<h1>Desktop Applications </h1>
+     		</div>
+ 		
+         <?php CreaTargeta("Aplications",asset('img/matrazRoto.png'),"Relative assessment between antioxidants compounds","Data Base",url('Kinetics'));?>  
+       	</div>
+       	</div>
+       </div>
+     <div class="lead text-center">
+	      <h3>Dr. Annia Galano</h3><a href="https://www.agalano.com/" class="btn btn-lg btn-secondary">agalano.com</a>
+	 </div>
+ 
+ </article>
+</div>
 @endsection
 
