@@ -3,41 +3,37 @@
    <div class="row text_font">   
    <div class="col-12 col-md-4 p-4 center-block bg-white img_max">
    <h3><b> {{selected.Name}}</b></h3>
-        <b-img alt="" class="p-2 img_molecule"  fluid-grow :src="selected.img"/>
+        <b-img alt="" class="p-2 img_molecule" responsive  fluid-grow :src="selected.img"/>
    </div > 
    <div class="col-12 pt-4  px-0   pr-md-0 col-md-8 pt-md-0 pl-md-4 ">
    <div class="bg-white  flex-column " >
      <div class="row p-4">
-     
-      <b-form-input
-        class="col-7 col-md-4"
-        v-model="filter"
-        type="search"
-        id="filterInput"
-        placeholder="Type to Search"
-      ></b-form-input>  
-      
-      <b-button class="col-5 px-4 col-md-1" :disabled="!filter" @click="filter = ''"> Clear </b-button>
- 
-      <div  class="col-6 col-md-4" >
-        <b-form-group
-          label-align-sm="right"
-          label-size="sm"
- 
-          class="mb-0">
+     <div class="col-12 col-md-5">	
+       <div class="row">
+       <div class="col-8 p-0">
+	      <b-form-input
+	        class=""
+	        v-model="filter"
+	        type="search"
+	        id="filterInput"
+	        placeholder=""
+	      ></b-form-input>  
+	     </div>
+	     <div class="col-4 " >
+	      <b-button class="" :disabled="!filter" @click="filter = ''"> Clear </b-button>
+	      </div>
+ 	   </div>
+ 	  </div>
+      <div  class="col-6 col-md-5" > 
           <b-form-checkbox-group v-model="filterOn" class="mt-1">
-            <b class="pr-2">Filter</b>
             <b-form-checkbox value="Name">Molecule</b-form-checkbox>
             <b-form-checkbox value="SMILE">Smile</b-form-checkbox>
             <b-form-checkbox value="RIS">RIS</b-form-checkbox>
           </b-form-checkbox-group>
-        </b-form-group>
+     
       </div>
-      <div class="col-6 col-md-2">
-      
-		 
+      <div class="col-6 col-md-2 p-2">
         <b-button href="/Kinetics/relative-k-overall" variant="outline-primary">Relative K Overall</b-button>
-      
       </div>
      </div>
      <b-table

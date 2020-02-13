@@ -44,9 +44,12 @@
                <em>Databases</em>
              </template>
                 <b-dropdown-group id="dropdown-group-1" header="Kinetics">
-               		<b-dropdown-item href="{{ url('Kinetics') }}">Data base kinetics </b-dropdown-group>
-               		<b-dropdown-item href="{{ url('Kinetics/relative-k-overall') }}">Relative K Overall </b-dropdown-item>
-               		
+               		<b-dropdown-item href="{{ url('Kinetics') }}"  class="text-center">kinetics Data base  </b-dropdown-item>
+               		<b-dropdown-item href="{{ url('Kinetics/relative-k-overall') }}"  class="text-center">Relative K Overall </b-dropdown-item>
+               	</b-dropdown-group>
+               	<b-dropdown-group id="dropdown-group-2" header="Astrochemistry">
+            		 <b-dropdown-item href="{{ url('Star') }}" class="text-center">Star Data base </b-dropdown-item> 
+               	</b-dropdown-group>
           </b-nav-item-dropdown> 
            <b-nav-item href="#" >Desktop apps</b-nav-item>
 	    
