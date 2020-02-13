@@ -50,8 +50,7 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
  			<div class="mx-4 p-3 text-info ">
      			<h1>Desktop Applications </h1>
      		</div>
- 		
-         <?php CreaTargeta("Aplications",asset('img/matrazRoto.png'),"Relative assessment between antioxidants compounds","Data Base",url('Kinetics'));?>  
+         <?php CreaTargeta("Aplications",asset('img/matrazRoto.png'),"Aplicattions for desktop","Data Base",url('Apps_Desktop'));?>  
        	</div>
        	</div>
        </div>
