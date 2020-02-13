@@ -12,7 +12,7 @@
       <meta charset="utf-8">
       
       <!-- media -->
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>1">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>1.0">        
 
       <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?">  
       <!--@section('fondocss')-->
@@ -92,6 +92,6 @@
    @show
     </div>
    <?php  ?>
-      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.002_".date("my")."1"?>"></script>
+      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.1_".date("my")."1"?>"></script>
    </body>
 </html>
