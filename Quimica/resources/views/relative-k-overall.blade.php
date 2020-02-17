@@ -66,7 +66,7 @@
     	<div class="table-responsive bg-white p-2 ">
 		<div class="row p-4 ">
 		   	<div class="col-md-8 ">
-				<h1 class="">Click on an item to compare</h1>
+				<h1 class="">Click target</h1>
 			</div>
 			<div class="col-md-4">
             	<div v-if ="(IDK_OveralComparation!=-1)">
@@ -106,12 +106,7 @@
        				<div ><?=" {{ (row.item.Valor/ValorCompare).toFixed(2) }}"?>  </div> 
        				<template v-if=" (row.item.Valor/ValorCompare)!=1 " >
        				times
-    	   			<span v-if=" (row.item.Valor/ValorCompare)>1 ">
-    	   				(better)
-    	   			</span>
-    	   			<span v-else>
-    	   				(worse)
-    	   			</span>
+    	 
     	   			</template>
       			</div>
       		</template>
@@ -184,13 +179,8 @@
     	   <div class="row">
     	   	<div class="col-8 offset-2  pt-4">
     	   		<template v-if="parseFloat( ' '+userValue)> 0">
-    	   			<h2>Relation: <?=" {{ (parseFloat( userValue)/(ValorCompare*1.0)).toFixed(4) }}"?> times
-    	   			<span v-if=" (parseFloat( ' '+userValue)/ValorCompare) >1 ">
-    	   				(better)
-    	   			</span>
-    	   			<span v-else>
-    	   				(worse)
-    	   			</span>
+    	   			<h2>Ratio: <?=" {{ (parseFloat( userValue)/(ValorCompare*1.0)).toFixed(4) }}"?> times
+    	   		
     	   			</h2>
     	   		</template>
     	   	</div>

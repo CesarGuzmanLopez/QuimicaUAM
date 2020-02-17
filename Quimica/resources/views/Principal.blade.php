@@ -35,8 +35,8 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
      			<h1>Databases</h1>
      		</div>
      		
-        	 <?php CreaTargeta("Star Data Base",asset('img/Stra_img.jpg'),"STAR is an application and database for astrochemistry. <br>The database holds Thermochemistry theoretical information of the ground state (enthalpy and free energy) for 134 species observed in phase gas (in black) and proposed intermediaries (in gray). Currently, Thermochemistry data is calculated with the CBS-QB3 composite method. The application finds possible bimolecular chemical reactions that have potential to create a molecule in the ISM.","Data Base",url('Star'));?>   		
-     		 <?php CreaTargeta("Kinetics Data Base ",asset('img/Kinetiks_img.jpg'),"  Database of specific properties of molecules obtained experimentally or analytically using computational equipment","Data Base",url('Kinetics'));?>  
+        	 <?php CreaTargeta("Star Database",asset('img/Stra_img.jpg'),"STAR is an application and database for astrochemistry. <br>The database holds Thermochemistry theoretical information of the ground state (enthalpy and free energy) for 134 species observed in phase gas (in black) and proposed intermediaries (in gray). Currently, Thermochemistry data is calculated with the CBS-QB3 composite method. The application finds possible bimolecular chemical reactions that have potential to create a molecule in the ISM.","Data Base",url('Star'));?>   		
+     		 <?php CreaTargeta("Kinetics Database ",asset('img/Kinetiks_img.jpg'),"Database  for kinetics obtained experimentally or with  theoretical methodologies ","Database",url('Kinetics'));?>  
  		</div>
  		<div>
  		<div id="i_aplications"> 

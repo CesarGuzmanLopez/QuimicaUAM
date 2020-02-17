@@ -12,11 +12,11 @@
       <meta charset="utf-8">
       
       <!-- media -->
-      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>1.1">        
+      <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}?<?=date("my")?>1.2">        
 
       <link rel="stylesheet" type="text/css" href="{{ asset('css/principal.css') }}?">  
       <!--@section('fondocss')-->
-      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
       <style type="text/css">
          #Container{
  /*           background-image: url( "{{ asset('img/Fondo.svg') }}");*/
@@ -91,6 +91,6 @@
    @show
     </div>
    <?php  ?>
-      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.1_".date("my")."2"?>"></script>
+      <script type="text/javascript" src="{{asset('js/app.js') }}?<?="ver_1.1_".date("my")."3"?>"></script>
    </body>
 </html>

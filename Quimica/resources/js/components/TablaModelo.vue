@@ -190,16 +190,13 @@
                 	<div class="col-3"><b>Min:</b> <b-form-input  v-model="pH_Range.Min" >Min</b-form-input></div> 
                 	<div class="col-3"><b>Max:</b> <b-form-input  v-model="pH_Range.Max">Max</b-form-input> </div>
                 	<div class="col-3"><b>Step:</b> <b-form-input  v-model="pH_Range.Step">Step</b-form-input> </div>
-                 	
-                	
                 	<!-- b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
-                	<div class="col-12" >
-                	
+                	<div class="col-12" > 
                 	</div-->
           		</div>
           		<div class="row ">
           		<div class="col-12 py-4">
-	          		<template v-if="parseFloat(pH_Range.Step) <.01 || parseFloat(pH_Range.Min)<0 || parseFloat(pH_Range.Max)<14">
+	          		<template v-if="!(parseFloat(pH_Range.Step) <.0009 || parseFloat(pH_Range.Min)<0 || parseFloat(pH_Range.Max)>14)">
 	                	<table border="1" class="table"> 
 	                		<thead>
 	                		<tr>
@@ -208,23 +205,22 @@
 	                		</tr>
 	                		</thead>
 	                		<tbody>
-	                		
-	                		<tr v-for="a in range(parseFloat(pH_Range.Min),parseFloat(pH_Range.Max),parseFloat(pH_Range.Step))">
+	                		<tr v-for="a in range(parseFloat(pH_Range.Min),parseFloat(pH_Range.Max)+parseFloat(pH_Range.Step),parseFloat(pH_Range.Step))">
 	                			<td>{{a.toFixed(2)}}</td>
 	                			<td v-for=" j in range(0,valores.length,1)" :class="colors[j]+' text-white'">
-	                				{{FK(a,j).toFixed(2)}}
+	                				{{FK(a,j).toFixed(4)}}
 	                			</td>
 	                	 	</tr>    		
 	                	 </tbody>
 	                	 </table>
-	            
                 	 </template>                	
           		</div>
           		</div>
            </div>
            <div class="col-12 col-md-7 p-4 pr-5">
            	<div class="colores row">
-  				<div v-for="(item,index) in labelEtic" class="col-3 p-0 pl-1">
+           		 
+  				<div  v-for="(item,index) in labelEtic" class="col-3 p-0 pl-1">
   					<div class="row">
 					<div  :class="item[1]+ ' col-3 '"> </div> <div class="col-5">{{ item[0] }}</div>
 					</div>
@@ -298,7 +294,8 @@ export default {//vue
     	sortOptions() { 
     		return this.fields.filter(f => f.sortable).map(
     		f => {return { text: f.label, value: f.key }})
-    	}
+    	},
+    	
     },
     mounted() {
     	// Set the initial number of items
@@ -341,6 +338,10 @@ export default {//vue
         	var Con_H = 10 ** (-V_pH); 
         	return this.F0(V_pH)*this.fBeta(K)*Con_H**K;
         },
+        reverse(value) {
+  		  // slice to make a copy of array, then reverse the copy
+  		  return value.slice().reverse();
+  		},
         cargagraph(){
         	this.pH_Range=this.pH_default;
 			var pH=this.pH_F_Gr;
@@ -375,7 +376,8 @@ export default {//vue
          	var temp=[];
         	for(var i=0.0; i<=14; i+=.1){
     			xs.push(i);
-        	}       
+        	}      
+        	this.labelEtic =this.labelEtic.reverse();
         	//setTimeut Grafica
         	setTimeout((x)=>{
         		var unc = new Chartist.Line('#Uncn1', 
@@ -419,7 +421,7 @@ export default {//vue
         range (start, stop, step = 1) {
         	
         	if(start==stop)return [start];
-        	console.log( Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step));
+        //	console.log( Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step));
         	return Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step);
         },
         /*fin grafica*/
