@@ -1,6 +1,7 @@
 @extends('home')
 
 @section('userCont') 
+<div id="aux">
 <b-container fluid>
 	<div class="row">
       <div class="col-12 col-md-4 py-5">
@@ -94,5 +95,5 @@
    </div>
 
 </b-container>
-
+</div>
 @endsection

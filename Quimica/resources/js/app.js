@@ -61,11 +61,6 @@ var aux = new Vue({
     el: '#aux',
 });
 
-
-
-
-
-
 $(function ($) {
     $(".sidebar-dropdown > a").click(function() {
   $(".sidebar-submenu").slideUp(200);
@@ -111,4 +106,6 @@ $(window).scroll(function(){
 });
 
 
+
 require('./compare_kO')
+require('./up_app')

@@ -29,6 +29,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 //base de datos  pk's y K overalls
@@ -42,6 +43,9 @@ Route::get('/ModifyBD/DB-pk-Koverall/References','DB_pk_koverall_Controller@Refe
 Route::get('/ModifyBD/DB-pk-Koverall/PK_s','DB_pk_koverall_Controller@PK_s')->name('PK_s');
 Route::get('/ModifyBD/DB-pk-Koverall/K_overall','DB_pk_koverall_Controller@K_overall')->name('K_overall');
 
+Route::get('/Up-Apps-Desktop','AppsController@indexApp')->name('Apps Desktop');
+
+Route::apiResource('/upAppsDesktop','ABC_DATABASE\App_Desktop_Table')->middleware(['auth','role:admin,super-admin']);
 
 Route::apiResource('/MoleculeTable','ABC_DATABASE\MoleculeTable')->middleware(['auth','role:admin,super-admin']);
 Route::apiResource('/SolventsTable','ABC_DATABASE\SolventsTable')->middleware(['auth','role:admin,super-admin']);

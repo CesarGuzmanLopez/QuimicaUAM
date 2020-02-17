@@ -1,4 +1,6 @@
 @extends('home')
-@section('userCont') 
+@section('userCont')
+<div id="aux"> 
 <solventsabc></solventsabc>
+</div>
 @endsection

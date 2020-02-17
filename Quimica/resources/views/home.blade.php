@@ -117,9 +117,9 @@
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="fa fa-calendar"></i>
-              <span>programs up</span>
+            <a href="{{url('/Up-Apps-Desktop') }}">
+              <i class="fa fa-building "></i>
+              <span>program</span>
             </a>
           </li>
           <li>
@@ -137,11 +137,11 @@
   <!-- sidebar-wrapper  -->
   <main class="page-content">
     <div class="container-fluid">
-      <div id="aux">
+      
       @section('userCont')      
        
       @show
-      </div>
+  
     </div>
   </main>
   <!-- page-content" -->

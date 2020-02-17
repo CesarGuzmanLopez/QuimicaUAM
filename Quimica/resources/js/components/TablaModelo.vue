@@ -42,7 +42,7 @@
       small
        responsive="sm"
       striped 
-       hover small
+       hover 
       :items="items"
       :fields="fields"
       :current-page="currentPage"

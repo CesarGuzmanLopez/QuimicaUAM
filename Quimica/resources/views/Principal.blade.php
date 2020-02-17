@@ -1,7 +1,7 @@
 @extends('layouts.app')
 <?php 
 function CreaTargeta($title, $urlImage, $description,$go, $link){?>
-	 
+	
 	<b-card no-body  lg class="p-3 m-4">
 		<div class="row">
             <? if($urlImage != ""){?>

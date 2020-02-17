@@ -2,9 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\Quimica",
-    "\\Quimica\\public",
-    "\\Quimica\\public\\js"
+    "\\Quimica\\resources",
+    "\\Quimica\\resources\\js",
+    "\\Quimica\\resources\\js\\components",
+    "\\Quimica\\resources\\views",
+    "\\Quimica\\routes"
   ],
-  "SelectedNode": "\\Quimica\\public\\js\\app.js",
+  "SelectedNode": "\\Quimica\\resources\\views\\Principal.blade.php",
   "PreviewInSolutionExplorer": false
 }

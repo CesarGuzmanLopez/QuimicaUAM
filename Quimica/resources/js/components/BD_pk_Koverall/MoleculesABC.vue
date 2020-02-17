@@ -38,8 +38,7 @@
       small
       stacked="md"
       responsive="sm"
-      striped 
-       hover small
+        hover small
       :items="items"
       :fields="fields"
       :current-page="currentPage"
@@ -287,8 +286,7 @@
 		data_mole:{
 			id:'0',
 			Image: '../../img/matrazRoto.png',
-			Description:'',
-			SMILE: '',
+ 			Description: '',
 			Name: '',
 			RIS:'',
 		},

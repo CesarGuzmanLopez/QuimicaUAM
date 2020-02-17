@@ -23,6 +23,7 @@ class MoleculeTable extends Controller
      */
     public function index(){
     	return q_db_molecules::get();
+    	
     }
 
     /**
