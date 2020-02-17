@@ -57,8 +57,6 @@ function CreaTargeta($title, $urlImage, $description,$go, $link){?>
      <div class="lead text-center">
 	      <h3>Dr. Annia Galano</h3><a href="https://www.agalano.com/" class="btn btn-lg btn-secondary">agalano.com</a>
 	 </div>
- 
  </article>
 </div>
 @endsection
-

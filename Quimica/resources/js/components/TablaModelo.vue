@@ -126,7 +126,7 @@
     <transition name="fade">
          <div v-if="pKa_s.length>0" class="col-12 p-0 m-md-0 col-md-6 pr-md-4 ">
             <div id="PKA_S" class="pt-4  mt-4 contentDATA">
-               <h3><b>Dissociaton Constants</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
+               <h3><b>Molar Fractions </b>  <span class="float-right"> {{selected.Name}}</span></h3>  
              <div class="col-12">
                   <div v-for="(item, index) in pKa_s" >
                    <div v-if="index == 0 ||item.Tipo_Exp_teo !=pKa_s[index-1].Tipo_Exp_teo ">
@@ -162,7 +162,7 @@
                	<div class="col-12 col-md-9">
                   <div v-for="item in K_Overals"> 
                     <div class="row py-1"  >
-                       <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span> <span><b>Description: </b>{{item.Descripcion}} </span>  </span>
+                       <span  ><span><b> Solvent:</b> {{item.Name_Solvent}} </span><span> <b> Radical:</b> {{item.Name_Radical}} </span><span> <b>pH: </b> {{item.pH}}</span>  <span data-toggle="tooltip"  :title="item.Valor.toFixed(0)"><b>K<sub>overall: </sub></b> {{item.Valor.toPrecision(2)}}</span> <span><b>Details: </b>{{item.Descripcion}} </span>  </span>
                     </div>                     
                   </div>
                   
@@ -182,21 +182,45 @@
          <div  class="col-12 col-md-12 bg-white mt-4 p-0  ">
          <div class="row p-0 m-0 pt-4  mt-4 contentDATA ">
            <div class="col-12"> 
-             <h3><b>Dissociaton Constants Graphic</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
+             <h3><b>Molar Fractions Graphic</b>  <span class="float-right"> {{selected.Name}}</span></h3>  
            </div>
             <div class="col-12 col-md-5 p-0 pl-4  pt-4" >
-                <b-row>
-                <h4><label  label-align-sm="left" label-size="sm" for="pH_graph" class=" col-1 mb-0">pH</label></h4>
-                <b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
-                <div class="col-12" @change(cargagraph)>
-                   <b>Molar fractions at pH: {{pH_F_Gr}} </b>
-                     <b-row>
-                      <div v-for="( item, index) in Fractions " class="col-3 p-0 pl-1 ">
-                          <span data-toggle="tooltip" :title="item.toFixed(10)" ><span class="cursiva"><em>f</em><sub>{{index}}</sub>:</span>{{item.toPrecision(1)}}</span>
-                    </div>
-                    </b-row>
-                </div>
-           </b-row>
+     			<div class="row m-0 p-0">
+     				<div class="col-12"><h4>pH range</h4></div>
+                	<div class="col-3"><b>Min:</b> <b-form-input  v-model="pH_Range.Min" >Min</b-form-input></div> 
+                	<div class="col-3"><b>Max:</b> <b-form-input  v-model="pH_Range.Max">Max</b-form-input> </div>
+                	<div class="col-3"><b>Step:</b> <b-form-input  v-model="pH_Range.Step">Step</b-form-input> </div>
+                 	
+                	
+                	<!-- b-form-input   class="col-2 " id="pH_graph" v-model="pH_F_Gr"  @input="cargagraph" @change="cargagraph" ></b-form-input>
+                	<div class="col-12" >
+                	
+                	</div-->
+          		</div>
+          		<div class="row ">
+          		<div class="col-12 py-4">
+	          		<template v-if="parseFloat(pH_Range.Step) <.01 || parseFloat(pH_Range.Min)<0 || parseFloat(pH_Range.Max)<14">
+	                	<table border="1" class="table"> 
+	                		<thead>
+	                		<tr>
+	                			<th>ph</th>
+	                			<th v-for=" a in range(0,valores.length,1)">f{{a}}</th>
+	                		</tr>
+	                		</thead>
+	                		<tbody>
+	                		
+	                		<tr v-for="a in range(parseFloat(pH_Range.Min),parseFloat(pH_Range.Max),parseFloat(pH_Range.Step))">
+	                			<td>{{a.toFixed(2)}}</td>
+	                			<td v-for=" j in range(0,valores.length,1)" :class="colors[j]+' text-white'">
+	                				{{FK(a,j).toFixed(2)}}
+	                			</td>
+	                	 	</tr>    		
+	                	 </tbody>
+	                	 </table>
+	            
+                	 </template>                	
+          		</div>
+          		</div>
            </div>
            <div class="col-12 col-md-7 p-4 pr-5">
            	<div class="colores row">
@@ -218,9 +242,11 @@
 <script>
 
 var y;
+
 export default {//vue  
 	data(){
 		return {
+			
     	    tipo_pK:"",
     	  	tipo_kO:"",
     	    /*grafica */
@@ -243,11 +269,22 @@ export default {//vue
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: [],
+            filterOn:[],
+            valores:[],
             pKa_s: [],
             K_Overals: [],
             data_K_Overalls: [],
             data_pKa_s: [],
+			pH_Range:{
+				Min:7.4,
+				Max:7.4,
+    	  		Step:1,
+			},
+			pH_default:{
+				Min:7.4,
+				Max:7.4,
+    	  		Step:1,
+			},
             fields: [
                 { key:'ID',label:'id', variant: 'success',thStyle: { backgroundColor: '#3eef33' ,width: "30px"}},
             	{ key:'Name', label: 'Molecule', sortable: true, 'class': 'my-clas'},
@@ -305,6 +342,7 @@ export default {//vue
         	return this.F0(V_pH)*this.fBeta(K)*Con_H**K;
         },
         cargagraph(){
+        	this.pH_Range=this.pH_default;
 			var pH=this.pH_F_Gr;
          	var Serie =[];
          	var xs=[]; this.pKa_s_Gr=[];
@@ -314,25 +352,25 @@ export default {//vue
          	var eti=['A', 'HA','H2A','H3A'];
          	this.Fractions=[];
          	this.labelEtic =[];
+         	this.valores=[];
          	for(var j=0; j<=this.pKa_s_Gr.length;j++ ){
-        		var valores=[];
+        		var Valores=[];
         		//console.log(this.pKa_s_Gr); 
         		for(var i=0.1; i<=14; i+=.1){
  					var d=this.FK(i,j);
-        			valores.push(d);
+ 					Valores.push(d);
         		}
-        		this.Fractions.push(this.FK(this.pH_F_Gr,j));
+        	//	this.Fractions.push(this.FK(this.pH_F_Gr,j));
         		this.labelEtic.push([eti[j],this.colors[j]]);
         		Serie.push(
-        			{"name":eti[j],
-        			
+        			{"name":eti[j], 
         			 type: 'line',
                      label: "2017",
                      backgroundColor: 'rgba(151,249,190,0.5)',
                      borderColor: 'rgba(151,249,190,1)',
                      borderWidth: 1,
-                     "data": valores.slice()}); 
-         	
+                     "data": Valores.slice()}); 
+        		this.valores.push(Valores.slice());
          	} 
          	var temp=[];
         	for(var i=0.0; i<=14; i+=.1){
@@ -354,8 +392,7 @@ export default {//vue
           		  	axisX: { 
           		    	labelInterpolationFnc: function(value, index) {
           		      		var A=  index% 20 === 0 ? index/10 : null;
-          		    		if(index% (pH*10)  ===  0)
-          		    			A=index/10
+          		    	 
           		    	    return A;
           		    	}
           		  	},
@@ -378,6 +415,12 @@ export default {//vue
         		
         	} ,100);
         	//fin setTimeut Grafica
+        },
+        range (start, stop, step = 1) {
+        	
+        	if(start==stop)return [start];
+        	console.log( Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step));
+        	return Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step);
         },
         /*fin grafica*/
         Selected(index){
