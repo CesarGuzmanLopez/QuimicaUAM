@@ -11,21 +11,13 @@ use App\Http\Controllers\Controller;
 
 class App_Desktop_Table extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         return desktop_apps::get();
     }
 
-     
-    public function create()
-    {
-        //
-    }
+  
 
     /**
      * Store a newly created resource in storage.
@@ -87,15 +79,12 @@ class App_Desktop_Table extends Controller
             return ("empty name or file");
         } 
         $nombre = "";
-        $file="";
- 
-        
+        $file=""; 
         if($request->has('Description'))
             $app->Description= $request->Description;
         else $app->Description="";
          if($request->has('Version'))
-                $app->Version= $request->Version;
-   
+                $app->Version= $request->Version; 
        
         if($request->hasFile('app_EXE')  ){
             $file = $request->file('app_EXE');
@@ -118,10 +107,8 @@ class App_Desktop_Table extends Controller
                 //return storage_path("app/public/$nombre"). public_path("files/data-base-img/$id/$nombre");
                 File::move(storage_path("app/public/$nombre"), public_path("files/Apps/$id/$nombre"));
             }
-        }
-        
-    }
-
+        }     
+    } 
     /**
      * Remove the specified resource from storage.
      *
@@ -129,11 +116,9 @@ class App_Desktop_Table extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    { 
-       
-        if (!file_exists(public_path("files/Apps/$id"))) {
-            rm(public_path("files/Apps/$id/*"));
-            unlink(public_path("files/Apps/$id"), 0777, true);
+    {     
+        if (file_exists(public_path("files/Apps/$id"))) { 
+            unlink(public_path("files/Apps/$id"));
         }
         $mol = desktop_apps::find($id);
         $mol->delete();

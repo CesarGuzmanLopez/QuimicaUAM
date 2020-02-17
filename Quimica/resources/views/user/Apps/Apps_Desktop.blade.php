@@ -60,7 +60,7 @@
         <b-button size="sm"  class="fa fa-refresh bg-warning mr-1" @click="editmodal(row.item)"> <span class="text-info"> Edit </span> </b-button>
       </template>
       <template v-slot:cell(Location_name)="row">
-      		<?= "{{row.value}}" ?>
+      		<a :href="'./files/Apps/'+row.item.ID_app+'/'+row.value  " :download="'App_'+row.value" ><?= "{{row.value}}" ?></a>
       </template>
       	
     </b-table> 

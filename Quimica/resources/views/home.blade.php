@@ -89,7 +89,10 @@
             <div class="sidebar-submenu">
               <ul>
                 <li>
-                  <a href="#">Programs</a>
+           	       <a href="{{url('/Up-Apps-Desktop') }}">
+            		  <i class="fa fa-building "></i>
+              		  <span>Programs</span>
+            	    </a>
                 </li>
                 <li>
                   <a href="#">Articles</a>
@@ -100,34 +103,12 @@
               </ul>
             </div>
           </li>
-          <li class="sidebar">
-            <a href="#">
-              <i class="fa fa-chart-line"></i>
-              <span>Charts</span>
-            </a>
-          </li>
+  
+          <!-- header menu
           <li class="header-menu">
             <span>Data base</span>
           </li>
-          <li>
-            <a href="#">
-              <i class="fa fa-book"></i>
-              <span>Modifications</span>
-              <span class="badge badge-pill badge-primary">Beta</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{url('/Up-Apps-Desktop') }}">
-              <i class="fa fa-building "></i>
-              <span>program</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fa fa-folder"></i>
-              <span>Descriptions</span>
-            </a>
-          </li>
+          -->
         </ul>
       </div>
       <!-- sidebar-menu  -->
@@ -136,12 +117,9 @@
   </div>
   <!-- sidebar-wrapper  -->
   <main class="page-content">
-    <div class="container-fluid">
-      
-      @section('userCont')      
-       
+    <div class="container-fluid"> 
+      @section('userCont')       
       @show
-  
     </div>
   </main>
   <!-- page-content" -->
