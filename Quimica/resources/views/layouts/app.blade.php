@@ -51,7 +51,7 @@
             		 <b-dropdown-item href="{{ url('Star') }}" class="text-center">Star Data base </b-dropdown-item> 
                	</b-dropdown-group>
           </b-nav-item-dropdown> 
-           <b-nav-item href="#" >Desktop apps</b-nav-item>
+           <b-nav-item href="{{url('Apps-Desktop')}}" >Desktop apps</b-nav-item>
 	    
 	      </b-navbar-nav>
 	      <!-- Right aligned nav items -->
@@ -80,7 +80,6 @@
      </header>
      </div>
      @show  
-
    @section('content') 
    @show 
    @section('footer')

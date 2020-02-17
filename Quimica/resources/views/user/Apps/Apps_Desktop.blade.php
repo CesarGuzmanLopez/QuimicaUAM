@@ -160,7 +160,7 @@
                     > 
                     </b-form-checkbox> 
                  <b-col sm="2"class="mt-4">
-               <label for="formodifi.Description">Description</label>
+               <label for="formodifi.Description" >Description</label>
              </b-col>
              <b-col sm="10"  class="mt-4">
              <b-form-textarea

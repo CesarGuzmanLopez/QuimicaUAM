@@ -34,4 +34,8 @@ class PrincipalController extends Controller
     public function userapi(Request $request) {
     		return $request->user();
     }
+    public function Apps_Desktop(){
+        return view('Apps_Desktop')->with('title','Desktop Applications');
+        
+    }
 }

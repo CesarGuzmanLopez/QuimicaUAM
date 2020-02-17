@@ -1,7 +1,5 @@
 <?php
-
-namespace App;
-
+namespace App; 
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,7 +18,9 @@ class desktop_apps extends Model
 {
     protected $primaryKey = 'ID_app';
     
-/**
+    public $incrementing = true;
+    
+    /**
      * @var array
      */
     protected $fillable = ['ID_app', 'Name_app', 'Version', 'Description', 'ID_Alta', 'updated_at', 'created_at', 'Location_name', 'Enable'];
@@ -28,8 +28,6 @@ class desktop_apps extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public $incrementing = true;
-    
     public function user()
     {
         return $this->belongsTo('App\User', 'ID_Alta');

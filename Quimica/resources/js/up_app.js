@@ -133,7 +133,7 @@ var Compare_kO = new Vue({
          	this.formodifi.ID_app=index.ID_app; 
         	this.formodifi.Name_app=index.Name_app;
 		  	this.formodifi.Enable =(index.Enable == "1")?"true":"false"; 
-		  	this.formNewnapp.Description = index.Description;
+		  	this.formodifi.Description = index.Description;
 		  	this.formodifi.Version = index.Version ; 
             this.$refs['updateapp'].show();
          },

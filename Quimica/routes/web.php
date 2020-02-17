@@ -13,29 +13,20 @@
 
 
 Route::get('/','PrincipalController@index');
-
 Route::get('/Kinetics', 'PrincipalController@BDKinetics');
-	
+Route::get('/Apps-Desktop', 'PrincipalController@Apps_Desktop');
 Route::apiResource('/getMolecules','View_DATABASE\MoleculesController');
 Route::apiResource('/getCompareK_O','View_DATABASE\CompareK_O');
-
+Route::apiResource('/getApps','View_DATABASE\Apps');
 Route::apiResource('/KOverals','View_DATABASE\KOverals');
 Route::apiResource('/PK_S','View_DATABASE\PK_S');
-Route::get("/Kinetics/relative-k-overall","PrincipalController@relative_k_overall");
-
-
-
+Route::get("/Kinetics/relative-k-overall","PrincipalController@relative_k_overall"); 
 Auth::routes(['verify' => true]);
-
 Route::get('/logout', 'Auth\LoginController@logout');
-
-
 Route::get('/home', 'HomeController@index')->name('home');
-
 //base de datos  pk's y K overalls
 
 Route::get('/ModifyBD/DB-pk-Koverall','DB_pk_koverall_Controller@DB_pk_Koverall')->name('DB_pk_Koverall');
-
 Route::get('/ModifyBD/DB-pk-Koverall/Molecules','DB_pk_koverall_Controller@Molecules')->name('Molecules');
 Route::get('/ModifyBD/DB-pk-Koverall/Solvents','DB_pk_koverall_Controller@Solvents')->name('Solvents');
 Route::get('/ModifyBD/DB-pk-Koverall/Radicals','DB_pk_koverall_Controller@Radicals')->name('Radicals');

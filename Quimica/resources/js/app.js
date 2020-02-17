@@ -48,18 +48,12 @@ Vue.component('k_overallabc',require('./components/BD_pk_Koverall/K_OverallABC.v
 Vue.component('pk_sabc',require('./components/BD_pk_Koverall/pk_sABC.vue').default);
 Vue.component('radicalsabc',require('./components/BD_pk_Koverall/radicalsABC.vue').default);
 Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC.vue').default);
-
  
-
 var menuPrin = new Vue({
     el: '#menuPrin',
 });
 
 
-
-var aux = new Vue({
-    el: '#aux',
-});
 
 $(function ($) {
     $(".sidebar-dropdown > a").click(function() {
@@ -101,11 +95,10 @@ $(window).scroll(function(){
 	$(".sidebar-wrapper").css("top",$("header").height()-x);
 	else
 	$(".sidebar-wrapper").css("top",0);
-	
 });
 });
-
-
-
-require('./compare_kO')
-require('./up_app')
+if($("#aux").length!=0) var aux = new Vue({el: '#aux',});
+if($("#Compare_kO").length!=0)
+	require('./compare_kO');
+if($("#up_app").length!=0)
+require('./up_app');
