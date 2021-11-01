@@ -14,7 +14,17 @@ require('./bootstrap');
 
 //import Vue from 'vue'
 
-import BootstrapVue from 'bootstrap-vue'
+
+
+//import './app.scss'
+
+import Vue from 'vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 //import * as uiv from 'uiv'
 window.Vue = require('vue');
 Vue.use(BootstrapVue)
@@ -38,17 +48,17 @@ Vue.use(BootstrapVue)
 
 Vue.use(Chartist)
 //Vue.use(d3)
- 
 
-Vue.component('tablamodelo', require('./components/TablaModelo.vue').default);
+
+Vue.component('tablamodelo', require('./components/tablamodelo.vue').default);
 Vue.component('moleculesabc',require('./components/BD_pk_Koverall/MoleculesABC.vue').default);
 Vue.component('solventsabc',require('./components/BD_pk_Koverall/SolventsABC.vue').default);
 
-Vue.component('k_overallabc',require('./components/BD_pk_Koverall/K_OverallABC.vue').default);
+Vue.component('k_overallabc',require('./components/BD_pk_Koverall/K_overallabc.vue').default);
 Vue.component('pk_sabc',require('./components/BD_pk_Koverall/pk_sABC.vue').default);
 Vue.component('radicalsabc',require('./components/BD_pk_Koverall/radicalsABC.vue').default);
 Vue.component('referencesabc',require('./components/BD_pk_Koverall/ReferencesABC.vue').default);
- 
+
 var menuPrin = new Vue({
     el: '#menuPrin',
 });
