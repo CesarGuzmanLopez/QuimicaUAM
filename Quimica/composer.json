@@ -1,13 +1,13 @@
 {
 	"name" : "laravel/quimica",
-	"type" : "Annia dev",
+	"type" : "php",
 	"description" : "Chemistry",
 	"keywords" : [
 		"Cemistry"
 	],
 	"license" : "MIT",
 	"require" : {
-		"php": "^7.2",
+		"php": "^7.2|^8.0",
 		"aewebsolutions/laravel-translator": "^1.0",
 		"fideloper/proxy": "^4.0",
 		"krlove/eloquent-model-generator": "^1.3",
