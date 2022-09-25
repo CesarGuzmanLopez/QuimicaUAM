@@ -1,3 +1,5 @@
 .buildpath
 .project
 .settings/
+node_modules
+agalano_kinetics.sql
