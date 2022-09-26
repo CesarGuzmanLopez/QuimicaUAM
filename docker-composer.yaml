@@ -23,3 +23,6 @@ services:
       
     links:
       - mariadb
+
+##
+##a2enmod rewrite && service apache2 restart
