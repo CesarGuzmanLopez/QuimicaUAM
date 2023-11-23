@@ -30,7 +30,7 @@ class PK_S extends Controller
     	->leftjoin('q_db_molecules','q_db_pks.ID', '=',  'q_db_molecules.ID')
     	->leftjoin('q_db_references' ,'q_db_pks.id_reference','=','q_db_references.id_reference')->where('q_db_pks.ID',$id)
     	->select('q_db_pks.*','q_db_molecules.Name as Name','q_db_molecules.RIS as RIS'  ,'q_db_molecules.Imagen as Imagen','q_db_references.*')
-    	->orderBy('Value','ASC')->get();     	
+    	->orderBy('Value','ASC')->get();
     }
 
    
