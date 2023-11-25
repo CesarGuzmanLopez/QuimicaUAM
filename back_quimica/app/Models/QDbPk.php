@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id_pks
  * @property int|null $ID
- * @property string $Site
+ * @property string|null $Site
  * @property string|null $Tipo_Exp_teo
  * @property float|null $Value
  * @property int|null $ID_Alta

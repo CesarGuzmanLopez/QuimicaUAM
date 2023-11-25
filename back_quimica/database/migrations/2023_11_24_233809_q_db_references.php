@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('q_db_references', function (Blueprint $table) {
             $table->id('id_reference');
             $table->text('Reference');
-            $table->text('Coments');
+            $table->text('Coments')->nullable();
             $table->timestamps();
         });
     }

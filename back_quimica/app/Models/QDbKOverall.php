@@ -6,7 +6,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,14 +15,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_Molecule
  * @property int|null $radical
  * @property int|null $Solvent
- * @property float $Valor
+ * @property string|null $Valor
  * @property string|null $pH
  * @property string $Tipo
  * @property string|null $Descripcion
  * @property int|null $ID_Alta
  * @property int|null $id_reference
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
  * 
  * @property User|null $user
  * @property QDbMolecule $q_db_molecule
@@ -37,12 +34,12 @@ class QDbKOverall extends Model
 {
 	protected $table = 'q_db_k_overalls';
 	protected $primaryKey = 'ID_K_OVERALL';
+	public $timestamps = false;
 
 	protected $casts = [
 		'ID_Molecule' => 'int',
 		'radical' => 'int',
 		'Solvent' => 'int',
-		'Valor' => 'float',
 		'ID_Alta' => 'int',
 		'id_reference' => 'int'
 	];

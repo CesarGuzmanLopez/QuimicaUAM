@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id_reference
  * @property string $Reference
- * @property string $Coments
+ * @property string|null $Coments
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
