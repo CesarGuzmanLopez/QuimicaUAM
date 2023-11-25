@@ -1,45 +1,92 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+/**
+ * Class User
+ * 
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * 
+ * @property PasswordReset $password_reset
+ * @property Profile $profile
+ * @property Collection|QDbKOverall[] $q_db_k_overalls
+ * @property Collection|QDbPk[] $q_db_pks
+ * @property Collection|QDbRadical[] $q_db_radicals
+ * @property Collection|QDbSolvent[] $q_db_solvents
+ * @property Collection|Role[] $roles
+ *
+ * @package App\Models
+ */
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+	protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+	protected $casts = [
+		'email_verified_at' => 'datetime'
+	];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+	protected $hidden = [
+		'password',
+		'remember_token'
+	];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+	protected $fillable = [
+		'name',
+		'email',
+		'email_verified_at',
+		'password',
+		'remember_token'
+	];
+
+	public function password_reset()
+	{
+		return $this->hasOne(PasswordReset::class, 'email', 'email');
+	}
+
+	public function profile()
+	{
+		return $this->hasOne(Profile::class, 'Usuario');
+	}
+
+	public function q_db_k_overalls()
+	{
+		return $this->hasMany(QDbKOverall::class, 'ID_Alta');
+	}
+
+	public function q_db_pks()
+	{
+		return $this->hasMany(QDbPk::class, 'ID_Alta');
+	}
+
+	public function q_db_radicals()
+	{
+		return $this->hasMany(QDbRadical::class, 'ID_Alta');
+	}
+
+	public function q_db_solvents()
+	{
+		return $this->hasMany(QDbSolvent::class, 'ID_Alta');
+	}
+
+	public function roles()
+	{
+		return $this->belongsToMany(Role::class)
+					->withPivot('id')
+					->withTimestamps();
+	}
 }
