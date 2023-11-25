@@ -1,0 +1,189 @@
+
+CREATE TABLE `data_bases_q_s` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `prefix` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `Description` varchar(7000) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+CREATE TABLE `desktop_apps` (
+  `ID_app` int(11) NOT NULL AUTO_INCREMENT,
+  `Name_app` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `Version` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Description` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ID_Alta` int(11) DEFAULT NULL,
+  `updated_at` date NOT NULL,
+  `created_at` date NOT NULL,
+  `Location_name` varchar(2000) COLLATE utf8_unicode_ci NOT NULL,
+  `Enable` tinyint(1) NOT NULL,
+  UNIQUE KEY `ID_app_2` (`ID_app`),
+  KEY `ID_App` (`ID_app`),
+  KEY `Usuario` (`ID_Alta`),
+  CONSTRAINT `Usuario` FOREIGN KEY (`ID_Alta`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`),
+  CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`email`) REFERENCES `users` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `profile` (
+  `Usuario` int(11) NOT NULL,
+  `Descripcion` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `imagen` varchar(300) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `Grado` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  KEY `Usuario` (`Usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `q_db_k_overalls` (
+  `ID_K_OVERALL` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_Molecule` int(11) NOT NULL,
+  `radical` int(11) DEFAULT NULL,
+  `Solvent` int(11) DEFAULT NULL,
+  `Valor` float NOT NULL,
+  `pH` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `Tipo` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `Descripcion` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `ID_Alta` int(11) DEFAULT NULL COMMENT 'id que dio de alta el k overall o lo midiifico por ultima vez',
+  `id_reference` int(11) DEFAULT NULL COMMENT 'referencia donde salio el dato',
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`ID_K_OVERALL`),
+  KEY `ID_Molecule` (`ID_Molecule`),
+  KEY `Solvente` (`Solvent`),
+  KEY `radical` (`radical`),
+  KEY `ID_Alta` (`ID_Alta`),
+  KEY `id_reference` (`id_reference`),
+  CONSTRAINT `q_db_k_overalls_ibfk_3` FOREIGN KEY (`radical`) REFERENCES `q_db_radicals` (`ID_Radical`),
+  CONSTRAINT `q_db_k_overalls_ibfk_4` FOREIGN KEY (`Solvent`) REFERENCES `q_db_solvents` (`ID_Solvent`),
+  CONSTRAINT `q_db_k_overalls_ibfk_5` FOREIGN KEY (`ID_Alta`) REFERENCES `users` (`id`),
+  CONSTRAINT `q_db_k_overalls_ibfk_6` FOREIGN KEY (`id_reference`) REFERENCES `q_db_references` (`id_reference`),
+  CONSTRAINT `q_db_k_overalls_ibfk_7` FOREIGN KEY (`ID_Molecule`) REFERENCES `q_db_molecules` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `q_db_molecules` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` text COLLATE utf8_spanish_ci NOT NULL,
+  `RIS` text COLLATE utf8_spanish_ci,
+  `SMILE` text COLLATE utf8_spanish_ci,
+  `Imagen` text COLLATE utf8_spanish_ci,
+  `Description` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'De donde salio',
+  `Active` varchar(15) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE `q_db_pks` (
+  `id_pks` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) DEFAULT NULL,
+  `Site` text COLLATE utf8_spanish_ci,
+  `Tipo_Exp_teo` char(4) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `Value` float DEFAULT NULL,
+  `ID_Alta` int(11) DEFAULT NULL,
+  `id_reference` int(11) DEFAULT NULL COMMENT 'Referencia donde salio este dato',
+  `Description` varchar(1000) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_pks`),
+  KEY `ID` (`ID`),
+  KEY `ID_Alta` (`ID_Alta`),
+  KEY `id_reference` (`id_reference`),
+  CONSTRAINT `q_db_pks_ibfk_2` FOREIGN KEY (`ID_Alta`) REFERENCES `users` (`id`),
+  CONSTRAINT `q_db_pks_ibfk_3` FOREIGN KEY (`id_reference`) REFERENCES `q_db_references` (`id_reference`),
+  CONSTRAINT `q_db_pks_ibfk_4` FOREIGN KEY (`ID`) REFERENCES `q_db_molecules` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `q_db_radicals` (
+  `ID_Radical` int(11) NOT NULL AUTO_INCREMENT,
+  `Name_Radical` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `Description` varchar(400) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `ID_Alta` int(11) DEFAULT NULL COMMENT 'Usuario que lo dio de alta',
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`ID_Radical`),
+  UNIQUE KEY `Name_Solvent` (`Name_Radical`),
+  KEY `Usuario id` (`ID_Alta`),
+  CONSTRAINT `q_db_radicals_ibfk_1` FOREIGN KEY (`ID_Alta`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+CREATE TABLE `q_db_references` (
+  `id_reference` int(11) NOT NULL AUTO_INCREMENT,
+  `Reference` text COLLATE utf8_spanish_ci,
+  `Coments` text COLLATE utf8_spanish_ci,
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`id_reference`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `q_db_solvents` (
+  `ID_Solvent` int(11) NOT NULL AUTO_INCREMENT,
+  `Name_Solvent` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `Description` varchar(400) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `ID_Alta` int(11) DEFAULT NULL COMMENT 'Usuario que lo dio de alta',
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  PRIMARY KEY (`ID_Solvent`),
+  UNIQUE KEY `Name_Solvent` (`Name_Solvent`),
+  KEY `Usuario id` (`ID_Alta`),
+  CONSTRAINT `q_db_solvents_ibfk_1` FOREIGN KEY (`ID_Alta`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+CREATE TABLE `role_user` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` int(20) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `users` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `Last_Connection` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

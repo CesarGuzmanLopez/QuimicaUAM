@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $Description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
+ * 
  * @package App\Models
  */
 class DataBasesQ extends Model

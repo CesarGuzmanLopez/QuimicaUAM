@@ -49,4 +49,5 @@ class QDbSolvent extends Model
 	{
 		return $this->hasMany(QDbKOverall::class, 'Solvent');
 	}
+
 }

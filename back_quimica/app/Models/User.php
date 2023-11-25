@@ -35,6 +35,12 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
 	protected $table = 'users';
+	
+	static function factory()
+	{
+		return  new User();
+		
+	}
 
 	protected $casts = [
 		'email_verified_at' => 'datetime'
@@ -89,4 +95,6 @@ class User extends Model
 					->withPivot('id')
 					->withTimestamps();
 	}
+
+
 }
