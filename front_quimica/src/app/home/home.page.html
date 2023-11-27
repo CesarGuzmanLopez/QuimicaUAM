@@ -1,20 +1,25 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+<!-- En tu página HTML -->
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Aplicaciones</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let app of webApps" [routerLink]="app.url">
+            <ion-thumbnail slot="start">
+                <ion-icon [name]="app.icon"></ion-icon>
+            </ion-thumbnail>
+            <ion-label>
+                <h2>{{ app.name }}</h2>
+                <p>Versión: {{ app.version }}</p>
+                <p>Versión de la base de datos: {{ app.db_version }}</p>
+                <!-- Agrega más detalles según sea necesario -->
+            </ion-label>
+            <ion-avatar slot="end">
+                <img [src]="app.image" alt="Imagen de la aplicación">
+            </ion-avatar>
+        </ion-item>
+    </ion-list>
 </ion-content>

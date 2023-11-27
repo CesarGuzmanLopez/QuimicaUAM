@@ -1,27 +1,37 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-list {
+  background-color: var(
+    --ion-color-white
+  ); /* Usa el color de fondo predeterminado de Ionic para los elementos de la lista */
+  padding: 10px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para efecto elevado */
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+ion-item {
+  border-bottom: 1px solid var(--ion-color-light); /* Línea divisoria entre los elementos */
+  margin-bottom: 10px; /* Espacio entre los elementos */
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-thumbnail {
+  width: 56px; /* Ajusta el tamaño del thumbnail según sea necesario */
+  height: 56px;
+  border-radius: 50%; /* Para hacerlo circular */
+  overflow: hidden;
 }
 
-#container a {
-  text-decoration: none;
+ion-label {
+  padding-left: 10px; /* Espacio a la izquierda del contenido de la etiqueta */
+}
+
+ion-avatar {
+  width: 56px; /* Ajusta el tamaño del avatar según sea necesario */
+  height: 56px;
+  border-radius: 50%; /* Para hacerlo circular */
+  overflow: hidden;
+}
+
+img {
+  width: 100%; /* Para que las imágenes se ajusten al tamaño del contenedor */
+  height: 100%;
+  object-fit: cover; /* Para mantener las proporciones y recortar si es necesario */
 }
