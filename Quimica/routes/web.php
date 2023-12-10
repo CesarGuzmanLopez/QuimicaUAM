@@ -24,8 +24,10 @@ Route::get("/Kinetics/relative-k-overall","PrincipalController@relative_k_overal
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
-//base de datos  pk's y K overalls
 
+
+
+//base de datos  pk's y K overalls
 Route::get('/ModifyBD/DB-pk-Koverall','DB_pk_koverall_Controller@DB_pk_Koverall')->name('DB_pk_Koverall');
 Route::get('/ModifyBD/DB-pk-Koverall/Molecules','DB_pk_koverall_Controller@Molecules')->name('Molecules');
 Route::get('/ModifyBD/DB-pk-Koverall/Solvents','DB_pk_koverall_Controller@Solvents')->name('Solvents');

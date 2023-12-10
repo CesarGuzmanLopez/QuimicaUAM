@@ -22,26 +22,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(16, '2014_10_12_000000_create_users_table', 1),
-(17, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(18, '2019_08_19_000000_create_failed_jobs_table', 1),
-(19, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(20, '2023_11_24_233739_data_bases_q_s', 1),
-(21, '2023_11_24_233758_q_db_molecules', 1),
-(22, '2023_11_24_233805_q_db_radicals', 1),
-(23, '2023_11_24_233808_q_db_solvents', 1),
-(24, '2023_11_24_233809_q_db_references', 1),
-(25, '2023_11_24_233810_q_db_k_overalls', 1),
-(26, '2023_11_24_233819_q_db_pks', 1),
-(27, '2023_11_24_233843_profile', 1),
-(28, '2023_11_24_233849_password_resets', 1),
-(29, '2023_11_24_234921_roles', 1),
-(30, '2023_11_24_234945_role_user', 1);
-
 --
 -- Dumping data for table `q_db_k_overalls`
 --
@@ -228,9 +208,6 @@ INSERT INTO `q_db_pks` (`id_pks`, `ID`, `Site`, `Tipo_Exp_teo`, `Value`, `ID_Alt
 (25, 17, '2a', 'E', 1.12, 3, NULL, 'No es clara la referencia', NULL, NULL),
 (26, 18, '2a', 'T', 7.41, 3, NULL, 'Average of isodesmic method', NULL, NULL),
 (27, 1, NULL, 'E', 0.01, 4, NULL, NULL, NULL, NULL);
-
-
-
 
 
 COMMIT;

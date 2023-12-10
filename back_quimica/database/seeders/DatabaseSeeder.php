@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\WebApp;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        //icono un matraz de ionic y un color verde claro
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $Koverall = new WebApp([
+            'name' => 'Molecular kinetics Properties Database ',
+            'version' => '0.1.0',
+            'db_version' => '0.1.0',
+            'url' => '/kinetics',
+            'icon' => 'flask-outline',
+            'color' => '#00ff00',
+            'image' => asset('storage/img/k_overal.png'),
+            'color_text' => '#ffffff',
+        ]);
+        $Koverall->save();
     }
 }
